@@ -91,6 +91,7 @@
 
 	<script>
 		let lastClickedCountry = null;		// Last Clicked Country
+		let lastClickedCountry_is = null;	// Last Clicked Country is_code
 		let lastCountryCenter = null;		// Last Clicked Country Center - 중심값임.
 		let world;							// 지구본 객체.
 
@@ -134,6 +135,7 @@
 			world.onPolygonClick(d => {
 				const countryCenter = d3.geoCentroid(d);
 				lastClickedCountry = d;
+				lastClickedCountry_is = d.ISO_A2;
 				lastCountryCenter = countryCenter;
 				world.pointOfView({ lat: countryCenter[1], lng: countryCenter[0], altitude: 1.2 }, 2000);
 				setTimeout(() => {
@@ -182,8 +184,6 @@
 				if (highlightedCountry) {
 					console.log(highlightedCountry);
 					highlightCountry(highlightedCountry);
-
-
 				}
 			});
 
