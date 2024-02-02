@@ -31,10 +31,13 @@
 		.species-by-country-Popup {
 			position: fixed;
 			left: 70%;
-			top: 10%;
+			top: 38%;
+			width: auto;
+			height: auto;
+			min-width: 350px;
+			min-height: 700px;
 			transform: translate(-50%, -50%);
 			background-color: white;
-			padding: 10px;
 			border-radius: 10px;
 			border: 1px solid #ddd;
 			z-index: 1000;
@@ -46,10 +49,30 @@
 		}
 
 		.close-btn {
+			position: relative;
+			top: -15px;
+			right: 5px;
 			cursor: pointer;
 			float: right;
-			font-size: 20px;
+			bottom: 1%;
+			font-size: 20px bold;
 		}
+
+		.speciesList {
+			list-style-type: square;
+			padding-left: 25px;
+			padding-right: 10px;
+		}
+
+		.speciesList li {
+			text-align: left;
+		}
+
+		.drag-header {
+			cursor: pointer;
+			background-color: #f3f3f3;
+		}
+
 
 		body {
 			margin: 0;
@@ -83,6 +106,7 @@
 	<div id="globeViz" style="overflow: hidden;"></div>
 	<!-- 팝업창 컴포넌트 -->
 	<div id="species-by-country" class="species-by-country-Popup" style="display:none;">
+		<div class="drag-header" style="background-color: #f3f3f3; padding: 4px;"></div>
 		<div class="popup-content">
 			<span class="close-btn" onclick="closePopup()">&times;</span>
 			<p id="popupText"></p>
@@ -95,6 +119,13 @@
 		let lastClickedCountry_is = null;	// Last Clicked Country is_code
 		let lastCountryCenter = null;		// Last Clicked Country Center - 중심값임.
 		let world;							// 지구본 객체.
+		let currentPage = 1;				// species_by_country를 표시할 팝업의 페이지네이션 인덱스
+		const itemsPerPage = 30; 			// 페이지당 표시할 아이템 수 - species_by_country
+
+		// Temp_____________________________________________________________________________________about-drag
+		let dragObj = null;
+		let offsetX = 0, offsetY = 0;
+		//__________________________________________________________________________________________
 
 		const colorScale = d3.scaleSequentialSqrt(d3.interpolateGreens);
 
@@ -123,7 +154,6 @@
             GDP: <i style="color: red;">${d.GDP_MD_EST}</i> M$<br/>
             Population: <i style="color: red;">${d.POP_EST}</i>
         `)
-				// .showGlobe(['False'])
 				.onPolygonHover(hoverD => world
 					.polygonAltitude(d => d === hoverD ? 0.04 : 0.02)
 					.polygonCapColor(d => d === hoverD ? '#033500' : colorScale(getVal(d)))
@@ -141,13 +171,14 @@
 				console.log(lastClickedCountry_is)
 				lastCountryCenter = countryCenter;
 				world.pointOfView({ lat: countryCenter[1], lng: countryCenter[0], altitude: 1.2 }, 2000);
-				setTimeout(() => {
-					showPopup(d.properties.ADMIN, fetchClickedGet());
-					console.log(countryCenter)
+				setTimeout(async () => {
+					const scientificArr = await fetchClickedGet(); 	// 비동기 호출 결과 기다림
+					showPopup(d.properties.ADMIN, scientificArr); 	// 결과를 showPopup에 전달
+					console.log(countryCenter);
 				}, 2000);
 			});
 
-			document.getElementById('globeViz').style.overflow = 'auto'
+			document.getElementById('globeViz').style.overflow = 'hidden'
 
 			// 사용자 입력을 받을 input 요소 추가
 			let highlightedCountry = null;
@@ -196,7 +227,6 @@
 			}
 
 
-
 			// 입력값이 변경될 때마다 호출되는 이벤트 리스너 추가
 			inputElement.addEventListener('input', (event) => {
 				const userInput = event.target.value;
@@ -214,12 +244,12 @@
 			});
 		});
 
+		// 1/31추가 : 클릭으로 인한 검색에서 사용될, 국가별 동물 데이터 F
 		async function fetchClickedGet() {
 			const UserISO_A2 = lastClickedCountry_is;
 			let scientific_names = null;
 			try {
-				let response_sepecies_by_country = await fetch(`https://apiv3.iucnredlist.org/api/v3/country/getspecies/${encodeURIComponent(UserISO_A2)}?token=${apiKey}`);
-				// 요청이 성공적인지 확인 (상태 코드 200)
+				const response_sepecies_by_country = await fetch(`https://apiv3.iucnredlist.org/api/v3/country/getspecies/${encodeURIComponent(UserISO_A2)}?token=${apiKey}`);
 				if (response_sepecies_by_country.ok) {
 					const data = await response_sepecies_by_country.json();
 					scientific_names = data.result.map(item => item.scientific_name);
@@ -304,6 +334,7 @@
 		function extractCountryNames(apiResponse) {
 			return apiResponse.result.map(countryInfo => countryInfo.country);
 		}
+
 		// 결과를 화면에 표시하는 함수
 		function displayResultCountries(countryNames) {
 			const resultContainer = document.getElementById('result_countries');
@@ -325,8 +356,73 @@
 		// 1/26 추가 : 팝업창 띄우는 F
 		function showPopup(countryName, scientificArr) {
 			var popupText = document.getElementById('popupText');
-			popupText.textContent = `Selected Country: ${countryName}`;
+			popupText.innerHTML = `${countryName}<ul id="speciesList"></ul><div id="pagination"></div>`;
+			updateList(currentPage, scientificArr);
 			document.getElementById('species-by-country').style.display = 'block';
+		}
+
+		// 2/2일 추가 : species_by_country 리스트 출력
+		function updateList(page, scientificArr) {
+			const startIndex = (page - 1) * itemsPerPage;
+			const endIndex = startIndex + itemsPerPage;
+			const paginatedItems = scientificArr.slice(startIndex, endIndex);
+			const speciesList = document.getElementById('speciesList');
+
+			speciesList.innerHTML = '';
+			speciesList.className = 'speciesList';
+			paginatedItems.forEach(name => {
+				const li = document.createElement('li');
+				li.textContent = name;
+				speciesList.appendChild(li);
+			});
+			updatePagination(scientificArr.length, page, scientificArr);
+		}
+
+		// 2/2일 추가 : 각 페이지 번호 별로 리스트 업데이트
+		function updatePagination(totalItems, currentPage, scientificArr) {
+			const pageCount = Math.ceil(totalItems / itemsPerPage);
+			const paginationContainer = document.getElementById('pagination');
+			paginationContainer.innerHTML = '';
+
+			//*****************_페이지 네이션 갯수_****************//
+			let currentGroup = Math.ceil(currentPage / 5);
+			let startPage = (currentGroup - 1) * 5 + 1;
+			let endPage = startPage + 4;
+			endPage = endPage > pageCount ? pageCount : endPage;
+			//****************************************************//
+
+			// 이전 페이지 그룹으로 이동 버튼 (startPage가 1보다 큰 경우에만 표시)
+			if (startPage > 5) {
+				const prevGroupBtn = document.createElement('button');
+				prevGroupBtn.textContent = '이전';
+				prevGroupBtn.onclick = function () {
+					updateList(startPage - 5, scientificArr); // startPage - 페이지 네이션 갯수
+				};
+				paginationContainer.appendChild(prevGroupBtn);
+			}
+
+			// 페이지 번호 B
+			for (let i = startPage; i <= endPage; i++) {
+				const pageLink = document.createElement('button');
+				pageLink.textContent = i;
+				pageLink.onclick = function () {
+					updateList(i, scientificArr);
+				};
+				if (i === currentPage) {
+					pageLink.style.fontWeight = 'bold';
+				}
+				paginationContainer.appendChild(pageLink);
+			}
+
+			// 다음 페이지 그룹으로 이동 버튼 (endPage가 pageCount보다 작은 경우에만 표시)
+			if (endPage < pageCount) {
+				const nextGroupBtn = document.createElement('button');
+				nextGroupBtn.textContent = '다음';
+				nextGroupBtn.onclick = function () {
+					updateList(endPage + 1, scientificArr); // endPage + 1 - 다음 페이지
+				};
+				paginationContainer.appendChild(nextGroupBtn);
+			}
 		}
 
 		// 1/26 추가 : 팝업창 닫는 F
@@ -339,8 +435,37 @@
 				document.getElementById('species-by-country').style.display = 'none';
 			}
 		}
-	</script>
 
+		// Temp_F_______________________________________________________about-drag_event
+		document.querySelector('.drag-header').onmousedown = function (e) {
+			dragObj = document.getElementById('species-by-country');
+			offsetX = e.clientX - dragObj.getBoundingClientRect().left;
+			offsetY = e.clientY - dragObj.getBoundingClientRect().top;
+
+			// 드래그 중 및 드래그 끝 이벤트 리스너 추가
+			document.addEventListener('mousemove', onMouseMove);
+			document.addEventListener('mouseup', onMouseUp);
+
+			e.preventDefault(); 										// 기본 동작 방지
+		};
+
+		function onMouseMove(e) {
+			if (!dragObj) return;
+			let moveX = e.clientX - offsetX;
+			let moveY = e.clientY - offsetY;
+
+			// 화면 범위를 벗어나지 않도록 조정
+			dragObj.style.left = moveX + 'px';
+			dragObj.style.top = moveY + 'px';
+		}
+
+		function onMouseUp() {
+			document.removeEventListener('mousemove', onMouseMove);
+			document.removeEventListener('mouseup', onMouseUp);
+			dragObj = null;
+		}
+		//________________________________________________________________
+	</script>
 </body>
 
 </html>
