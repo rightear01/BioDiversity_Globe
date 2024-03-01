@@ -1,0 +1,1081 @@
+<!-- index.html -->
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <style>
+        /* 기본 글꼴과 배경 설정 */
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #0e0e10;
+            color: white;
+            margin: 0;
+            padding: 0;
+        }
+
+        /* 제목 스타일링 */
+        h1 {
+            text-align: center;
+            padding: 20px 0;
+            background-color: #1c1c1e;
+            margin: 0;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+        }
+
+        /* 검색 폼 스타일링 */
+        #searchForm {
+            display: flex;
+            justify-content: center;
+            padding: 20px;
+            gap: 10px;
+        }
+
+        #searchForm label,
+        #searchForm select,
+        #searchForm input {
+            padding: 10px;
+            border-radius: 5px;
+            border: none;
+            background: #262629;
+            color: white;
+        }
+
+        #searchForm button {
+            padding: 10px 20px;
+            border: none;
+            background: #3a9ad9;
+            color: white;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        #searchForm button:hover {
+            background-color: #3086c8;
+        }
+
+        /* 지구본 컨테이너 스타일링 */
+        #globeContainer {
+            width: 100%;
+            height: 750px;
+            margin: 20px 0;
+        }
+
+        /*지구본  팝업창 스타일링 */
+        .species-by-country-Popup {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: rgba(28, 28, 30, 0.95);
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+        }
+
+        .popup-content-global {
+            position: relative;
+            /* 상대 위치 */
+        }
+
+        .close-btn-global {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            color: white;
+            cursor: pointer;
+        }
+
+        @keyframes spin {
+            0% {
+                transform: rotate(0deg);
+            }
+
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+
+        /* 반응형 디자인 */
+
+
+        @media (max-width: 480px) {
+            #searchForm {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            #searchForm label,
+            #searchForm select,
+            #searchForm input,
+            #searchForm button {
+                width: 90%;
+                margin-bottom: 10px;
+            }
+        }
+
+        /* 나라 팝업창 스타일링 */
+        .popup-item {
+            display: none;
+            /* 팝업창 숨김 */
+            position: fixed;
+            /* 고정 위치 */
+            z-index: 1;
+            /* 팝업창을 최상위로 표시 */
+            left: 0;
+            /* 왼쪽 정렬 */
+            top: 0;
+            /* 상단 정렬 */
+            width: 100%;
+            /* 너비 설정 */
+            height: 100%;
+            /* 높이 설정 */
+            background-color: rgba(0, 0, 0, 0.4);
+            /* 반투명한 검은색 배경 */
+        }
+
+        .popup-content-item {
+            border-radius: 10px;
+            background-color: rgba(0, 0, 0, 0.4);
+            margin: 15% auto;
+            /* 중앙 정렬 */
+            padding: 20px;
+            /* 내부 여백 추가 */
+            border: 1px solid #888;
+            /* 테두리 추가 */
+            width: 80%;
+            /* 너비 설정 */
+            max-width: 600px;
+            /* 최대 너비 설정 */
+            /* 글자 크기 조정 */
+            font-size: 1.2em;
+        }
+
+
+        .close-country {
+            color: #ff0c0c;
+            /* 글자색 설정 */
+            float: right;
+            /* 오른쪽 정렬 */
+            font-size: 28px;
+            /* 글자 크기 설정 */
+            font-weight: bold;
+            /* 글자 굵기 설정 */
+        }
+
+        .close-country:hover,
+
+        .close-country:focus {
+            color: rgb(2, 48, 253);
+            /* 마우스 호버 시 글자색 변경 */
+            text-decoration: none;
+            /* 밑줄 제거 */
+            cursor: pointer;
+            /* 커서를 포인터로 변경 */
+        }
+
+        .item-list {
+            max-height: 600px;
+            /* 20개 항목의 높이로 설정 (각 항목의 높이가 20px라고 가정) */
+            /* 필요할 경우 세로 스크롤 바 표시 */
+            width: 100%;
+            /* 너비 설정 */
+            box-sizing: border-box;
+            /* 패딩을 포함한 너비 계산 */
+        }
+
+        .item-list div {
+            cursor: pointer;
+            /* 커서를 포인터로 변경 */
+            padding: 10px;
+            /* 내부 여백 설정 */
+            border-bottom: 1px solid #ddd;
+            /* 하단 테두리 추가 */
+            /* 테두리 색상 설정 */
+        }
+
+        .item-list div:hover {
+            background: linear-gradient(90deg, rgba(247, 112, 252, 0.8), rgba(56, 182, 255, 0.8));
+            /* 배경색 추가 */
+            -webkit-background-clip: text;
+            /* 웹킷 브라우저 대응 */
+            background-clip: text;
+            /* 배경을 글자에 적용 */
+            -webkit-text-fill-color: transparent;
+            /* 글자색을 투명하게 설정 */
+        }
+
+        /* 상세 팝업창 스타일링 */
+        /* 동물 팝업창 스타일링 */
+        .popup {
+            position: fixed;
+            /* 고정 위치 */
+            top: 50%;
+            /* 상단에서 50% 위치 */
+            right: 20px;
+            /* 오른쪽에서 20px 위치 */
+            transform: translateY(-50%);
+            /* 세로 중앙 정렬 */
+            width: 500px;
+            /* 너비 */
+            background-color: #fff;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            /* 그림자 효과 */
+            border-radius: 8px;
+            /* 테두리 둥글게 */
+            overflow: hidden;
+            z-index: 1001;
+        }
+
+        .popup-content img {
+            width: 100%;
+            height: auto;
+            display: block;
+
+            background: linear-gradient(90deg, rgba(0, 0, 0, 1), rgba(0, 0, 0, 1));
+            /* 배경색 추가 */
+            -webkit-background-clip: text;
+            /* 웹킷 브라우저 대응 */
+            background-clip: text;
+            /* 배경을 글자에 적용 */
+            -webkit-text-fill-color: transparent;
+            /* 글자색을 투명하게 설정 */
+        }
+
+
+
+        .popup-footer {
+            background-color: #f8f8f8;
+            /* 배경색 */
+            padding: 15px;
+            /* 내부 여백 */
+            text-align: left;
+            /* 텍스트 정렬 */
+            font-size: 14px;
+            /* 글자 크기 */
+            color: #333;
+            /* 글자색 */
+        }
+
+        /* 상세 팝업창 스타일링 */
+        /* 팝업창 정보 스타일링 */
+        #popupInfo {
+            font-family: Arial, sans-serif;
+            /* 글꼴 설정 */
+            background: rgba(0, 0, 0, 0.7);
+            /* 반투명한 검은색 배경 */
+            color: white;
+            /* 글자색 */
+            padding: 10px;
+            /* 내부 여백 */
+            border-radius: 8px;
+            /* 테두리 둥글게 */
+        }
+
+        .info-header .country-name {
+            font-weight: bold;
+            /* 글자 굵게 */
+            font-size: 1.2em;
+            /* 글자 크기 */
+        }
+
+        .info-content {
+            margin-top: 10px;
+            /* 위쪽 여백 */
+        }
+
+        .info-content div {
+            margin-bottom: 5px;
+            /* 아래쪽 여백 */
+        }
+
+        .info-content strong {
+            color: #FFD700;
+            /* gold color for labels */
+        }
+
+
+        /* 이미지 간 전환 효과 */
+        .fade {
+            animation-name: fade;
+            animation-duration: 0.5s;
+        }
+
+        @keyframes fade {
+            from {
+                opacity: 0.4
+            }
+
+            to {
+                opacity: 1
+            }
+        }
+
+        .arrow-btn {
+            cursor: pointer;
+            /* 커서를 포인터로 변경 */
+            background-color: rgba(0, 0, 0, 0.3);
+            /* 반투명한 검은색 배경 */
+            border: none;
+            /* 테두리 제거 */
+            border-radius: 70%;
+            /* 원형 버튼 */
+            width: 32px;
+            /* 너비 */
+            height: 36px;
+            /* 높이 */
+            color: rgba(255, 255, 255, 0.9);
+            /* 글자색 */
+            position: absolute;
+            /* 위치를 절대 위치로 설정 */
+            top: 40%;
+            /* 상단에서 50% 위치 */
+            transform: translateY(-50%);
+            /* 세로 중앙 정렬 */
+            font-size: 24px;
+            /* 글자 크기 */
+            z-index: 1002;
+            /* 팝업창 위에 표시 */
+        }
+
+        .arrow-btn.left {
+            left: 10px;
+            /* 화살표를 팝업 내부로 이동 */
+        }
+
+        .arrow-btn.right {
+            right: 10px;
+            /* 화살표를 팝업 내부로 이동 */
+        }
+
+        .arrow-btn:hover {
+            background-color: rgba(0, 0, 0, 0.8);
+        }
+
+
+        /* 팝업창 닫기 버튼 스타일링 개선 */
+        .close-btn {
+            position: absolute;
+            top: 4px;
+            right: 4px;
+            background-color: #464646;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 20px;
+            padding: 0 5px;
+            line-height: 30px;
+            width: 25px;
+            height: 30px;
+            text-align: center;
+        }
+
+        .close-btn:hover {
+            background-color: #d32f2f;
+        }
+
+        /* 로딩 스피너 스타일링 */
+        .wrapper {
+            height: auto;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: black;
+        }
+
+        .loading {
+            width: 5px;
+            height: 100px;
+            background: linear-gradient(45deg, #007bff, red);
+            margin: 10px;
+            animation: wave 1s linear infinite;
+            /* 1초 간격으로 반복 */
+            border-radius: 20px
+        }
+
+        .loading:nth-child(2) {
+            /* 2번째 자식요소에 대해서만 지연시간을 준다. */
+            animation-delay: 100ms;
+        }
+
+        .loading:nth-child(3) {
+            animation-delay: 200ms;
+        }
+
+        .loading:nth-child(4) {
+            animation-delay: 300ms;
+        }
+
+        .loading:nth-child(5) {
+            animation-delay: 400ms;
+        }
+
+        .loading:nth-child(6) {
+            animation-delay: 500ms;
+        }
+
+        .loading:nth-child(7) {
+            animation-delay: 600ms;
+        }
+
+        .loading:nth-child(8) {
+            animation-delay: 700ms;
+        }
+
+        .loading:nth-child(9) {
+            animation-delay: 800ms;
+        }
+
+        .loading:nth-child(10) {
+            animation-delay: 900ms;
+        }
+
+        @keyframes wave {
+
+            0%,
+            100% {
+                transform: scaleY(0);
+            }
+
+            50% {
+                transform: scaleY(1);
+            }
+        }
+
+        #imagePreviewContainer {
+            display: none;
+            position: absolute;
+            border-radius: 3px;
+            padding: 5px;
+            z-index: 10;
+        }
+
+        @import url('https://fonts.googleapis.com/css2?family=Black+Han+Sans&display=swap');
+
+        #itemPopup button {
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            appearance: none;
+
+            background-color: #29292b;
+            color: #ffffff;
+            margin-top: 10px;
+            padding: 0.3rem 0.8rem;
+            font-family: "Black Han Sans", sans-serif;
+            font-size: 15px;
+            font-weight: 500;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            width: auto;
+            border-radius: 4px;
+            border-color: #ddd;
+        }
+
+        .drag-header {
+            padding: 3px;
+            cursor: pointer;
+            background: linear-gradient(15deg, #ffffff, rgb(153, 152, 152), #ffffff);
+            border-bottom: 1px #2d2dc2;
+        }
+    </style>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+
+    <script src="//unpkg.com/d3"></script>
+
+    <script src="//unpkg.com/globe.gl"></script>
+
+
+    <title>테스트 코드 1</title>
+</head>
+
+<body>
+
+
+    <h1>동물 위험도 검색</h1>
+
+    <form id="searchForm">
+        <label for="searchType">검색 유형 선택:</label>
+        <select id="searchType" name="searchType" onchange="updatePlaceholder()">
+            <option value="country">나라 이름</option>
+            <option value="animal">동물 이름</option>
+        </select>
+        <label for="searchQuery">검색어 입력:</label>
+        <input type="text" id="searchQuery" name="searchQuery" autocomplete="off" placeholder="나라 이름 입력...">
+        <button id="search_Button" type="button" onclick="search()">검색</button>
+    </form>
+
+    <!-- 지구본 컴포넌트 -->
+    <div id="globeContainer">
+        <div id="globeViz" style="overflow: hidden;"></div>
+    </div>
+
+    <!-- 나라 리스트 팝업 창의 기본 구조 -->
+    <div id="itemPopup" class="popup-item">
+        <div class="popup-content-item">
+            <span class="close-country" onclick="closePopup_country()">&times;</span>
+            <div id="itemList" class="item-list"></div>
+            <div id="pagination" class="pagination" style="text-align: center;"></div>
+        </div>
+        <div id="imagePreviewContainer" style="display: none;">
+            <img id="imagePreview" src="" alt="이미지 미리보기"
+                style="max-width: 300px; max-height: 300px; border-radius: 5px;" />
+        </div>
+    </div>
+
+    <!--동물 리스트 팝업창 구조 -->
+    <div id="popup" class="popup" style="display: none;">
+        <!-- 로딩 물결 효과 -->
+        <div id="waveLoader" class="wrapper" style="display: none;">
+            <div class="loading"></div>
+            <div class="loading"></div>
+            <div class="loading"></div>
+            <div class="loading"></div>
+            <div class="loading"></div>
+            <div class="loading"></div>
+            <div class="loading"></div>
+            <div class="loading"></div>
+            <div class="loading"></div>
+            <div class="loading"></div>
+        </div>
+        <!-- 팝업 헤더 -->
+        <div class="popup-header" id="popup-header">
+            <div class="drag-header"></div>
+            <button id="prevBtn" class="arrow-btn left" onclick="showPreviousImage()">&#10094;</button>
+            <button id="nextBtn" class="arrow-btn right" onclick="showNextImage()">&#10095;</button>
+        </div>
+        <!-- 팝업 콘텐츠 -->
+        <div class="popup-content">
+            <img id="popupImg" src="" alt="동물 이미지">
+        </div>
+        <!-- 팝업 푸터 -->
+        <div id="popupInfo" class="popup-footer"></div>
+        <!-- 닫기 버튼 -->
+        <button class="close-btn" onclick="closePopup()">&times;</button>
+    </div>
+
+
+    <!-- 지구본 팝업창 컴포넌트 -->
+    <div id="species-by-country" class="species-by-country-Popup" style="display:none;">
+        <div class="popup-content-global">
+            <span class="close-btn-global" onclick="closePopup_globe()">&times;</span>
+            <p id="popupText"></p>
+        </div>
+    </div>
+
+
+    <script>
+        // 검색어 입력 후 엔터키를 누르면 검색 버튼을 클릭한 것과 동일한 동작을 하도록 설정
+        document.getElementById('searchQuery').addEventListener('keypress', function (event) {
+            if (event.key === 'Enter') {
+                event.preventDefault(); // 폼이 실제로 제출되는 것을 방지합니다.
+                search(); // 검색 버튼의 onclick 이벤트와 동일한 함수를 호출합니다.
+            }
+        });
+
+        function search() {
+            // 검색어 가져오기
+            var searchType = document.getElementById('searchType').value;
+            var searchQuery = document.getElementById('searchQuery').value;
+
+            if (searchType === 'animal') {
+                searchAnimalall(searchQuery);
+            } else if (searchType === 'country') {
+                searchCountryall(searchQuery);
+            }
+        }
+        // PlaceHolder 업데이트 추가.
+        function updatePlaceholder() {
+            var searchType = document.getElementById('searchType').value;
+            var searchQueryInput = document.getElementById('searchQuery');
+
+            if (searchType === 'animal') {
+                searchQueryInput.placeholder = "동물 이름 입력...";
+            } else if (searchType === 'country') {
+                searchQueryInput.placeholder = "나라 이름 입력...";
+            }
+        }
+        // POST 요청을 보내는 함수 
+        function fetchmethod(apiUrl, postData) {
+            fetch(apiUrl, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(postData),
+            })
+                .then(response => response.json())
+                .then(data => {
+                    // API 응답 결과를 처리
+                    console.log('Success:', data);
+                    searchCountry(data);
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                });
+        }
+        // POST 요청을 보내는 함수 
+        function sendPostRequest(apiUrl, item, key) {
+            fetch(apiUrl, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ [key]: item })
+            })
+                .then(response => response.json())
+                .then(data => {
+                    // API 응답 결과를 처리
+                    console.log('Success:', data);
+                    displayResultlist(data);
+                })
+                .catch((error) => {
+                    console.error('Error:', error);
+                    const itemPopup = document.getElementById('itemPopup');
+                    const itemList = document.getElementById('itemList');
+                    itemList.innerHTML = '검색 결과가 없습니다.'; // 기존 목록 초기화
+                });
+        }
+
+        // 나라 이름으로 검색
+        function searchCountryall(searchQuery) {
+            // 백엔드 API 엔드포인트
+            var apiUrl = '';
+            // POST 요청을 위한 데이터
+            var postData = {};
+            // 국가 이름으로 검색
+            apiUrl = 'http://localhost:8080/api/species/countryall';
+            postData = {
+                countryName: searchQuery,
+            };
+            // POST 요청 보내기
+            fetchmethod(apiUrl, postData);
+        }
+        // 상세 나라 이름으로 검색
+        function searchCountry(data) {
+            const itemPopup = document.getElementById('itemPopup');
+            const itemList = document.getElementById('itemList');
+            itemList.innerHTML = ''; // 기존 목록 초기화
+
+            if (data.result.length === 0) {
+                console.log(data.result.length);
+                console.log('검색 결과가 없습니다.');
+                itemList.innerHTML = '검색 결과가 없습니다.'; // 기존 목록 초기화
+                itemPopup.style.display = 'block'; // 팝업 표시
+            }
+
+            else {
+                // 백엔드 API 엔드포인트
+                var apiUrl = '';
+                // 국가 이름으로 검색
+                apiUrl = 'http://localhost:8080/api/species/country';
+                data.result.forEach((item) => {
+                    const countryElement = document.createElement('div');
+                    countryElement.textContent = `${item.country_en} (${item.country}) (${item.country_korean}) (${item.flag_img})`;
+                    //countryElement.style.cursor = 'pointer';
+                    countryElement.onclick = () => { sendPostRequest(apiUrl, item.country, 'countryName'); closePopup_country(); };
+                    itemList.appendChild(countryElement);
+                });
+                itemPopup.style.display = 'block'; // 팝업 표시
+            }
+        }
+
+        // 통신을 위한 함수
+        function searchAnimalall(searchQuery) {
+            // 백엔드 API 엔드포인트
+            var apiUrl = '';
+            // POST 요청을 위한 데이터
+            var postData = {};
+            // 동물 이름으로 검색
+            apiUrl = 'http://localhost:8080/api/species/speciesnameall';
+            postData = {
+                speciesName: searchQuery,
+
+            };
+            // POST 요청 보내기
+            fetch(apiUrl, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(postData),
+            })
+                .then(response => response.json())
+                .then(data => {
+                    // API 응답 결과를 처리
+                    console.log('Success:', data);
+                    searchAnimal(data);
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                });
+        }
+        
+        // SA -> searchAnimal용임.
+        let currentPageSA = 1;				// 표시할 팝업의 페이지네이션 인덱스
+        const itemsPerPageSA = 10; 			// 페이지당 표시할 아이템 수
+
+        function searchAnimal(data) {
+            const paginationContainer = document.getElementById('pagination'); // 페이지네이션 컨테이너임
+            if (data.result.length === 0) {
+                console.log('검색 결과가 없습니다.');
+                document.getElementById('pagination').style.display = 'none';
+                document.getElementById('itemList').innerHTML = '검색 결과가 없습니다.';
+                document.getElementById('itemPopup').style.display = 'block';
+            } else {
+                if (data.result.length > 10) { document.getElementById('pagination').style.display = 'block'; }
+                updateList(currentPageSA, data.result);
+                updatePagination(data.result.length, currentPageSA, data.result);
+            }
+        }
+
+        function updateList(page, data) {
+            const startIndex = (page - 1) * itemsPerPageSA;
+            const endIndex = startIndex + itemsPerPageSA;
+            const itemList = document.getElementById('itemList');
+            itemList.innerHTML = '';
+
+            data.slice(startIndex, endIndex).forEach(item => {
+                const animalElement = document.createElement('div');
+                animalElement.textContent = `${item.scientific_name} (${item.scientific_name_korean})`;
+                animalElement.onclick = () => {
+                    sendPostRequest('http://localhost:8080/api/species/speciesname', item.scientific_name, 'speciesName');
+                    closePopup_country();
+                };
+                itemList.appendChild(animalElement);
+            });
+            document.getElementById('itemPopup').style.display = 'block';
+        }
+
+        function updatePagination(totalItems, currentPage, data) {
+            const paginationContainer = document.getElementById('pagination');
+            paginationContainer.innerHTML = ''; // 기존 페이지네이션 버튼들 초기화
+
+            const pageCount = Math.ceil(totalItems / itemsPerPageSA);
+            const pageGroupCount = Math.ceil(pageCount / 10);        // 페이지 번호 10개 단위(반올림)
+            const currentGroup = Math.ceil(currentPage / 10);        // 현재 페이지가 속한 그룹 계산(반올림)
+
+            let startPage = (currentGroup - 1) * 10 + 1;             // 현재 그룹의 시작 페이지 번호
+            let endPage = startPage + 9;                             // 현재 그룹의 끝 페이지 번호
+            endPage = endPage > pageCount ? pageCount : endPage;     // 실제 페이지의 수 초과 방지
+
+            // 이전 버튼
+            if (currentGroup > 1) {                                  // 처음 그룹 아니면 표시 안함
+                const prevBtn = document.createElement('button');
+                prevBtn.textContent = '이전';
+                prevBtn.onclick = function () {
+                    updateList((currentGroup - 2) * 10 + 1, data);
+                    updatePagination(totalItems, (currentGroup - 2) * 10 + 1, data);
+                };
+                paginationContainer.appendChild(prevBtn);
+            }
+
+            // 페이지 번호 버튼
+            for (let i = startPage; i <= endPage; i++) {
+                const pageBtn = document.createElement('button');
+                pageBtn.textContent = i;
+                pageBtn.className = currentPage === i ? 'active' : '';
+                pageBtn.onclick = function () {
+                    updateList(i, data);
+                    updatePagination(totalItems, i, data);
+                };
+                paginationContainer.appendChild(pageBtn);
+            }
+
+            // 다음 버튼
+            if (currentGroup < pageGroupCount) {                    // 마지막 그룹 아니면 표시 안함
+                const nextBtn = document.createElement('button');
+                nextBtn.textContent = '다음';
+                nextBtn.onclick = function () {
+                    updateList(currentGroup * 10 + 1, data);
+                    updatePagination(totalItems, currentGroup * 10 + 1, data);
+                };
+                paginationContainer.appendChild(nextBtn);
+            }
+        }
+
+
+        let currentImageIndex = 0; // 현재 이미지 인덱스
+        let searchResultsData = []; // 검색 결과 데이터 중 선택한 튜플 한 줄 데이터의 이미지 URL 목록
+        let searchResultsDatas = [];   // 검색 결과 데이터 중 선택한 튜플 한 줄 데이터
+
+        // 데이터를 리스트로 보여주고, 클릭 시 결과를 팝업으로 표시하는 함수
+        function displayResultlist(data) {
+            const itemPopup = document.getElementById('itemPopup');
+            const itemList = document.getElementById('itemList');
+            itemList.innerHTML = ''; // 기존 목록 초기화
+            if (data.result.length === 0) {
+                console.log(data.result.length);
+                console.log('검색 결과가 없습니다.');
+                itemList.innerHTML = '검색 결과가 없습니다.'; // 기존 목록 초기화
+                itemPopup.style.display = 'block'; // 팝업 표시
+            }
+            // 데이터를 가공하여 필요한 정보를 추출하고 DOM에 추가
+            data.result.forEach((item, index) => {
+                if (index < 20) {
+                    const imageUrls = item.img_url.split(',').filter(url => url.trim() !== '');
+                    const countryElement = document.createElement('div');
+                    countryElement.textContent = `${item.country} (${item.scientific_name}) (${item.scientific_name_korean}) ${item.category}`;
+                    countryElement.addEventListener('mouseenter', () => {
+                        console.log(imageUrls[0]);
+                        const imagePreviewContainer = document.getElementById('imagePreviewContainer');
+                        const firstImageUrl = imageUrls[0];
+                        const imagePreview = document.getElementById('imagePreview');
+                        imagePreview.src = firstImageUrl;
+                        imagePreviewContainer.style.display = 'block';
+                        imagePreview.src = firstImageUrl;
+                        const listItemRect = event.target.getBoundingClientRect();
+                        imagePreviewContainer.style.left = `${listItemRect.left + window.scrollX + 650}px`;
+                        imagePreviewContainer.style.top = `${listItemRect.top + window.scrollY - imagePreviewContainer.offsetHeight + 110}px`;
+                    });
+                    countryElement.addEventListener('mouseleave', () => { imagePreviewContainer.style.display = 'none'; });
+                    countryElement.onclick = () => {
+                        const itemData = {
+                            ...item,
+                            imageUrls,
+                        };
+                        displayResult(itemData);
+                        closePopup_country();
+                    };
+
+                    itemList.appendChild(countryElement);
+                }
+            });
+            itemPopup.style.display = 'block'; // 팝업 표시
+        }
+
+        // 선택한 결과를 팝업으로 표시하는 함수
+        function displayResult(itemData) {
+            searchResultsDatas = itemData;
+            searchResultsData = itemData.imageUrls;
+            showImage(0); // 첫 번째 이미지와 정보 표시
+        }
+
+        // 특정 인덱스의 이미지와 정보를 보여주는 함수
+        function showImage(index) {
+            currentImageIndex = index;
+            const imageUrl = searchResultsData[currentImageIndex]; // 현재 이미지 URL 선택
+
+            // DOM 요소 선택
+            const imgElement = document.getElementById('popupImg');
+            const infoElement = document.getElementById('popupInfo');
+            const popupContent = document.getElementsByClassName('popup-content')[0];
+            const waveLoader = document.getElementById('waveLoader');
+            // 로딩 물결 효과 표시 및 팝업 콘텐츠 숨김
+            waveLoader.style.display = 'flex';
+            popupContent.style.display = 'none';
+            // 이미지 URL 업데이트 및 로드 대기
+            imgElement.onload = () => {
+                waveLoader.style.display = 'none'; // 이미지 로드 완료 시 로딩 효과 숨김
+                popupContent.style.display = 'block'; // 이미지와 정보 표시
+                imgElement.style.opacity = 1;      // 이미지를 표시
+            };
+            imgElement.src = imageUrl; // 이미지 URL 업데이트
+            imgElement.onerror = () => {
+                waveLoader.style.display = 'none'; // 이미지 로드 실패 시 로딩 효과 숨김
+                imgElement.alt = '이미지를 불러올 수 없습니다.(none)'; // 대체 텍스트 설정
+                imgElement.style.opacity = 1;      // 이미지를 표시
+                popupContent.style.display = 'block'; // 정보 표시
+            };
+
+
+            // 관련 정보 HTML로 설정
+            infoElement.innerHTML = `
+            <div class="info-header">
+                <span class="country-name">${searchResultsDatas.country_en}</span> (${searchResultsDatas.country})
+            </div>
+            <div class="info-content">
+                <span class="country-name-kr">${searchResultsDatas.country_korean}</span>
+                <div><strong>명 칭:</strong> ${searchResultsDatas.scientific_name} (${searchResultsDatas.scientific_name_korean})</div>
+                <div><strong>설 명:</strong> ${searchResultsDatas.definition}</div>
+                <div><strong>멸종 위기 단계:</strong> ${searchResultsDatas.category}</div>
+            </div>
+            `;
+
+            updateButtonStates(); // 버튼 상태 업데이트
+            document.getElementById('popup').style.display = 'block'; // 팝업 표시
+        }
+
+        // 'prev'와 'next' 버튼 상태를 업데이트하는 함수
+        function updateButtonStates() {
+            document.getElementById('prevBtn').disabled = currentImageIndex === 0;
+            document.getElementById('nextBtn').disabled = currentImageIndex === searchResultsData.length - 1;
+        }
+
+        // 다음 이미지를 표시하는 함수
+        function showNextImage() {
+            if (currentImageIndex < searchResultsData.length - 1) {
+                currentImageIndex++;
+                changeImage(); // 이미지 표시 업데이트
+            }
+        }
+
+        // 이전 이미지를 표시하는 함수
+        function showPreviousImage() {
+            if (currentImageIndex > 0) {
+                currentImageIndex--;
+                changeImage(); // 이미지 표시 업데이트
+            }
+        }
+        function changeImage() {
+            // 이미지 변경 전에 현재 이미지의 페이드 아웃 효과를 초기화하기 위해 짧은 지연을 추가
+            const imgElement = document.getElementById('popupImg');
+            imgElement.style.opacity = 0.2; // 페이드 아웃 효과를 위해 투명도를 낮춤
+
+            setTimeout(() => {
+                showImage(currentImageIndex); // 이미지 표시 업데이트
+            }, 10); // 페이드 아웃 효과 후에 이미지를 변경
+        }
+
+        // 팝업창을 닫는 함수
+        function closePopup() {
+            document.getElementById('popup').style.display = 'none'; // 팝업창을 숨깁니다.
+        }
+
+        // 나라 목록 팝업창을 닫는 함수
+        function closePopup_country() {
+            document.getElementById('itemPopup').style.display = 'none'; // 팝업창을 숨깁니다.
+        }
+
+        // Path: public/globe3.js
+        // 지구본 전역 변수 및 함수
+
+        let lastClickedCountry = null;      // Last Clicked Country
+        let lastCountryCenter = null;
+
+        let world = null;
+
+        function createGlobe() {
+            fetch('../datasets/ne_110m_admin_0_countries.geojson').then(res => res.json()).then(countries => {
+
+                world = Globe()
+                    .globeImageUrl('//unpkg.com/three-globe/example/img/earth-night.jpg')
+                    .backgroundImageUrl('//unpkg.com/three-globe/example/img/night-sky.png')
+                    .lineHoverPrecision(0)
+                    .polygonsData(countries.features.filter(d => d.properties.ISO_A2 !== ''))
+                    .polygonAltitude(0.06)
+                    .polygonCapColor(() => 'rgba(255, 255, 200,0.7)')
+                    .polygonSideColor(() => 'rgba(0, 100, 0, 0)')
+                    .polygonStrokeColor(() => 'rgba(0, 0, 0, 0.6)')
+                    .polygonLabel(({ properties: d }) => `
+              <b>${d.ADMIN} (${d.ISO_A2}):</b> <br />
+            `)
+                    .onPolygonHover(hoverD => world
+                        .polygonAltitude(d => d === hoverD ? 0.12 : 0.06)
+                        .polygonCapColor(d => d === hoverD ? 'steelblue' : 'rgba(255, 255, 200,0.7)')
+                    ).onPolygonClick(d => {
+                        const countryCenter = d3.geoCentroid(d);
+                        lastClickedCountry = d;
+                        lastCountryCenter = countryCenter;
+                        world.pointOfView({ lat: countryCenter[1], lng: countryCenter[0], altitude: 1.2 }, 2000);
+                        setTimeout(() => {
+                            showPopup(d.properties.ISO_A2);
+                            console.log(countryCenter)
+                        }, 2000);
+                    })
+                    .polygonsTransitionDuration(300)
+
+                    (document.getElementById('globeViz'))
+                a();
+                window.addEventListener('resize', () => {
+                    a();
+                });
+
+            });
+        }
+
+        function highlightCountryOnGlobe(countryName) {
+            console.log(countryName);
+            //const countryFeature = world.polygonsData().find(d => d.properties.ADMIN.toLowerCase() === countryName.toLowerCase()); // 국가 이름으로 검색
+            const countryFeature = world.polygonsData().find(d => d.properties.ISO_A2.toLowerCase() === countryName.toLowerCase()); // 국가 코드로 검색
+            console.log(world.polygonsData());
+            if (countryFeature) {
+                const countryCenter = d3.geoCentroid(countryFeature);
+                world.pointOfView({ lat: countryCenter[1], lng: countryCenter[0], altitude: 1.2 }, 2000); // 지구본 카메라를 해당 나라 중심으로 이동
+                // 해당 나라를 노란색으로 highlight
+                world.polygonCapColor(d => d === countryFeature ? 'yellow' : 'rgba(255, 255, 200, 0.7)');
+            }
+        }
+
+        //렌더링 크기 조정
+        function a() {
+            const globeContainer = document.getElementById('globeContainer');
+            const currentWindowSize = new THREE.Vector2(globeContainer.offsetWidth, globeContainer.offsetHeight);
+            //window.innerWidth와 window.innerHeight를 사용하면 전체 창 크기를 가져오기 때문에, 부모 요소의 크기를 가져오기 위해 offsetWidth와 offsetHeight를 사용
+            world.width(currentWindowSize.x).height(currentWindowSize.y);
+        }
+
+        function showPopup(countryName) {
+            var popupText = document.getElementById('popupText');
+            popupText.textContent = `Selected Country: ${countryName}`;
+            apiUrl = 'http://localhost:8080/api/species/country';
+            sendPostRequest(apiUrl, countryName, 'countryName'); closePopup_globe();
+            document.getElementById('species-by-country').style.display = 'block';
+        }
+
+        // 1/26 추가 : 팝업창 닫는 F
+        function closePopup_globe() {
+            if (lastCountryCenter && lastClickedCountry) {
+                world.pointOfView({ lat: lastCountryCenter[1], lng: lastCountryCenter[0], altitude: 2.0 }, 2000);
+                setTimeout(() => {
+                    console.log(lastClickedCountry.properties.ADMIN)
+                }, 2000);
+                document.getElementById('species-by-country').style.display = 'none';
+            }
+            else {
+                document.getElementById('species-by-country').style.display = 'none';
+            }
+        }
+
+        // Temp_____________________________________________________________________________________about-drag
+        let dragObj = null;
+        let offsetX = 0, offsetY = 0;
+        //__________________________________________________________________________________________
+        // Temp_F_______________________________________________________about-Move_popup
+        document.querySelector('.drag-header').onmousedown = function (e) {
+            dragObj = this.closest('.popup');
+            const rect = dragObj.getBoundingClientRect();
+            if (dragObj) {
+                console.log(dragObj.getBoundingClientRect());
+            }
+            offsetX = rect.width / 2;
+            offsetY = - rect.height / 2;
+
+            // 드래그 중 및 드래그 끝 이벤트 리스너 추가
+            document.addEventListener('mousemove', onMouseMove);
+            document.addEventListener('mouseup', onMouseUp);
+            e.preventDefault(); 										// 기본 동작 방지
+        };
+
+        function onMouseMove(e) {
+            if (!dragObj) return;
+            let moveX = e.clientX - offsetX;
+            let moveY = e.clientY - offsetY;
+
+            // 화면 범위를 벗어나지 않도록 조정
+            dragObj.style.left = moveX + 'px';
+            dragObj.style.top = moveY + 'px';
+        }
+
+        function onMouseUp() {
+            document.removeEventListener('mousemove', onMouseMove);
+            document.removeEventListener('mouseup', onMouseUp);
+            dragObj = null;
+        }
+        //________________________________________________________________
+
+        createGlobe();
+
+
+    </script>
+
+</body>
+
+</html>
