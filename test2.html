@@ -16,6 +16,9 @@
             color: white;
             margin: 0;
             padding: 0;
+            place-items: center;
+            /* 가운데 정렬 */
+
         }
 
         /* 제목 스타일링 */
@@ -29,34 +32,61 @@
 
         /* 검색 폼 스타일링 */
         #searchForm {
-            display: flex;
-            justify-content: center;
+            text-align: center;
+            /* 텍스트 가운데 정렬 */
             padding: 20px;
             gap: 10px;
+            background: rgb(51, 48, 48);
+            border-radius: 20px;
+            box-shadow: 0 5px 10px rgba(0, 0, 0, 0.25);
         }
 
-        #searchForm label,
-        #searchForm select,
+        #searchForm label {
+
+            margin-right: 10px;
+            color: #fff;
+        }
+
+        #searchForm select {
+
+            border: none;
+            background: #262629;
+            color: white;
+            padding: 10px;
+            border-radius: 20px;
+            margin-right: 10px;
+            cursor: pointer;
+        }
+
         #searchForm input {
             padding: 10px;
-            border-radius: 5px;
+            border-radius: 20px;
             border: none;
             background: #262629;
             color: white;
         }
 
         #searchForm button {
+
             padding: 10px 20px;
             border: none;
-            background: #3a9ad9;
-            color: white;
-            border-radius: 5px;
+            background: linear-gradient(45deg, #3a9ad9, #3ad96f);
+            color: rgb(255, 255, 255);
+            font-weight: 700;
+            /* 글자 두껍게 설정 */
+            border-radius: 20px;
             cursor: pointer;
             transition: background-color 0.3s;
         }
 
         #searchForm button:hover {
-            background-color: #3086c8;
+            background: linear-gradient(45deg, red, #f45e00);
+            border: none;
+            color: #fff;
+            padding: 10px 20px;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: background 0.3s ease;
         }
 
         /* 지구본 컨테이너 스타일링 */
@@ -65,6 +95,9 @@
             height: 750px;
             margin: 20px 0;
         }
+
+
+
 
         /*지구본  팝업창 스타일링 */
         .species-by-country-Popup {
@@ -102,23 +135,7 @@
             }
         }
 
-        /* 반응형 디자인 */
 
-
-        @media (max-width: 480px) {
-            #searchForm {
-                flex-direction: column;
-                align-items: center;
-            }
-
-            #searchForm label,
-            #searchForm select,
-            #searchForm input,
-            #searchForm button {
-                width: 90%;
-                margin-bottom: 10px;
-            }
-        }
 
         /* 나라 팝업창 스타일링 */
         .popup-item {
@@ -136,6 +153,8 @@
             /* 너비 설정 */
             height: 100%;
             /* 높이 설정 */
+            overflow: auto;
+            /* 스크롤바 표시 */
             background-color: rgba(0, 0, 0, 0.4);
             /* 반투명한 검은색 배경 */
         }
@@ -154,7 +173,8 @@
             max-width: 600px;
             /* 최대 너비 설정 */
             /* 글자 크기 조정 */
-            font-size: 1.2em;
+
+            font-size: 1.3em;
         }
 
 
@@ -181,8 +201,9 @@
         }
 
         .item-list {
-            max-height: 600px;
+            max-height: 500px;
             /* 20개 항목의 높이로 설정 (각 항목의 높이가 20px라고 가정) */
+            overflow-y: auto;
             /* 필요할 경우 세로 스크롤 바 표시 */
             width: 100%;
             /* 너비 설정 */
@@ -231,6 +252,87 @@
             /* 테두리 둥글게 */
             overflow: hidden;
             z-index: 1001;
+        }
+
+        /* 모바일 화면에 대응하는 스타일링 */
+
+
+        /* 반응형 디자인 */
+
+        /* 모바일 화면에 대응하는 스타일링 */
+
+        @media (max-width: 480px) {
+
+            /* 480px 이하의 작은 화면에 대응하는 스타일링 */
+            #searchForm {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            #searchForm label,
+            #searchForm select,
+            #searchForm input,
+            #searchForm button {
+                width: 90%;
+                margin-bottom: 10px;
+            }
+
+            #globeContainer {
+                width: 100%;
+                height: 500px;
+            }
+
+            .popup {
+                width: 350px;
+            }
+
+        }
+
+        @media (max-width: 768px) {
+
+            /* 768px 이하의 작은 화면에 대응하는 스타일링 */
+            #searchForm {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            #searchForm label,
+            #searchForm select,
+            #searchForm input,
+            #searchForm button {
+                width: 90%;
+                margin-bottom: 10px;
+            }
+
+            #globeContainer {
+                width: 100%;
+                height: 500px;
+            }
+
+            .popup {
+                width: 350px;
+            }
+        }
+
+        @media (max-width: 1424px) {
+            /* 1024px 이하의 작은 화면에 대응하는 스타일링 */
+
+            #searchForm label,
+            #searchForm select,
+            #searchForm input,
+            #searchForm button {
+                width: 90%;
+                margin-bottom: 10px;
+            }
+
+            #globeContainer {
+                width: 100%;
+                height: 500px;
+            }
+
+            .popup {
+                width: 350px;
+            }
         }
 
         .popup-content img {
@@ -298,6 +400,23 @@
         .info-content strong {
             color: #FFD700;
             /* gold color for labels */
+        }
+
+        /* 나라 더보기 링크 스타일링 */
+        #moreCountries {
+            color: rgb(255, 75, 75);
+            /* 기본 글자 색상 */
+            cursor: pointer;
+            /* 마우스 오버 시 커서 모양 변경 */
+            transition: color 0.3s ease;
+            /* 색상 변경 애니메이션 */
+        }
+
+        #moreCountries:hover {
+            color: blue;
+            /* 마우스 오버 시 글자 색상 */
+            text-decoration: underline;
+            /* 밑줄 스타일 */
         }
 
 
@@ -454,29 +573,7 @@
             position: absolute;
             border-radius: 3px;
             padding: 5px;
-            z-index: 10;
-        }
-
-        @import url('https://fonts.googleapis.com/css2?family=Black+Han+Sans&display=swap');
-
-        #itemPopup button {
-            -webkit-appearance: none;
-            -moz-appearance: none;
-            appearance: none;
-
-            background-color: #29292b;
-            color: #ffffff;
-            margin-top: 10px;
-            padding: 0.3rem 0.8rem;
-            font-family: "Black Han Sans", sans-serif;
-            font-size: 15px;
-            font-weight: 500;
-            text-align: center;
-            text-decoration: none;
-            display: inline-block;
-            width: auto;
-            border-radius: 4px;
-            border-color: #ddd;
+            z-index: 1001;
         }
 
         .drag-header {
@@ -485,27 +582,41 @@
             background: linear-gradient(15deg, #ffffff, rgb(153, 152, 152), #ffffff);
             border-bottom: 1px #2d2dc2;
         }
+        @import url('https://fonts.googleapis.com/css2?family=Black+Han+Sans&display=swap');
+        body #Page-Header {
+            display: flex;
+            text-align: left;
+            padding-left: 15px;
+            padding-top: 5px;
+            padding-bottom: 0;
+            border-bottom: 4px#ddd solid;
+            font-size: 50px;
+            font-weight: 800;
+            font-family:'Black Han Sans', sans-serif;
+        }
     </style>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 
     <script src="//unpkg.com/d3"></script>
 
     <script src="//unpkg.com/globe.gl"></script>
-
-
     <title>테스트 코드 1</title>
 </head>
 
 <body>
-
-
-    <h1>동물 위험도 검색</h1>
+    <h1 id="Page-Header">Harmony</h1>
 
     <form id="searchForm">
+        <label for="searchTypes">검색 유형 선택:</label>
+        <select id="searchTypes" name="searchTypes" onchange="updatePlaceholder()">
+            <option value="전체">전체</option>
+            <option value="동물">동물</option>
+            <option value="식물">식물</option>
+        </select>
         <label for="searchType">검색 유형 선택:</label>
         <select id="searchType" name="searchType" onchange="updatePlaceholder()">
             <option value="country">나라 이름</option>
-            <option value="animal">동물 이름</option>
+            <option value="animal">종 이름</option>
         </select>
         <label for="searchQuery">검색어 입력:</label>
         <input type="text" id="searchQuery" name="searchQuery" autocomplete="off" placeholder="나라 이름 입력...">
@@ -517,12 +628,12 @@
         <div id="globeViz" style="overflow: hidden;"></div>
     </div>
 
-    <!-- 나라 리스트 팝업 창의 기본 구조 -->
+    <!--  리스트 팝업 창의 기본 구조 -->
     <div id="itemPopup" class="popup-item">
         <div class="popup-content-item">
             <span class="close-country" onclick="closePopup_country()">&times;</span>
             <div id="itemList" class="item-list"></div>
-            <div id="pagination" class="pagination" style="text-align: center;"></div>
+            <!-- 페이지 -->
         </div>
         <div id="imagePreviewContainer" style="display: none;">
             <img id="imagePreview" src="" alt="이미지 미리보기"
@@ -556,7 +667,21 @@
             <img id="popupImg" src="" alt="동물 이미지">
         </div>
         <!-- 팝업 푸터 -->
-        <div id="popupInfo" class="popup-footer"></div>
+        <div id="popupInfo" class="popup-footer">
+            <!-- 정보 표시 요소들 미리 정의 -->
+            <div class="info-header">
+                <span class="country-name" id="countryName"></span> (<span id="countryCode"></span>)
+            </div>
+            <div id="countryList"></div>
+            <div id="moreCountries">나라 더보기...</div>
+
+            <div class="info-content">
+                <span class="country-name-kr" id="countryNameKr"></span>
+                <div id="scientificName"></div>
+                <div id="definition"></div>
+                <div id="category"></div>
+            </div>
+        </div>
         <!-- 닫기 버튼 -->
         <button class="close-btn" onclick="closePopup()">&times;</button>
     </div>
@@ -582,59 +707,106 @@
 
         function search() {
             // 검색어 가져오기
+            var searchTypes = document.getElementById('searchTypes').value;
             var searchType = document.getElementById('searchType').value;
             var searchQuery = document.getElementById('searchQuery').value;
 
-            if (searchType === 'animal') {
-                searchAnimalall(searchQuery);
-            } else if (searchType === 'country') {
-                searchCountryall(searchQuery);
+
+            if (searchTypes === '전체') {
+                if (searchType === 'animal') { // 동물,식물 검색
+                    searchAnimalall(searchQuery, searchTypes);
+                } else if (searchType === 'country') { // 나라에 따른 동물 식물 검색
+                    searchCountryall(searchQuery, searchTypes);
+                }
+            } else if (searchTypes === '식물') {   // 식물 검색
+                searchAnimalall(searchQuery, searchTypes);
+                if (searchType === 'country') {     // 나라에 따른 식물 검색
+                    searchCountryall(searchQuery, searchTypes);
+                }
+            } else if (searchTypes === '동물') {  // 동물 검색
+                searchAnimalall(searchQuery, searchTypes);
+                if (searchType === 'country') {    // 나라에 따른 동물 검색
+                    searchCountryall(searchQuery, searchTypes);
+                }
             }
         }
         // PlaceHolder 업데이트 추가.
         function updatePlaceholder() {
+            var searchTypes = document.getElementById('searchTypes').value;
             var searchType = document.getElementById('searchType').value;
             var searchQueryInput = document.getElementById('searchQuery');
-
-            if (searchType === 'animal') {
+            if (searchTypes === '전체') {
+                if (searchType === 'animal') {
+                    searchQueryInput.placeholder = "동물,식물 이름 입력...";
+                } else if (searchType === 'country') {
+                    searchQueryInput.placeholder = "나라 이름 입력...";
+                }
+            } else if (searchTypes === '식물') {
+                searchQueryInput.placeholder = "식물 이름 입력...";
+                if (searchType === 'country') {
+                    searchQueryInput.placeholder = "나라 이름 입력...";
+                }
+            } else if (searchTypes === '동물') {
                 searchQueryInput.placeholder = "동물 이름 입력...";
-            } else if (searchType === 'country') {
-                searchQueryInput.placeholder = "나라 이름 입력...";
+                if (searchType === 'country') {
+                    searchQueryInput.placeholder = "나라 이름 입력...";
+                }
             }
+
         }
         // POST 요청을 보내는 함수 
-        function fetchmethod(apiUrl, postData) {
+        function fetchmethod(apiUrl, key1, item1, item2) {
+            console.log(apiUrl);
+            console.log(key1);
+            console.log(item1);
+            console.log(item2);
             fetch(apiUrl, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify(postData),
+                body: JSON.stringify({ [key1]: item1, mode: item2 }),
             })
                 .then(response => response.json())
                 .then(data => {
                     // API 응답 결과를 처리
                     console.log('Success:', data);
-                    searchCountry(data);
+                    if (key1 === 'countryName') {
+                        searchCountry(data, item2);
+                    } else if (key1 === 'speciesName') {
+                        searchAnimal(data, item2);
+                    }
                 })
                 .catch(error => {
                     console.error('Error:', error);
                 });
         }
         // POST 요청을 보내는 함수 
-        function sendPostRequest(apiUrl, item, key) {
+        // key는 speciesName,countryName
+
+        function sendPostRequest(apiUrl, key1, item1, item2) {
+            const moreCountries = document.getElementById('moreCountries');
+            const countryList = document.getElementById('countryList');
+            moreCountries.textContent = '나라 더보기...'; // 버튼 텍스트 원래대로 업데이트
+            countryList.textContent = ''; // 국가 목록 축소
+            isExpanded = false; // 상태 업데이트
+
             fetch(apiUrl, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify({ [key]: item })
+                body: JSON.stringify({ [key1]: item1, mode: item2 })
             })
                 .then(response => response.json())
                 .then(data => {
                     // API 응답 결과를 처리
                     console.log('Success:', data);
-                    displayResultlist(data);
+                    if (key1 === 'countryName') {
+                        displayResultlist(data);
+                    } else if (key1 === 'speciesName') {
+                        displayResultlistanimal(data);
+                    }
                 })
                 .catch((error) => {
                     console.error('Error:', error);
@@ -645,210 +817,166 @@
         }
 
         // 나라 이름으로 검색
-        function searchCountryall(searchQuery) {
+        function searchCountryall(searchQuery, searchTypes) {
             // 백엔드 API 엔드포인트
             var apiUrl = '';
-            // POST 요청을 위한 데이터
-            var postData = {};
-            // 국가 이름으로 검색
-            apiUrl = 'http://localhost:8080/api/species/countryall';
-            postData = {
-                countryName: searchQuery,
-            };
+            // 국가 이름으로 검색 http://localhost:8080/api/v2/country
+            apiUrl = 'http://localhost:8080/api/v2/country';
             // POST 요청 보내기
-            fetchmethod(apiUrl, postData);
+            fetchmethod(apiUrl, 'countryName', searchQuery, searchTypes);
+        }
+        // 통신을 위한 함수
+        function searchAnimalall(searchQuery, searchTypes) {
+            // 백엔드 API 엔드포인트
+            var apiUrl = '';
+            // 동물 이름으로 검색  http://localhost:8080/api/species/speciesnameall
+            apiUrl = 'http://localhost:8080/api/v2/species';
+            // POST 요청 보내기
+            fetchmethod(apiUrl, 'speciesName', searchQuery, searchTypes);
         }
         // 상세 나라 이름으로 검색
-        function searchCountry(data) {
+        function searchCountry(data, item2) {
+
             const itemPopup = document.getElementById('itemPopup');
             const itemList = document.getElementById('itemList');
             itemList.innerHTML = ''; // 기존 목록 초기화
 
             if (data.result.length === 0) {
-                console.log(data.result.length);
-                console.log('검색 결과가 없습니다.');
+                itemList.innerHTML = '검색 결과가 없습니다.'; // 검색 결과가 없을 때 메시지 표시
+                itemPopup.style.display = 'block'; // 팝업 표시
+                return; // 함수 종료
+            }
+
+            // 백엔드 API 엔드포인트
+            var apiUrl = 'http://localhost:8080/api/v2/country/list';
+
+            data.result.forEach((item) => {
+                const countryElement = document.createElement('div');
+                countryElement.classList.add('country-item'); // CSS 클래스 추가
+
+                // 국기 이미지 생성 및 설정
+                if (item.flag_img) {
+                    const flagImage = document.createElement('img');
+                    flagImage.src = item.flag_img;
+                    flagImage.alt = 'Flag';
+                    flagImage.style.width = '30px'; // 이미지 크기 설정
+                    flagImage.style.height = '20px'; // 이미지 크기 설정
+                    flagImage.style.marginRight = '10px'; // 오른쪽 여백 설정
+                    countryElement.appendChild(flagImage);
+                }
+
+                // 나라 정보 텍스트 추가
+                const countryText = document.createElement('span');
+                countryText.textContent = `${item.country_en} (${item.country}) (${item.country_korean})`;
+                countryElement.appendChild(countryText);
+
+                countryElement.onclick = () => {
+                    sendPostRequest(apiUrl, 'countryName', item.country, item2);
+                    closePopup_country(); // 팝업 닫기
+                };
+                itemList.appendChild(countryElement);
+            });
+            itemPopup.style.display = 'block'; // 팝업 표시
+        }
+
+        // 상세 동물 이름으로 검색
+        function searchAnimal(data, item2) {
+            const itemPopup = document.getElementById('itemPopup');
+            const itemList = document.getElementById('itemList');
+            itemList.innerHTML = ''; // 기존 목록 초기화
+
+
+            if (data.result.length === 0) {
                 itemList.innerHTML = '검색 결과가 없습니다.'; // 기존 목록 초기화
                 itemPopup.style.display = 'block'; // 팝업 표시
             }
-
-            else {
-                // 백엔드 API 엔드포인트
-                var apiUrl = '';
-                // 국가 이름으로 검색
-                apiUrl = 'http://localhost:8080/api/species/country';
-                data.result.forEach((item) => {
-                    const countryElement = document.createElement('div');
-                    countryElement.textContent = `${item.country_en} (${item.country}) (${item.country_korean}) (${item.flag_img})`;
-                    //countryElement.style.cursor = 'pointer';
-                    countryElement.onclick = () => { sendPostRequest(apiUrl, item.country, 'countryName'); closePopup_country(); };
-                    itemList.appendChild(countryElement);
-                });
-                itemPopup.style.display = 'block'; // 팝업 표시
-            }
-        }
-
-        // 통신을 위한 함수
-        function searchAnimalall(searchQuery) {
             // 백엔드 API 엔드포인트
             var apiUrl = '';
-            // POST 요청을 위한 데이터
-            var postData = {};
-            // 동물 이름으로 검색
-            apiUrl = 'http://localhost:8080/api/species/speciesnameall';
-            postData = {
-                speciesName: searchQuery,
-
-            };
-            // POST 요청 보내기
-            fetch(apiUrl, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(postData),
-            })
-                .then(response => response.json())
-                .then(data => {
-                    // API 응답 결과를 처리
-                    console.log('Success:', data);
-                    searchAnimal(data);
-                })
-                .catch(error => {
-                    console.error('Error:', error);
+            // 국가 이름으로 검색 http://localhost:8080/api/species/speciesname
+            apiUrl = 'http://localhost:8080/api/v2/species/list';
+            data.result.forEach((item) => {
+                const imageUrls = item.img_url.split(',').filter(url => url.trim() !== '');
+                const countryElement = document.createElement('div');
+                countryElement.textContent = `${item.scientific_name} (${item.scientific_name_korean}) `;
+                countryElement.addEventListener('mouseenter', () => {
+                    console.log(imageUrls[0]);
+                    const imagePreviewContainer = document.getElementById('imagePreviewContainer');
+                    const firstImageUrl = imageUrls[0];
+                    const imagePreview = document.getElementById('imagePreview');
+                    imagePreview.src = firstImageUrl;
+                    imagePreviewContainer.style.display = 'block';
+                    imagePreview.src = firstImageUrl;
+                    const listItemRect = event.target.getBoundingClientRect();
+                    imagePreviewContainer.style.left = `${listItemRect.left + window.scrollX + 650}px`;
+                    imagePreviewContainer.style.top = `${listItemRect.top + window.scrollY - imagePreviewContainer.offsetHeight + 110}px`;
                 });
-        }
-        
-        // SA -> searchAnimal용임.
-        let currentPageSA = 1;				// 표시할 팝업의 페이지네이션 인덱스
-        const itemsPerPageSA = 10; 			// 페이지당 표시할 아이템 수
-
-        function searchAnimal(data) {
-            const paginationContainer = document.getElementById('pagination'); // 페이지네이션 컨테이너임
-            if (data.result.length === 0) {
-                console.log('검색 결과가 없습니다.');
-                document.getElementById('pagination').style.display = 'none';
-                document.getElementById('itemList').innerHTML = '검색 결과가 없습니다.';
-                document.getElementById('itemPopup').style.display = 'block';
-            } else {
-                if (data.result.length > 10) { document.getElementById('pagination').style.display = 'block'; }
-                updateList(currentPageSA, data.result);
-                updatePagination(data.result.length, currentPageSA, data.result);
-            }
-        }
-
-        function updateList(page, data) {
-            const startIndex = (page - 1) * itemsPerPageSA;
-            const endIndex = startIndex + itemsPerPageSA;
-            const itemList = document.getElementById('itemList');
-            itemList.innerHTML = '';
-
-            data.slice(startIndex, endIndex).forEach(item => {
-                const animalElement = document.createElement('div');
-                animalElement.textContent = `${item.scientific_name} (${item.scientific_name_korean})`;
-                animalElement.onclick = () => {
-                    sendPostRequest('http://localhost:8080/api/species/speciesname', item.scientific_name, 'speciesName');
-                    closePopup_country();
-                };
-                itemList.appendChild(animalElement);
+                countryElement.addEventListener('mouseleave', () => { imagePreviewContainer.style.display = 'none'; });
+                countryElement.onclick = () => { sendPostRequest(apiUrl, 'speciesName', item.scientific_name, 'none'); closePopup_country(); };
+                itemList.appendChild(countryElement);
             });
-            document.getElementById('itemPopup').style.display = 'block';
+            itemPopup.style.display = 'block'; // 팝업 표시
         }
-
-        function updatePagination(totalItems, currentPage, data) {
-            const paginationContainer = document.getElementById('pagination');
-            paginationContainer.innerHTML = ''; // 기존 페이지네이션 버튼들 초기화
-
-            const pageCount = Math.ceil(totalItems / itemsPerPageSA);
-            const pageGroupCount = Math.ceil(pageCount / 10);        // 페이지 번호 10개 단위(반올림)
-            const currentGroup = Math.ceil(currentPage / 10);        // 현재 페이지가 속한 그룹 계산(반올림)
-
-            let startPage = (currentGroup - 1) * 10 + 1;             // 현재 그룹의 시작 페이지 번호
-            let endPage = startPage + 9;                             // 현재 그룹의 끝 페이지 번호
-            endPage = endPage > pageCount ? pageCount : endPage;     // 실제 페이지의 수 초과 방지
-
-            // 이전 버튼
-            if (currentGroup > 1) {                                  // 처음 그룹 아니면 표시 안함
-                const prevBtn = document.createElement('button');
-                prevBtn.textContent = '이전';
-                prevBtn.onclick = function () {
-                    updateList((currentGroup - 2) * 10 + 1, data);
-                    updatePagination(totalItems, (currentGroup - 2) * 10 + 1, data);
-                };
-                paginationContainer.appendChild(prevBtn);
-            }
-
-            // 페이지 번호 버튼
-            for (let i = startPage; i <= endPage; i++) {
-                const pageBtn = document.createElement('button');
-                pageBtn.textContent = i;
-                pageBtn.className = currentPage === i ? 'active' : '';
-                pageBtn.onclick = function () {
-                    updateList(i, data);
-                    updatePagination(totalItems, i, data);
-                };
-                paginationContainer.appendChild(pageBtn);
-            }
-
-            // 다음 버튼
-            if (currentGroup < pageGroupCount) {                    // 마지막 그룹 아니면 표시 안함
-                const nextBtn = document.createElement('button');
-                nextBtn.textContent = '다음';
-                nextBtn.onclick = function () {
-                    updateList(currentGroup * 10 + 1, data);
-                    updatePagination(totalItems, currentGroup * 10 + 1, data);
-                };
-                paginationContainer.appendChild(nextBtn);
-            }
-        }
-
 
         let currentImageIndex = 0; // 현재 이미지 인덱스
         let searchResultsData = []; // 검색 결과 데이터 중 선택한 튜플 한 줄 데이터의 이미지 URL 목록
         let searchResultsDatas = [];   // 검색 결과 데이터 중 선택한 튜플 한 줄 데이터
 
-        // 데이터를 리스트로 보여주고, 클릭 시 결과를 팝업으로 표시하는 함수
+        // 나라 이름으로 검색 시 데이터를 리스트로 보여주고, 클릭 시 결과를 팝업으로 표시하는 함수
         function displayResultlist(data) {
             const itemPopup = document.getElementById('itemPopup');
             const itemList = document.getElementById('itemList');
             itemList.innerHTML = ''; // 기존 목록 초기화
             if (data.result.length === 0) {
-                console.log(data.result.length);
-                console.log('검색 결과가 없습니다.');
                 itemList.innerHTML = '검색 결과가 없습니다.'; // 기존 목록 초기화
                 itemPopup.style.display = 'block'; // 팝업 표시
             }
             // 데이터를 가공하여 필요한 정보를 추출하고 DOM에 추가
             data.result.forEach((item, index) => {
+
+                const imageUrls = item.img_url.split(',').filter(url => url.trim() !== '');
+                const countryElement = document.createElement('div');
+                countryElement.textContent = `${item.country} (${item.scientific_name}) (${item.scientific_name_korean}) ${item.category}`;
+                countryElement.addEventListener('mouseenter', () => {
+                    console.log(imageUrls[0]);
+                    const imagePreviewContainer = document.getElementById('imagePreviewContainer');
+                    const firstImageUrl = imageUrls[0];
+                    const imagePreview = document.getElementById('imagePreview');
+                    imagePreview.src = firstImageUrl;
+                    imagePreviewContainer.style.display = 'block';
+                    imagePreview.src = firstImageUrl;
+                    const listItemRect = event.target.getBoundingClientRect();
+                    imagePreviewContainer.style.left = `${listItemRect.left + window.scrollX + 650}px`;
+                    imagePreviewContainer.style.top = `${listItemRect.top + window.scrollY - imagePreviewContainer.offsetHeight + 110}px`;
+                });
+                countryElement.addEventListener('mouseleave', () => { imagePreviewContainer.style.display = 'none'; });
+                countryElement.onclick = () => {
+                    const itemData = {
+                        ...item,    // 나라이름 , 동물이름, 동물이름(한글), 설명, 멸종위기단계      
+                        imageUrls,   // 이미지 URL 목록
+                    };
+                    displayResult(itemData); //상세 팝업으로 표시하는 함수
+                    closePopup_country();
+                };
+                itemList.appendChild(countryElement);
+            }
+            );
+            itemPopup.style.display = 'block'; // 팝업 표시
+        }
+        // 동물이름으로 검색 시 결과를 상세 팝업으로 표시하는 함수
+        function displayResultlistanimal(data) {
+            // 데이터를 가공하여 필요한 정보를 추출하고 DOM에 추가
+            data.result.forEach((item, index) => {
                 if (index < 20) {
                     const imageUrls = item.img_url.split(',').filter(url => url.trim() !== '');
-                    const countryElement = document.createElement('div');
-                    countryElement.textContent = `${item.country} (${item.scientific_name}) (${item.scientific_name_korean}) ${item.category}`;
-                    countryElement.addEventListener('mouseenter', () => {
-                        console.log(imageUrls[0]);
-                        const imagePreviewContainer = document.getElementById('imagePreviewContainer');
-                        const firstImageUrl = imageUrls[0];
-                        const imagePreview = document.getElementById('imagePreview');
-                        imagePreview.src = firstImageUrl;
-                        imagePreviewContainer.style.display = 'block';
-                        imagePreview.src = firstImageUrl;
-                        const listItemRect = event.target.getBoundingClientRect();
-                        imagePreviewContainer.style.left = `${listItemRect.left + window.scrollX + 650}px`;
-                        imagePreviewContainer.style.top = `${listItemRect.top + window.scrollY - imagePreviewContainer.offsetHeight + 110}px`;
-                    });
-                    countryElement.addEventListener('mouseleave', () => { imagePreviewContainer.style.display = 'none'; });
-                    countryElement.onclick = () => {
-                        const itemData = {
-                            ...item,
-                            imageUrls,
-                        };
-                        displayResult(itemData);
-                        closePopup_country();
+                    const itemData = {
+                        ...item,    // 나라이름 , 동물이름, 동물이름(한글), 설명, 멸종위기단계      
+                        imageUrls,   // 이미지 URL 목록
                     };
-
-                    itemList.appendChild(countryElement);
+                    displayResult(itemData);
+                    closePopup_country();
                 }
             });
-            itemPopup.style.display = 'block'; // 팝업 표시
+
         }
 
         // 선택한 결과를 팝업으로 표시하는 함수
@@ -868,9 +996,17 @@
             const infoElement = document.getElementById('popupInfo');
             const popupContent = document.getElementsByClassName('popup-content')[0];
             const waveLoader = document.getElementById('waveLoader');
+            const countryName = document.getElementById('countryName');
+            const countryCode = document.getElementById('countryCode');
+            const countryNameKr = document.getElementById('countryNameKr');
+            const scientificName = document.getElementById('scientificName');
+            const definition = document.getElementById('definition');
+            const category = document.getElementById('category');
+            const moreCountries = document.getElementById("moreCountries");
             // 로딩 물결 효과 표시 및 팝업 콘텐츠 숨김
             waveLoader.style.display = 'flex';
             popupContent.style.display = 'none';
+
             // 이미지 URL 업데이트 및 로드 대기
             imgElement.onload = () => {
                 waveLoader.style.display = 'none'; // 이미지 로드 완료 시 로딩 효과 숨김
@@ -878,6 +1014,7 @@
                 imgElement.style.opacity = 1;      // 이미지를 표시
             };
             imgElement.src = imageUrl; // 이미지 URL 업데이트
+
             imgElement.onerror = () => {
                 waveLoader.style.display = 'none'; // 이미지 로드 실패 시 로딩 효과 숨김
                 imgElement.alt = '이미지를 불러올 수 없습니다.(none)'; // 대체 텍스트 설정
@@ -885,23 +1022,73 @@
                 popupContent.style.display = 'block'; // 정보 표시
             };
 
+            document.getElementById('countryName').textContent = searchResultsDatas.country_en;
+            document.getElementById('countryCode').textContent = searchResultsDatas.country;
+            document.getElementById('countryNameKr').textContent = searchResultsDatas.country_korean;
+            document.getElementById('scientificName').textContent = `${searchResultsDatas.scientific_name} (${searchResultsDatas.scientific_name_korean})`;
+            document.getElementById('definition').textContent = searchResultsDatas.definition;
+            document.getElementById('category').textContent = searchResultsDatas.category;
 
-            // 관련 정보 HTML로 설정
-            infoElement.innerHTML = `
-            <div class="info-header">
-                <span class="country-name">${searchResultsDatas.country_en}</span> (${searchResultsDatas.country})
-            </div>
-            <div class="info-content">
-                <span class="country-name-kr">${searchResultsDatas.country_korean}</span>
-                <div><strong>명 칭:</strong> ${searchResultsDatas.scientific_name} (${searchResultsDatas.scientific_name_korean})</div>
-                <div><strong>설 명:</strong> ${searchResultsDatas.definition}</div>
-                <div><strong>멸종 위기 단계:</strong> ${searchResultsDatas.category}</div>
-            </div>
-            `;
+            // "나라 더보기..." 클릭 이벤트 추가
+            let isExpanded = false; // 더보기 상태를 추적하는 변수 초기화
+            moreCountries.addEventListener('click', function () {
 
+                var apiUrl = 'http://localhost:8080/api/v2/species/country';
+                // POST 요청 보내기
+
+                fetch(apiUrl, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ speciesName: searchResultsDatas.scientific_name, mode: 'none' })
+                })
+                    .then(response => response.json())
+                    .then(data => {
+                        // API 응답 결과를 처리
+                        console.log('Success:', data);
+                        const countryList = document.getElementById('countryList'); // 
+                        const moreCountries = document.getElementById("moreCountries");
+                        if (!isExpanded) {
+                            console.log('if')
+
+                            console.log('isExpanded:', isExpanded);
+                            moreCountries.textContent = '더보기 해제'; // 버튼 텍스트 업데이트
+
+                            const countryNames = data.result.map(item => item.country).join(", "); // 
+                            countryList.textContent = countryNames; //
+                            iscodelist(countryNames);
+                            isExpanded = true; // 상태 업데이트 
+                            console.log('isExpanded:', isExpanded);
+                        } else {
+                            console.log('else')
+                            console.log('isExpanded:', isExpanded);
+                            // 현재 확장 상태이므로 축소해야 함
+                            moreCountries.textContent = '나라 더보기...'; // 버튼 텍스트 원래대로 업데이트
+                            countryList.textContent = ''; // 국가 목록 축소
+                            isExpanded = false; // 상태 업데이트
+                        }
+                    })
+                    .catch((error) => {
+                        console.error('Error:', error);
+                    });
+
+            });
             updateButtonStates(); // 버튼 상태 업데이트
             document.getElementById('popup').style.display = 'block'; // 팝업 표시
         }
+        // 나라 코드 목록을 추적하는 전역 변수 - 지구본에  표시하기 위해
+        let countryCodes = [];
+        function iscodelist(countryNames) {
+            console.log(countryNames); // 로그 출력: 국가 코드 문자열
+            countryCodes = [];
+            console.log('iscodelist');
+            console.log('countryCodes:', countryCodes);
+            // 문자열을 쉼표로 분리하여 배열로 변환
+            countryCodes = countryNames.split(',').map(code => code.trim());
+            console.log('countryCodes:', countryCodes);
+        }
+
 
         // 'prev'와 'next' 버튼 상태를 업데이트하는 함수
         function updateButtonStates() {
@@ -937,24 +1124,37 @@
         // 팝업창을 닫는 함수
         function closePopup() {
             document.getElementById('popup').style.display = 'none'; // 팝업창을 숨깁니다.
+            const moreCountries = document.getElementById('moreCountries');
+            const countryList = document.getElementById('countryList');
+            moreCountries.textContent = '나라 더보기...'; // 버튼 텍스트 원래대로 업데이트
+            countryList.textContent = ''; // 국가 목록 축소
+            isExpanded = false; // 상태 업데이트
         }
 
         // 나라 목록 팝업창을 닫는 함수
         function closePopup_country() {
             document.getElementById('itemPopup').style.display = 'none'; // 팝업창을 숨깁니다.
+            const moreCountries = document.getElementById('moreCountries');
+            const countryList = document.getElementById('countryList');
+            moreCountries.textContent = '나라 더보기...'; // 버튼 텍스트 원래대로 업데이트
+            countryList.textContent = ''; // 국가 목록 축소
+            isExpanded = false; // 상태 업데이트
         }
+
+
+
 
         // Path: public/globe3.js
         // 지구본 전역 변수 및 함수
 
         let lastClickedCountry = null;      // Last Clicked Country
         let lastCountryCenter = null;
-
+        //let hoverDD = null; // 마우스 오버된 나라 감지 초기값 설정
         let world = null;
 
         function createGlobe() {
-            fetch('../datasets/ne_110m_admin_0_countries.geojson').then(res => res.json()).then(countries => {
-
+            fetch('//unpkg.com/globe.gl/example/datasets/ne_110m_admin_0_countries.geojson').then(res => res.json()).then(countries => {
+                let matchingCountries = null; // 더보기 버튼 클릭 시 상시 hover기능 활성화를 위한 변수
                 world = Globe()
                     .globeImageUrl('//unpkg.com/three-globe/example/img/earth-night.jpg')
                     .backgroundImageUrl('//unpkg.com/three-globe/example/img/night-sky.png')
@@ -965,12 +1165,18 @@
                     .polygonSideColor(() => 'rgba(0, 100, 0, 0)')
                     .polygonStrokeColor(() => 'rgba(0, 0, 0, 0.6)')
                     .polygonLabel(({ properties: d }) => `
-              <b>${d.ADMIN} (${d.ISO_A2}):</b> <br />
-            `)
-                    .onPolygonHover(hoverD => world
-                        .polygonAltitude(d => d === hoverD ? 0.12 : 0.06)
-                        .polygonCapColor(d => d === hoverD ? 'steelblue' : 'rgba(255, 255, 200,0.7)')
-                    ).onPolygonClick(d => {
+              <b>${d.ADMIN} (${d.ISO_A2}):</b> <br /> 
+            `
+                    )
+                    .onPolygonHover(hoverD => {
+                        if (!matchingCountries) {
+                            world
+                                .polygonAltitude(d => d === hoverD ? 0.12 : 0.06)
+                                .polygonCapColor(d => d === hoverD ? 'steelblue' : 'rgba(255, 255, 200,0.7)')
+                        }
+
+
+                    }).onPolygonClick(d => {
                         const countryCenter = d3.geoCentroid(d);
                         lastClickedCountry = d;
                         lastCountryCenter = countryCenter;
@@ -983,6 +1189,64 @@
                     .polygonsTransitionDuration(300)
 
                     (document.getElementById('globeViz'))
+
+                // 지구본에 나라 이름을 표시하는 함수
+                document.getElementById("moreCountries").addEventListener("click", function () {
+                    console.log(document.getElementById("moreCountries").textContent);
+                    if (document.getElementById("moreCountries").textContent === "나라 더보기...") {
+
+                        setTimeout(() => {
+                            matchingCountries = countries.features.filter(d => countryCodes.includes(d.properties.ISO_A2));
+                            console.log('countryCodes:', matchingCountries[0].properties.ISO_A2);
+                            console.log(countries.features.filter(d => countryCodes.includes(d.properties.ISO_A2)));
+                            world.polygonAltitude(d => matchingCountries.includes(d) ? 0.12 : 0.06);
+                            world.polygonCapColor(d => matchingCountries.includes(d) ? 'steelblue' : 'rgba(255, 255, 200,0.7)');
+                            
+                            const countryFeature = world.polygonsData().find(d => d.properties.ISO_A2.toLowerCase() === matchingCountries[0].properties.ISO_A2.toLowerCase());
+                            const countryCenter = d3.geoCentroid(countryFeature);
+                            world.pointOfView({ lat: countryCenter[1], lng: countryCenter[0], altitude: 2.0 }, 2000); // 지구본 카메라를 해당 나라 중심으로 이동
+                        
+                            
+                        }, 1000); // 지구본 함수가 fetch 함수보다 먼저 실행되어서 나라 코드가 초기화 되지 않는 문제를 해결하기 위해 setTimeout 함수를 사용
+
+
+                    }
+                    else {
+                        matchingCountries = countries.features.filter(d => countryCodes.includes(d.properties.ISO_A2));
+                        console.log('-----------------------------------');
+                        console.log('countryCodes:', countryCodes);
+                        console.log(countries.features.filter(d => countryCodes.includes(d.properties.ISO_A2)));
+                        console.log('-----------------------------------');
+                        //표시된 나라 코드 초기화
+                        world.polygonAltitude(d => matchingCountries.includes(d) ? 0.06 : 0.06);
+                        world.polygonCapColor(d => matchingCountries.includes(d) ? 'rgba(255, 255, 200,0.7)' : 'rgba(255, 255, 200,0.7)');
+                        setTimeout(() => {
+                            countryCodes = [];
+                            matchingCountries = null;
+                        }, 1000);
+                        console.log(countryCodes);
+                    }
+                });
+                // 지구본에 나라 이름을 표시 제거하는 함수
+                document.getElementById("globeViz").addEventListener("mouseover", function () {
+
+                    const moreCountries = document.getElementById('moreCountries');
+                    const countryList = document.getElementById('countryList');
+                    if (moreCountries.textContent === '나라 더보기...') {
+                        world.polygonAltitude(0.06)
+                            .polygonCapColor(() => 'rgba(255, 255, 200,0.7)')
+                    }
+                });
+                document.getElementById("itemPopup").addEventListener("mouseover", function () {
+
+                    const moreCountries = document.getElementById('moreCountries');
+                    const countryList = document.getElementById('countryList');
+                    if (moreCountries.textContent === '나라 더보기...') {
+                        world.polygonAltitude(0.06)
+                            .polygonCapColor(() => 'rgba(255, 255, 200,0.7)')
+                    }
+                });
+
                 a();
                 window.addEventListener('resize', () => {
                     a();
@@ -991,18 +1255,7 @@
             });
         }
 
-        function highlightCountryOnGlobe(countryName) {
-            console.log(countryName);
-            //const countryFeature = world.polygonsData().find(d => d.properties.ADMIN.toLowerCase() === countryName.toLowerCase()); // 국가 이름으로 검색
-            const countryFeature = world.polygonsData().find(d => d.properties.ISO_A2.toLowerCase() === countryName.toLowerCase()); // 국가 코드로 검색
-            console.log(world.polygonsData());
-            if (countryFeature) {
-                const countryCenter = d3.geoCentroid(countryFeature);
-                world.pointOfView({ lat: countryCenter[1], lng: countryCenter[0], altitude: 1.2 }, 2000); // 지구본 카메라를 해당 나라 중심으로 이동
-                // 해당 나라를 노란색으로 highlight
-                world.polygonCapColor(d => d === countryFeature ? 'yellow' : 'rgba(255, 255, 200, 0.7)');
-            }
-        }
+  
 
         //렌더링 크기 조정
         function a() {
@@ -1011,15 +1264,14 @@
             //window.innerWidth와 window.innerHeight를 사용하면 전체 창 크기를 가져오기 때문에, 부모 요소의 크기를 가져오기 위해 offsetWidth와 offsetHeight를 사용
             world.width(currentWindowSize.x).height(currentWindowSize.y);
         }
-
         function showPopup(countryName) {
             var popupText = document.getElementById('popupText');
             popupText.textContent = `Selected Country: ${countryName}`;
-            apiUrl = 'http://localhost:8080/api/species/country';
-            sendPostRequest(apiUrl, countryName, 'countryName'); closePopup_globe();
-            document.getElementById('species-by-country').style.display = 'block';
+            // 팝업창을 표시 
+            apiUrl = 'http://localhost:8080/api/v2/country/list';
+            sendPostRequest(apiUrl, 'countryName', countryName, '전체'); closePopup_globe();
+            //document.getElementById('species-by-country').style.display = 'block';
         }
-
         // 1/26 추가 : 팝업창 닫는 F
         function closePopup_globe() {
             if (lastCountryCenter && lastClickedCountry) {
@@ -1072,8 +1324,6 @@
         //________________________________________________________________
 
         createGlobe();
-
-
     </script>
 
 </body>
