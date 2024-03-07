@@ -22,12 +22,18 @@
         }
 
         /* 제목 스타일링 */
-        h1 {
-            text-align: center;
-            padding: 20px 0;
-            background-color: #1c1c1e;
+        body #Page-Header {
+            text-align: left;
+            padding-left: 15px;
+            padding-top: 5px;
+            padding-bottom: 0;
             margin: 0;
+            border-bottom: 5px #ddd solid;
+            background-color: #1c1c1e;
             box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+            font-size: 50px;
+            font-weight: 800;
+            font-family: 'Black Han Sans', sans-serif;
         }
 
         /* 검색 폼 스타일링 */
@@ -37,7 +43,8 @@
             padding: 20px;
             gap: 10px;
             background: rgb(51, 48, 48);
-            border-radius: 20px;
+            border-bottom-left-radius: 20px;
+            border-bottom-right-radius: 20px;
             box-shadow: 0 5px 10px rgba(0, 0, 0, 0.25);
         }
 
@@ -201,7 +208,7 @@
         }
 
         .item-list {
-            max-height: 500px;
+            max-height: 600px;
             /* 20개 항목의 높이로 설정 (각 항목의 높이가 20px라고 가정) */
             /* overflow-y: auto;
             /* 필요할 경우 세로 스크롤 바 표시 */
@@ -621,17 +628,6 @@
             /* 테두리 색상 */
         }
 
-        body #Page-Header {
-            display: flex;
-            text-align: left;
-            padding-left: 15px;
-            padding-top: 5px;
-            padding-bottom: 0;
-            border-bottom: 5px #ddd solid;
-            font-size: 50px;
-            font-weight: 800;
-            font-family: 'Black Han Sans', sans-serif;
-        }
     </style>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 
@@ -941,12 +937,12 @@
                 });
             }
             // displayResultlist
-            else if (data[0].hasOwnProperty('taxonid')) { 
+            else if (data[0].hasOwnProperty('taxonid')) {
                 // 데이터를 가공하여 필요한 정보를 추출하고 DOM에 추가
                 // 3/04 이미지 미리보기 소스 수정. 좌표 고정이 풀리는거 방지.
                 data.slice(startIndex, endIndex).forEach((item, index) => {
                     const imageUrls = item.img_url.split(',').filter(url => url.trim() !== '');
-                    console.log('img_urls:\n', imageUrls)
+                    console.log('img_urls:\n', imageUrls);
                     const countryElement = document.createElement('div');
                     countryElement.textContent = `${item.country} (${item.scientific_name}) (${item.scientific_name_korean}) ${item.category}`;
                     countryElement.addEventListener('mouseenter', () => {
@@ -1295,9 +1291,6 @@
             isExpanded = false; // 상태 업데이트
         }
 
-
-
-
         // Path: public/globe3.js
         // 지구본 전역 변수 및 함수
 
@@ -1477,8 +1470,6 @@
         //__________________________________________________________________________________________
 
         createGlobe();
-
-
     </script>
 
 </body>
