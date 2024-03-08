@@ -727,7 +727,8 @@
     </aside>
 
     <div id="sidebarToggle" class="sidebar-toggle">
-        <span style="font-family: Black Han Sans, sans-serif; font-size: 30px; font-weight: 800;"><</span>
+        <span style="font-family: Black Han Sans, sans-serif; font-size: 30px; font-weight: 800;">
+            << /span>
     </div>
 
     <!-- 지구본 컴포넌트 -->
@@ -825,25 +826,31 @@
 
         function search() {
             // 검색어 가져오기
-            var searchTypes = document.getElementById('searchTypes').value;     // 동 * 식물
-            var searchType = document.getElementById('searchType').value;       // 나라 * 종
-            var searchQuery = document.getElementById('searchQuery').value;     // 검색어
+            var searchTypes = document.getElementById('searchTypes').value;
+            var searchType = document.getElementById('searchType').value;
+            var searchQuery = document.getElementById('searchQuery').value;
+
 
             if (searchTypes === '전체') {
-                if (searchType === 'animal') {                                  // 동물,식물 검색
+                if (searchType === 'animal') { // 동물,식물 검색
                     searchAnimalall(searchQuery, searchTypes);
-                } else if (searchType === 'country') {                          // 나라에 따른 동물 식물 검색
+                } else if (searchType === 'country') { // 나라에 따른 동물 식물 검색
                     searchCountryall(searchQuery, searchTypes);
                 }
-            } else if (searchTypes === '식물') {                                // 식물 검색
-                searchAnimalall(searchQuery, searchTypes);
-                if (searchType === 'country') {                                 // 나라에 따른 식물 검색
+            } else if (searchTypes === '식물') {   // 식물 검색
+
+                if (searchType === 'country') {     // 나라에 따른 식물 검색
                     searchCountryall(searchQuery, searchTypes);
                 }
-            } else if (searchTypes === '동물') {                                // 동물 검색
-                searchAnimalall(searchQuery, searchTypes);
-                if (searchType === 'country') {                                 // 나라에 따른 동물 검색
+                else {
+                    searchAnimalall(searchQuery, searchTypes);
+                }
+            } else if (searchTypes === '동물') {  // 동물 검색
+
+                if (searchType === 'country') {    // 나라에 따른 동물 검색
                     searchCountryall(searchQuery, searchTypes);
+                } else {
+                    searchAnimalall(searchQuery, searchTypes);
                 }
             }
         }
@@ -892,6 +899,7 @@
                     // API 응답 결과를 처리
                     console.log('Stringify Result:', data);
                     if (key1 === 'countryName') {
+                        console.log('searchCountry-=--------------------------');
                         searchCountry(data, item2);
                     } else if (key1 === 'speciesName') {
                         searchAnimal(data, item2);
@@ -902,6 +910,7 @@
                 });
         }
         //________________________________________________________________________________________
+
         // __________________________2차 fetch전 파이프____________________________________________
 
         //*****************************************************************************************
@@ -914,6 +923,7 @@
             const itemList = document.getElementById('itemList');
             itemList.innerHTML = ''; // 기존 목록 초기화
 
+            console.log('item2:', item2);
             if (data.result.length === 0) {
                 document.getElementById('pagination').style.display = 'none';
                 itemList.innerHTML = '검색 결과가 없습니다.'; // 검색 결과가 없을 때 메시지 표시
@@ -939,7 +949,7 @@
         // item2 -> searchTypes                  => 전체 * 동 * 식물
         // 상세 동물 이름으로 검색
         function searchAnimal(data, item2) {
-            console.log('searchAnimal:\n', data)
+            console.log('searchAnimal:\n', data, item2)
             const itemPopup = document.getElementById('itemPopup');
             const itemList = document.getElementById('itemList');
             itemList.innerHTML = ''; // 기존 목록 초기화
@@ -1077,7 +1087,7 @@
             }
             // searchAnimal로 데이터를 출력할 때에
             else {
-                console.log('searchAnimal\n', data)
+                console.log('searchAnimal\n', data, searchTypes)
                 // 국가 이름으로 검색 http://localhost:8080/api/species/speciesname
                 apiUrl = 'http://localhost:8080/api/v2/species/list';
                 data.slice(startIndex, endIndex).forEach(item => {
@@ -1104,7 +1114,7 @@
             document.getElementById('itemPopup').style.display = 'block';
         }
 
-        function updatePagination(totalItems, currentPage, data) {
+        function updatePagination(totalItems, currentPage, data, searchTypes='전체') {
             const paginationContainer = document.getElementById('pagination');
             paginationContainer.innerHTML = ''; // 기존 페이지네이션 버튼들 초기화
 
