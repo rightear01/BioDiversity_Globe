@@ -21,21 +21,6 @@
 
         }
 
-        /* 제목 스타일링 */
-        body #Page-Header {
-            text-align: left;
-            padding-left: 15px;
-            padding-top: 5px;
-            padding-bottom: 0;
-            margin: 0;
-            border-bottom: 5px #ddd solid;
-            background-color: #1c1c1e;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
-            font-size: 50px;
-            font-weight: 800;
-            font-family: 'Black Han Sans', sans-serif;
-        }
-
         /* 검색 폼 스타일링 */
         #searchForm {
             text-align: center;
@@ -690,6 +675,57 @@
             margin-top: 15px;
             padding: 5px 15px;
         }
+
+        .Page-Header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background-color: #1c1c1e;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+            border-bottom: 5px #ddd solid;
+        }
+
+        #Page-Title {
+            text-align: left;
+            margin-right: 20px;
+            padding-left: 15px;
+            padding-top: 5px;
+            padding-bottom: 0;
+            margin: 0;
+            font-size: 50px;
+            font-weight: 800;
+            font-family: 'Black Han Sans', sans-serif;
+        }
+
+        #icon-container {
+            display: flex;
+            margin-top: 10px;
+            margin-bottom: 5px;
+            margin-right: 15px;
+        }
+
+        #icon-container>inine-block {
+            margin-left: 20px;
+        }
+
+        #icon-container #icon  {
+            background-color: #706f6f;
+            text-align: center;
+            padding: 10px 10px;
+            width: 44px;
+            height: 44px;
+            border-radius: 20px;
+        }
+
+        #icon-container #icon #icon-text{
+            font-size: 13px;
+            font-family: 'Black Han Sans', sans-serif;
+            font-weight: 800;
+        }
+
+        #icon-container #icon img {
+            width: 70%;
+        }
     </style>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 
@@ -700,7 +736,24 @@
 </head>
 
 <body>
-    <h1 id="Page-Header">Harmony</h1>
+    <div class="Page-Header">
+        <h1 id="Page-Title">Harmony</h1>
+            <div id="icon-container">
+                <inine-block id="icon">
+                    <img src="./icon/Quiz.png" id="Quiz-icon" alt="Quiz">
+                    <div id="icon-text">Quiz</div>
+                </inine-block>
+                <inine-block id="icon">
+                    <img src="./icon/Rank.png" id="Quiz-icon" alt="Quiz">
+                    <div id="icon-text">Rank</div>
+                </inine-block>
+                <inine-block id="icon">
+                    <img src="./icon/About.png" id="Quiz-icon" alt="Quiz">
+                    <div id="icon-text">About</div>
+                </inine-block>
+            </div>
+        </div>
+    </div>
 
     <form id="searchForm">
         <label for="searchTypes">검색 유형 선택:</label>
@@ -718,18 +771,6 @@
         <input type="text" id="searchQuery" name="searchQuery" autocomplete="off" placeholder="나라 이름 입력...">
         <button id="search_Button" type="button" onclick="search()">검색</button>
     </form>
-
-    <aside id="sidebar" class="sidebar">
-        <h1>Menu</h1>
-        <div class="item">Quiz</div>
-        <div class="item">About</div>
-        <div class="item">Rank</div>
-    </aside>
-
-    <div id="sidebarToggle" class="sidebar-toggle">
-        <span style="font-family: Black Han Sans, sans-serif; font-size: 30px; font-weight: 800;">
-            << /span>
-    </div>
 
     <!-- 지구본 컴포넌트 -->
     <div id="globeContainer">
@@ -813,15 +854,6 @@
                 event.preventDefault(); // 폼이 실제로 제출되는 것을 방지합니다.
                 search(); // 검색 버튼의 onclick 이벤트와 동일한 함수를 호출합니다.
             }
-        });
-
-        // 사이드바 관련
-        document.getElementById('sidebarToggle').addEventListener('click', function () {
-            document.getElementById('sidebar').classList.add('active');
-        });
-
-        document.getElementById('sidebar').addEventListener('mouseleave', function () {
-            this.classList.remove('active');
         });
 
         function search() {
@@ -1114,7 +1146,7 @@
             document.getElementById('itemPopup').style.display = 'block';
         }
 
-        function updatePagination(totalItems, currentPage, data, searchTypes='전체') {
+        function updatePagination(totalItems, currentPage, data, searchTypes = '전체') {
             const paginationContainer = document.getElementById('pagination');
             paginationContainer.innerHTML = ''; // 기존 페이지네이션 버튼들 초기화
 
