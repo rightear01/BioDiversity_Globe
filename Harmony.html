@@ -740,20 +740,21 @@
     <div class="Page-Header">
         <h1 id="Page-Title">Harmony</h1>
         <div class="wrapper_nav">
-            <nav>
-                <input type="radio" name="nav" id="Quiz" checked>
-                <input type="radio" name="nav" id="Rank">
-                <input type="radio" name="nav" id="about">
+            <form>
+                <nav>
+                    <input type="radio" name="nav" id="Quiz" checked>
+                    <input type="radio" name="nav" id="Rank">
+                    <input type="radio" name="nav" id="about">
 
-                <label for="Quiz" class="Quiz" data-href="/quiz.html" onclick="navigateTo(this)"><a
-                        href="/quiz.html">Quiz</a></label>
-                <label for="Rank" class="Rank" data-href="/rank.html" onclick="navigateTo(this)"><a
-                        href="/rank.html">Rank</a></label>
-                <label for="about" class="about" data-href="/about.html" onclick="navigateTo(this)"><a
-                        href="/about.html">About</a></label>
-
-                <div class="tab"></div>
-            </nav>
+                    <label for="Quiz" class="Quiz" data-href="/quiz.html" onclick="navigateTo(this)"><a
+                            href="/quiz.html">Quiz</a></label>
+                    <label for="Rank" class="Rank" data-href="/rank.html" onclick="navigateTo(this)"><a
+                            href="/rank.html">Rank</a></label>
+                    <label for="about" class="about" data-href="/about.html" onclick="navigateTo(this)"><a
+                            href="/about.html">About</a></label>
+                    <div class="tab"></div>
+                </nav>
+            </form>
         </div>
     </div>
 
@@ -850,11 +851,13 @@
 
 
     <script>
-
         function navigateTo(element) {
             const href = element.getAttribute('data-href');
-            window.location.href = href; // 현재 페이지를 새 위치로 변경
+            setTimeout(function () {
+                window.location.href = href;
+            }, 500);
         }
+
         // 검색어 입력 후 엔터키를 누르면 검색 버튼을 클릭한 것과 동일한 동작을 하도록 설정
         document.getElementById('searchQuery').addEventListener('keypress', function (event) {
             if (event.key === 'Enter') {
