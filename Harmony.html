@@ -263,6 +263,7 @@
             #searchForm button {
                 width: 90%;
                 margin-bottom: 10px;
+                white-space: nowrap; /* 줄바꿈 방지 */
             }
 
             #globeContainer {
@@ -288,6 +289,7 @@
             #searchForm select,
             #searchForm input,
             #searchForm button {
+                white-space: nowrap; /* 줄바꿈 방지 */
                 width: 90%;
                 margin-bottom: 10px;
             }
@@ -302,15 +304,17 @@
             }
         }
 
-        @media (max-width: 1424px) {
+        @media (max-width: 800px) {
             /* 1024px 이하의 작은 화면에 대응하는 스타일링 */
 
             #searchForm label,
             #searchForm select,
             #searchForm input,
             #searchForm button {
+                white-space: nowrap; /* 줄바꿈 방지 */
                 width: 90%;
                 margin-bottom: 10px;
+                gap: 10px;
             }
 
             #globeContainer {
@@ -609,73 +613,7 @@
             /* 테두리 색상 */
         }
 
-        .sidebar {
-            position: fixed;
-            top: 37%;
-            transform: translateY(-100%);
-            right: -250px;
-            width: 100px;
-            height: 20%;
-            background-color: #333;
-            border-top-left-radius: 10px;
-            border-bottom-left-radius: 10px;
-            font-size: 20px;
-            font-weight: 700;
-            font-family: "Black Han Sans", sans-serif;
-            transition: right 1s;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            z-index: 9999;
-        }
-
-        .sidebar-toggle {
-            position: fixed;
-            top: 17%;
-            right: 0;
-            width: 13px;
-            height: 150px;
-            cursor: pointer;
-            border-top-left-radius: 8px;
-            border-bottom-left-radius: 8px;
-            background-image: linear-gradient(to right, #f8f8f8, #c0bfbf, #999797, #c0bfbf, #f8f8f8);
-            z-index: 1;
-        }
-
-        .sidebar-toggle span {
-            display: block;
-            margin-top: 55px;
-            text-align: center;
-            color: rgb(72, 73, 73);
-        }
-
-        .sidebar.active {
-            right: 0;
-        }
-
-        #sidebar h1,
-        div {
-            margin: 0;
-            padding: 0;
-        }
-
-        #sidebar h1 {
-            text-align: center;
-            width: 85%;
-            font-size: 20px;
-            font-weight: 700;
-            color: rgb(214, 222, 230);
-            border-bottom: 1px solid #e6e6e6;
-        }
-
-        .sidebar .item {
-            background-image: linear-gradient(to right, #9e9c9c, #555353, #706f6f, #555353, #9e9c9c);
-            color: #ffffff;
-            border-radius: 10px;
-            margin-top: 15px;
-            padding: 5px 15px;
-        }
-
+        /* 하이퍼링크 스타일링*/
         .Page-Header {
             display: flex;
             align-items: center;
@@ -697,34 +635,94 @@
             font-family: 'Black Han Sans', sans-serif;
         }
 
-        #icon-container {
+        .wrapper_nav {
+            height: 60px;
+            width: 40vw;
+            line-height: 60px;
+            background: rgba(51, 48, 48,0);
+            border-radius: 50px;
+            box-shadow: 0 5px 10 px rgba(0, 0, 0, 0.25);
+        }
+
+        .wrapper_nav nav {
+            position: relative;
+            /* 상대위치 */
             display: flex;
-            margin-top: 10px;
-            margin-bottom: 5px;
-            margin-right: 15px;
+            /* 가로로 나열 */
         }
 
-        #icon-container>inine-block {
-            margin-left: 20px;
+        .wrapper_nav nav label {
+            z-index: 1;
+            /* z-index를 1로 설정 */
+            flex: 1;
+            /* 1:1 비율로 설정 */
+            width: 100%;
+            position: relative;
+            /* 상대위치 */
+            cursor: pointer;
+            /* 커서를 손가락 모양으로 */
+            left: 13%;
         }
 
-        #icon-container #icon  {
-            background-color: #706f6f;
-            text-align: center;
-            padding: 10px 10px;
-            width: 44px;
-            height: 44px;
-            border-radius: 20px;
+        .wrapper_nav nav label a {
+            position: relative;
+            /* 상대위치 */
+            z-index: -1;
+            /* z-index를 -1로 설정 */
+            color: #fff;
+            /* 글자색을 흰색으로 설정 */
+            font-family: roboto;
+            font-size: 1.2em;
+            /* 글자 크기를 1.2em으로 설정 */
+            font-weight: 500;
+            /* 글자 두껍게 설정 */
+            text-decoration: none;
+            /* 밑줄 제거 */
+            transition: color 0.6s ease;
+            /* 0.6초 동안 글자색 변화 */
+            
         }
 
-        #icon-container #icon #icon-text{
-            font-size: 13px;
-            font-family: 'Black Han Sans', sans-serif;
-            font-weight: 800;
+        .wrapper_nav nav #Quiz:checked~label.Quiz a,
+        .wrapper_nav nav #Rank:checked~label.Rank a,
+        .wrapper_nav nav #about:checked~label.about a {
+            
+            color: #000000;
+            /* 글자색을 검정색으로 설정 */
         }
 
-        #icon-container #icon img {
-            width: 70%;
+        .wrapper_nav nav .tab {
+            position: absolute;
+            /* 절대위치 */
+            bottom: 0;
+            /* 아래쪽으로 0만큼 떨어진 위치 */
+            left: 0;
+            /* 왼쪽으로 0만큼 떨어진 위치 */
+            width: 33%;
+            /* 너비를 100%로 설정 */
+            height: 100%;
+            /* 높이를 3px로 설정 */
+            background: linear-gradient(45deg, red 0%, #f45e00 100%);
+            /* 45도 각도로 그라데이션 색상 설정 */
+            border-radius: 50px;
+            /* 50px만큼 둥글게 */
+            transition: 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            /* 0.5초 동안 변화 */
+        }
+
+        .wrapper_nav nav #Rank:checked~.tab {
+            left: 33%;
+            /* 왼쪽으로 25%만큼 떨어진 위치 */
+        }
+
+        .wrapper_nav nav #about:checked~.tab {
+            left: 67%;
+            /* 왼쪽으로 50%만큼 떨어진 위치 */
+        }
+
+        .wrapper_nav nav input {
+            display: none;
+            /* 화면에 표시하지 않음 */
         }
     </style>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
@@ -738,20 +736,20 @@
 <body>
     <div class="Page-Header">
         <h1 id="Page-Title">Harmony</h1>
-            <div id="icon-container">
-                <inine-block id="icon">
-                    <img src="./icon/Quiz.png" id="Quiz-icon" alt="Quiz">
-                    <div id="icon-text">Quiz</div>
-                </inine-block>
-                <inine-block id="icon">
-                    <img src="./icon/Rank.png" id="Quiz-icon" alt="Quiz">
-                    <div id="icon-text">Rank</div>
-                </inine-block>
-                <inine-block id="icon">
-                    <img src="./icon/About.png" id="Quiz-icon" alt="Quiz">
-                    <div id="icon-text">About</div>
-                </inine-block>
-            </div>
+        <div class="wrapper_nav">
+            <form>
+                <nav>
+                    <input type="radio" name="nav" id="Quiz" checked>
+                    <input type="radio" name="nav" id="Rank">
+                    <input type="radio" name="nav" id="about">
+
+                    <label for="Quiz" class="Quiz"><a href="#">Quiz</a></label>
+                    <label for="Rank" class="Rank"><a href="#">Rank</a></label>
+                    <label for="about" class="about"><a href="#">About</a></label>
+
+                    <div class="tab"></div>
+                </nav>
+            </form>
         </div>
     </div>
 

@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>about</title>
+    <style>
+        /* 기본 글꼴과 배경 설정 */
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #0e0e10;
+            color: white;
+            margin: 0;
+            padding: 0;
+            place-items: center;
+            /* 가운데 정렬 */
+
+        }
+
+        /* 하이퍼링크 스타일링*/
+        .Page-Header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background-color: #1c1c1e;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+            border-bottom: 5px #ddd solid;
+        }
+
+        #Page-Title {
+            text-align: left;
+            margin-right: 20px;
+            padding-left: 15px;
+            padding-top: 5px;
+            padding-bottom: 0;
+            margin: 0;
+            font-size: 50px;
+            font-weight: 800;
+            font-family: 'Black Han Sans', sans-serif;
+        }
+
+        .wrapper_nav {
+            place-items: center;    /* 가운데 정렬 */
+            text-align: center;     /* 텍스트 가운데 정렬 */
+            height: 60px;
+            width: 55vw;
+            line-height: 60px;
+            background: rgba(51, 48, 48, 0);
+            border-radius: 50px;
+            box-shadow: 0 5px 10 px rgba(0, 0, 0, 0.25);
+        }
+
+        .wrapper_nav nav {
+            position: relative;
+            /* 상대위치 */
+            display: flex;
+            /* 가로로 나열 */
+        }
+
+        .wrapper_nav nav label {
+            z-index: 1;
+            /* z-index를 1로 설정 */
+            flex: 1;
+            /* 1:1 비율로 설정 */
+            width: 100%;
+            position: relative;
+            /* 상대위치 */
+            cursor: pointer;
+            /* 커서를 손가락 모양으로 */
+            
+        }
+
+        .wrapper_nav nav label a {
+            position: relative;
+            /* 상대위치 */
+
+            color: #fff;
+            /* 글자색을 흰색으로 설정 */
+            font-family: roboto;
+            font-size: 1.2em;
+            /* 글자 크기를 1.2em으로 설정 */
+            font-weight: 500;
+            /* 글자 두껍게 설정 */
+            text-decoration: none;
+            /* 밑줄 제거 */
+            transition: color 0.6s ease;
+            /* 0.6초 동안 글자색 변화 */
+
+        }
+
+        .wrapper_nav nav #home:checked~label.home a,
+        .wrapper_nav nav #Quiz:checked~label.Quiz a,
+        .wrapper_nav nav #Rank:checked~label.Rank a,
+        .wrapper_nav nav #about:checked~label.about a {
+
+            color: #000000;
+            /* 글자색을 검정색으로 설정 */
+        }
+
+        .wrapper_nav nav .tab {
+            position: absolute;
+            /* 절대위치 */
+            bottom: 0;
+            /* 아래쪽으로 0만큼 떨어진 위치 */
+            left: 0;
+            /* 왼쪽으로 0만큼 떨어진 위치 */
+            width: 25%;
+            /* 너비를 100%로 설정 */
+            height: 100%;
+            /* 높이를 3px로 설정 */
+            background: linear-gradient(45deg, red 0%, #f45e00 100%);
+            /* 45도 각도로 그라데이션 색상 설정 */
+            border-radius: 50px;
+            /* 50px만큼 둥글게 */
+            transition: 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            /* 0.5초 동안 변화 */
+        }
+
+        .wrapper_nav nav #Quiz:checked~.tab {
+            left: 25%;
+            /* 왼쪽으로 25%만큼 떨어진 위치 */
+        }
+
+        .wrapper_nav nav #Rank:checked~.tab {
+            left: 50%;
+            /* 왼쪽으로 25%만큼 떨어진 위치 */
+        }
+
+        .wrapper_nav nav #about:checked~.tab {
+            left: 75%;
+            /* 왼쪽으로 50%만큼 떨어진 위치 */
+        }
+
+
+
+        .wrapper_nav nav input {
+            display: none;
+            /* 화면에 표시하지 않음 */
+        }
+
+        /* 메타몽*/
+        #cardcenter {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        .container {
+            width: 440px;
+            height: 620px;
+            transition: all 0.1s;
+            position: relative;
+        }
+
+        .overlay {
+            position: absolute;
+            width: 440px;
+            height: 620px;
+            background: linear-gradient(105deg,
+                    transparent 40%,
+                    rgba(255, 219, 112, 0.8) 45%,
+                    rgba(132, 50, 255, 0.6) 50%,
+                    transparent 54%);
+            filter: brightness(1.2) opacity(0.8);
+            mix-blend-mode: color-dodge;
+            background-size: 150% 150%;
+            background-position: 100%;
+            transition: all 0.1s;
+        }
+
+        .card {
+            width: 440px;
+            height: 620px;
+            background-image: url(51_hires.webp);
+            background-size: cover;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="Page-Header">
+        <h1 id="Page-Title">About</h1>
+        <div class="wrapper_nav">
+
+            <nav>
+                <input type="radio" name="nav" id="home">
+                <input type="radio" name="nav" id="Quiz">
+                <input type="radio" name="nav" id="Rank">
+                <input type="radio" name="nav" id="about" checked>
+
+                <!-- data-href 속성 추가 -->
+                <label for="home" class="home" data-href="/Harmony.html"><a href="/Harmony.html">Home</a></label>
+                <label for="Quiz" class="Quiz" data-href="/quiz.html"><a href="/quiz.html">Quiz</a></label>
+                <label for="Rank" class="Rank" data-href="/rank.html"><a href="/rank.html">Rank</a></label>
+                <label for="about" class="about" data-href="/about.html"><a href="/about.html">About</a></label>
+
+
+                <div class="tab"></div>
+            </nav>
+
+        </div>
+    </div>
+
+    <div id="cardcenter">
+        <div class="container">
+            <div class="overlay"></div>
+            <div class="card"></div>
+        </div>
+    </div>
+
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            var labels = document.querySelectorAll('.wrapper_nav nav label');
+            labels.forEach(function (label) {
+                label.addEventListener('click', function (e) {
+                    // a 태그 내부 클릭 시 페이지 이동 방지
+                    if (e.target.tagName.toLowerCase() === 'a') {
+                        e.preventDefault();
+                    }
+                    // data-href 속성 값으로 페이지 이동
+                    var href = label.getAttribute('data-href');
+                    if (href) {
+                        window.location.href = href;
+                    }
+                });
+            });
+        });
+        // 메타몽-------------
+        var container = document.querySelector('.container');
+        var overlay = document.querySelector('.overlay');
+        container.addEventListener('mousemove', function (e) {
+            var x = e.offsetX;
+            var y = e.offsetY;
+            var rotateY = -1 / 10 * x + 20;
+            var rotateX = 4 / 60 * y - 20;
+            console.log(x, y);
+
+            overlay.style = `background-position: ${x / 10 + y / 10}%`;
+
+            container.style = `transform : perspective(350px) rotateY(${rotateY}deg) rotateX(${rotateX}deg)`;
+            container.addEventListener('mouseleave', function (e) {
+                container.style = `transform : perspective(350px) rotateY(0deg) rotateX(0deg)`;
+                overlay.style = 'filter : opacity(0)';
+            });
+        });
+        //------------------------------------
+    </script>
+
+</body>
+
+</html>
