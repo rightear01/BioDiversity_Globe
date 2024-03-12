@@ -263,6 +263,8 @@
             #searchForm button {
                 width: 90%;
                 margin-bottom: 10px;
+                white-space: nowrap;
+                /* 줄바꿈 방지 */
             }
 
             #globeContainer {
@@ -288,6 +290,8 @@
             #searchForm select,
             #searchForm input,
             #searchForm button {
+                white-space: nowrap;
+                /* 줄바꿈 방지 */
                 width: 90%;
                 margin-bottom: 10px;
             }
@@ -302,15 +306,18 @@
             }
         }
 
-        @media (max-width: 1424px) {
+        @media (max-width: 800px) {
             /* 1024px 이하의 작은 화면에 대응하는 스타일링 */
 
             #searchForm label,
             #searchForm select,
             #searchForm input,
             #searchForm button {
+                white-space: nowrap;
+                /* 줄바꿈 방지 */
                 width: 90%;
                 margin-bottom: 10px;
+                gap: 10px;
             }
 
             #globeContainer {
@@ -571,7 +578,7 @@
             border-bottom: 1px #2d2dc2;
         }
 
-        @import url('https://fonts.googleapis.com/css2?family=Black+Han+Sans&display=swap');
+
 
         #pagination button {
             -webkit-appearance: none;
@@ -609,122 +616,216 @@
             /* 테두리 색상 */
         }
 
-        .sidebar {
-            position: fixed;
-            top: 37%;
-            transform: translateY(-100%);
-            right: -250px;
-            width: 100px;
-            height: 20%;
-            background-color: #333;
-            border-top-left-radius: 10px;
-            border-bottom-left-radius: 10px;
-            font-size: 20px;
-            font-weight: 700;
-            font-family: "Black Han Sans", sans-serif;
-            transition: right 1s;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            z-index: 9999;
-        }
-
-        .sidebar-toggle {
-            position: fixed;
-            top: 17%;
-            right: 0;
-            width: 13px;
-            height: 150px;
-            cursor: pointer;
-            border-top-left-radius: 8px;
-            border-bottom-left-radius: 8px;
-            background-image: linear-gradient(to right, #f8f8f8, #c0bfbf, #999797, #c0bfbf, #f8f8f8);
-            z-index: 1;
-        }
-
-        .sidebar-toggle span {
-            display: block;
-            margin-top: 55px;
-            text-align: center;
-            color: rgb(72, 73, 73);
-        }
-
-        .sidebar.active {
-            right: 0;
-        }
-
-        #sidebar h1,
-        div {
-            margin: 0;
-            padding: 0;
-        }
-
-        #sidebar h1 {
-            text-align: center;
-            width: 85%;
-            font-size: 20px;
-            font-weight: 700;
-            color: rgb(214, 222, 230);
-            border-bottom: 1px solid #e6e6e6;
-        }
-
-        .sidebar .item {
-            background-image: linear-gradient(to right, #9e9c9c, #555353, #706f6f, #555353, #9e9c9c);
-            color: #ffffff;
-            border-radius: 10px;
-            margin-top: 15px;
-            padding: 5px 15px;
-        }
-
+        /* 하이퍼링크 스타일링*/
         .Page-Header {
             display: flex;
+            /* 가로로 나열 */
             align-items: center;
+            /* 수직 가운데 정렬 */
             justify-content: space-between;
+            /* 양쪽 여백을 최대로 설정 */
             background-color: #1c1c1e;
+            /* 배경색 설정 */
             box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+            /* 그림자 효과 */
             border-bottom: 5px #ddd solid;
+            /* 하단 테두리 추가 */
         }
 
         #Page-Title {
             text-align: left;
+            /* 텍스트 왼쪽 정렬 */
             margin-right: 20px;
+            /* 오른쪽 여백 */
             padding-left: 15px;
+            /* 왼쪽 내부 여백 */
             padding-top: 5px;
+            /* 위쪽 여백 */
             padding-bottom: 0;
+            /* 아래쪽 여백 */
             margin: 0;
+            /* 바깥 여백 제거 */
             font-size: 50px;
+            /* 글자 크기 */
             font-weight: 800;
+            /* 글자 굵기 */
             font-family: 'Black Han Sans', sans-serif;
+            /* 글꼴 설정 */
         }
 
-        #icon-container {
-            display: flex;
-            margin-top: 10px;
-            margin-bottom: 5px;
-            margin-right: 15px;
-        }
-
-        #icon-container>inine-block {
-            margin-left: 20px;
-        }
-
-        #icon-container #icon  {
-            background-color: #706f6f;
+        .wrapper_nav {
+            place-items: center;
+            /* 가운데 정렬 */
             text-align: center;
-            padding: 10px 10px;
-            width: 44px;
-            height: 44px;
-            border-radius: 20px;
+            /* 텍스트 가운데 정렬 */
+
+            height: 60px;
+            /* 높이 설정 */
+            width: 55vw;
+            /* 너비 설정 */
+            line-height: 60px;
+            /* 높이 설정 */
+            background: rgba(51, 48, 48, 0);
+            /* 배경색 설정 */
+            border-radius: 50px;
+            /* 테두리 둥글게 */
+            box-shadow: 0 5px 10 px rgba(0, 0, 0, 0.25);
+            /* 그림자 효과 */
         }
 
-        #icon-container #icon #icon-text{
-            font-size: 13px;
-            font-family: 'Black Han Sans', sans-serif;
-            font-weight: 800;
+        .wrapper_nav nav {
+            position: relative;
+            /* 상대위치 */
+            display: flex;
+            /* 가로로 나열 */
         }
 
-        #icon-container #icon img {
-            width: 70%;
+        .wrapper_nav nav label {
+            z-index: 1;
+            /* z-index를 1로 설정 */
+            flex: 1;
+            /* 1:1 비율로 설정 */
+            width: 100%;
+            /* 너비를 100%로 설정 */
+            position: relative;
+            /* 상대위치 */
+            cursor: pointer;
+            /* 커서를 손가락 모양으로 */
+
+        }
+
+        .wrapper_nav nav label a {
+            position: relative;
+            /* 상대위치 */
+            z-index: -1;
+            /*-------------- 03-12 17:48 수정 -----------*/
+            color: #fff;
+            /* 글자색을 흰색으로 설정 */
+            font-family: roboto;
+            font-size: 1.2em;
+            /* 글자 크기를 1.2em으로 설정 */
+            font-weight: 500;
+            /* 글자 두껍게 설정 */
+            text-decoration: none;
+            /* 밑줄 제거 */
+            transition: color 0.6s ease;
+            /* 0.6초 동안 글자색 변화 */
+        }
+
+
+        .wrapper_nav nav #home:checked~label.home a,
+        .wrapper_nav nav #Quiz:checked~label.Quiz a,
+        .wrapper_nav nav #Rank:checked~label.Rank a,
+        .wrapper_nav nav #about:checked~label.about a {
+            color: #000000;
+            /* 글자색을 검정색으로 설정 */
+        }
+
+        .wrapper_nav nav .tab {
+            position: absolute;
+            /* 절대위치 */
+            bottom: 0;
+            /* 아래쪽으로 0만큼 떨어진 위치 */
+            left: 0;
+            /* 왼쪽으로 0만큼 떨어진 위치 */
+            width: 25%;
+            /* 너비를 100%로 설정 */
+            height: 100%;
+            /* 높이를 3px로 설정 */
+            background: linear-gradient(45deg, red 0%, #f45e00 100%);
+            /* 45도 각도로 그라데이션 색상 설정 */
+            border-radius: 50px;
+            /* 50px만큼 둥글게 */
+            transition: 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            /* 0.5초 동안 변화 */
+        }
+
+        .wrapper_nav nav #Quiz:checked~.tab {
+            left: 25%;
+            /* 왼쪽으로 25%만큼 떨어진 위치 */
+        }
+
+        .wrapper_nav nav #Rank:checked~.tab {
+            left: 50%;
+            /* 왼쪽으로 25%만큼 떨어진 위치 */
+        }
+
+        .wrapper_nav nav #about:checked~.tab {
+            left: 75%;
+            /* 왼쪽으로 50%만큼 떨어진 위치 */
+        }
+
+        .wrapper_nav nav input {
+            display: none;
+            /* 화면에 표시하지 않음 */
+        }
+
+        /* -----------------------랭크 팝업창 스타일링  03-12 18:48 수정 ------------------------- */
+        .rank-popup-background {
+            display: none;
+            /* 기본적으로 숨김 */
+            position: fixed;
+            top: 0;
+            /* 상단 정렬 */
+            left: 0;
+            /* 왼쪽 정렬 */
+            width: 100%;
+            /* 너비를 100%로 설정 */
+            height: 100%;
+            /* 높이를 100%로 설정 */
+            background: rgba(0, 0, 0, 0.3);
+            /* 반투명 검은색 배경 */
+            align-items: center;
+            /* 가운데 정렬 */
+            justify-content: center;
+            /* 가운데 정렬 */
+            z-index: 1000;
+            /* 팝업창을 최상위로 표시 */
+        }
+
+        .rank-popup-content {
+            background: rgba(5, 0, 0, 0.7);
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+            max-width: 600px;
+            width: 90%;
+            overflow-y: auto;
+        }
+
+        .rank-popup-content h2 {
+            margin-top: 0;
+        }
+
+        .rank-popup-content ul {
+
+            list-style: none;
+            padding: 0;
+        }
+
+        .rank-popup-content ul li {
+            margin-bottom: 10px;
+            font-size: 24px;
+        }
+
+        .rank-popup-content ul li:hover {
+            background: linear-gradient(90deg, rgb(187, 248, 172), rgb(42, 235, 241));
+            /* 배경색 추가 */
+            -webkit-background-clip: text;
+            /* 웹킷 브라우저 대응 */
+            background-clip: text;
+            /* 배경을 글자에 적용 */
+            -webkit-text-fill-color: transparent;
+            /* 글자색을 투명하게 설정 */
+        }
+
+        .rank-close-popup {
+            float: right;
+            cursor: pointer;
+        }
+
+        .rank-close-popup:hover {
+            color: red;
         }
     </style>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
@@ -738,20 +839,32 @@
 <body>
     <div class="Page-Header">
         <h1 id="Page-Title">Harmony</h1>
-            <div id="icon-container">
-                <inine-block id="icon">
-                    <img src="./icon/Quiz.png" id="Quiz-icon" alt="Quiz">
-                    <div id="icon-text">Quiz</div>
-                </inine-block>
-                <inine-block id="icon">
-                    <img src="./icon/Rank.png" id="Quiz-icon" alt="Quiz">
-                    <div id="icon-text">Rank</div>
-                </inine-block>
-                <inine-block id="icon">
-                    <img src="./icon/About.png" id="Quiz-icon" alt="Quiz">
-                    <div id="icon-text">About</div>
-                </inine-block>
-            </div>
+        <div class="wrapper_nav">
+
+            <nav>
+                <input type="radio" name="nav" id="home" checked>
+                <input type="radio" name="nav" id="Quiz">
+                <input type="radio" name="nav" id="Rank">
+                <input type="radio" name="nav" id="about">
+
+                <!-- data-href 속성 추가 -->
+                <label for="home" class="home"><a>Home</a></label>
+                <label for="Quiz" class="Quiz" data-href="/quiz.html"><a href="/quiz.html">Quiz</a></label>
+                <label for="Rank" class="Rank" onclick="rank()"><a>Rank</a></label> <!-- 03-12 17:48 수정 -->
+                <label for="about" class="about" data-href="/about.html"><a href="/about.html">About</a></label>
+
+
+                <div class="tab"></div>
+            </nav>
+
+        </div>
+    </div>
+    <!-- 랭크 팝업창 구조  03-12 18:48 수정 -->
+    <div class="rank-popup-background">
+        <div class="rank-popup-content">
+            <span class="rank-close-popup">✖</span>
+            <h2>Ranking</h2>
+            <ul id="rankList"></ul>
         </div>
     </div>
 
@@ -848,12 +961,68 @@
 
 
     <script>
+        // 페이지 로드 시 실행 03-12 17:48 수정 
+        document.addEventListener('DOMContentLoaded', function () {
+            var labels = document.querySelectorAll('.wrapper_nav nav label');
+            labels.forEach(function (label) {
+                label.addEventListener('click', function (e) {
+
+                    // a 태그 내부 클릭 시 페이지 이동 방지
+                    if (e.target.tagName.toLowerCase() === 'a') {
+                        e.preventDefault();
+                    }
+                    // data-href 속성 값으로 페이지 이동
+                    var href = label.getAttribute('data-href');
+                    if (href) {
+                        setTimeout(function () {
+                            window.location.href = href;
+                        }, 500); // 1초 후에 실행
+                    }
+                });
+            });
+        });
         // 검색어 입력 후 엔터키를 누르면 검색 버튼을 클릭한 것과 동일한 동작을 하도록 설정
         document.getElementById('searchQuery').addEventListener('keypress', function (event) {
             if (event.key === 'Enter') {
                 event.preventDefault(); // 폼이 실제로 제출되는 것을 방지합니다.
                 search(); // 검색 버튼의 onclick 이벤트와 동일한 함수를 호출합니다.
             }
+        });
+        // 랭크 팝업창 열기 03-12 18:48 수정 
+        function rank() {
+            console.log('rank');
+            fetch('http://localhost:8080/api/v2/test')
+                .then(response => response.json())
+                .then(data => {
+                    console.log(data);
+                    // 데이터 처리 및 팝업 내용 채우기
+                    const rankList = document.getElementById('rankList');
+                    rankList.innerHTML = ''; // 이전 내용 초기화
+                    apiUrl = "http://localhost:8080/api/v2/species/list";
+                    // 받아온 데이터를 사용하여 리스트 아이템 생성
+                    data.slice(0, 10).forEach((item, index) => {
+                        const [animalName, searchCount] = item.split(',');
+                        const listItem = document.createElement('li');
+                        listItem.textContent = `${index + 1}. ${animalName} - ${searchCount} times`;
+                        listItem.onclick = () => { console.log('sendPost\n'); sendPostRequest(apiUrl, 'speciesName', animalName, 'none'); closePopup_country(); };
+                        rankList.appendChild(listItem);
+                    });
+
+                    // 팝업 표시
+                    document.querySelector('.rank-popup-background').style.display = 'flex';
+                })
+                .catch((error) => console.error('Error:', error));
+
+            document.querySelector('.rank-close-popup').addEventListener('click', () => {
+                document.querySelector('.rank-popup-background').style.display = 'none';
+                // "Home" 라디오 버튼을 자동으로 선택
+                document.getElementById('home').checked = true;
+            });
+        }
+
+        // 초기 로드 시 rank 함수에 이벤트 리스너를 한 번만 추가하기 위한 코드
+        document.addEventListener('DOMContentLoaded', () => {
+            document.querySelector('.Rank').addEventListener('click', rank);
         });
 
         function search() {
@@ -938,6 +1107,14 @@
                     }
                 })
                 .catch(error => {
+                    const itemPopup = document.getElementById('itemPopup');
+                    const itemList = document.getElementById('itemList');
+                    itemList.innerHTML = ''; // 기존 목록 초기화
+                    document.getElementById('pagination').style.display = 'none';
+                    itemList.innerHTML = '검색 결과가 없습니다.'; // 검색 결과가 없을 때 메시지 표시
+                    itemPopup.style.display = 'block';          // 팝업 표시
+                    return;
+                    consle.log('Error:995', error);
                     console.error('Error:', error);
                 });
         }
@@ -981,7 +1158,7 @@
         // item2 -> searchTypes                  => 전체 * 동 * 식물
         // 상세 동물 이름으로 검색
         function searchAnimal(data, item2) {
-            console.log('searchAnimal:\n', data, item2)
+            console.log('searchAnimal:\n data,item:', data, item2)
             const itemPopup = document.getElementById('itemPopup');
             const itemList = document.getElementById('itemList');
             itemList.innerHTML = ''; // 기존 목록 초기화
@@ -1035,7 +1212,7 @@
         // itemPopup dependancy => displayResultlist, searchAnimal, searchCountry
         let currentPage = 1;				// 표시할 팝업의 페이지네이션 인덱스
         const itemsPerPage = 10; 			// 페이지당 표시할 아이템 수
-
+        let currentCountry = '';			// 현재 선택된 나라 이름
         function updateList(page, data, searchTypes = '전체') {
             const itemPopup = document.getElementById('itemPopup');
             const itemList = document.getElementById('itemList');
@@ -1073,6 +1250,7 @@
                     countryElement.appendChild(countryText);
 
                     countryElement.onclick = () => {
+                        currentCountry = item.country; // 현재 선택된 나라 이름 저장 지구본에 띄울때 사용
                         console.log('2page/item.country:', apiUrl, item.country, searchTypes)
                         sendPostRequest(apiUrl, 'countryName', item.country, searchTypes);
                         closePopup_country(); // 팝업 닫기
@@ -1424,6 +1602,8 @@
             moreCountries.textContent = '나라 더보기...'; // 버튼 텍스트 원래대로 업데이트
             countryList.textContent = ''; // 국가 목록 축소
             isExpanded = false; // 상태 업데이트
+
+            matchingCountries = null// 더보기 버튼 클릭 시 상시 hover기능 활성화를 위한 변수
         }
 
         // 나라 목록 팝업창을 닫는 함수
@@ -1434,6 +1614,7 @@
             moreCountries.textContent = '나라 더보기...'; // 버튼 텍스트 원래대로 업데이트
             countryList.textContent = ''; // 국가 목록 축소
             isExpanded = false; // 상태 업데이트
+            matchingCountries = null// 더보기 버튼 클릭 시 상시 hover기능 활성화를 위한 변수
         }
 
         // Path: public/globe3.js
@@ -1443,10 +1624,10 @@
         let lastCountryCenter = null;
         //let hoverDD = null; // 마우스 오버된 나라 감지 초기값 설정
         let world = null;
-
+        let matchingCountries = null; // 더보기 버튼 클릭 시 상시 hover기능 활성화를 위한 변수
         function createGlobe() {
             fetch('//unpkg.com/globe.gl/example/datasets/ne_110m_admin_0_countries.geojson').then(res => res.json()).then(countries => {
-                let matchingCountries = null; // 더보기 버튼 클릭 시 상시 hover기능 활성화를 위한 변수
+
                 world = Globe()
                     .globeImageUrl('//unpkg.com/three-globe/example/img/earth-night.jpg')
                     .backgroundImageUrl('//unpkg.com/three-globe/example/img/night-sky.png')
@@ -1476,12 +1657,25 @@
                         setTimeout(() => {
                             showPopup(d.properties.ISO_A2);
                             console.log(countryCenter)
-                        }, 2000);
+                        }, 1000);
                     })
                     .polygonsTransitionDuration(300)
 
                     (document.getElementById('globeViz'))
 
+                document.getElementById('itemList').addEventListener('click', function () {
+
+                    if (currentCountry) {
+                        const countryFeature = world.polygonsData().find(d => d.properties.ISO_A2.toLowerCase() === currentCountry.toLowerCase());
+                        if (countryFeature === undefined) {
+                            return;
+                        }
+                        const countryCenter = d3.geoCentroid(countryFeature);
+                        world.pointOfView({ lat: countryCenter[1], lng: countryCenter[0], altitude: 2.0 }, 2000); // 지구본 카메라를 해당 나라 중심으로 이동
+                        currentCountry = null;
+                    }
+
+                });
                 // 지구본에 나라 이름을 표시하는 함수
                 document.getElementById("moreCountries").addEventListener("click", function () {
                     console.log(document.getElementById("moreCountries").textContent);
@@ -1489,8 +1683,7 @@
 
                         setTimeout(() => {
                             matchingCountries = countries.features.filter(d => countryCodes.includes(d.properties.ISO_A2));
-                            console.log('countryCodes:', matchingCountries[0].properties.ISO_A2);
-                            console.log(countries.features.filter(d => countryCodes.includes(d.properties.ISO_A2)));
+
                             world.polygonAltitude(d => matchingCountries.includes(d) ? 0.12 : 0.06);
                             world.polygonCapColor(d => matchingCountries.includes(d) ? 'steelblue' : 'rgba(255, 255, 200,0.7)');
 
@@ -1499,23 +1692,19 @@
                             world.pointOfView({ lat: countryCenter[1], lng: countryCenter[0], altitude: 2.0 }, 2000); // 지구본 카메라를 해당 나라 중심으로 이동
 
 
-                        }, 1000); // 지구본 함수가 fetch 함수보다 먼저 실행되어서 나라 코드가 초기화 되지 않는 문제를 해결하기 위해 setTimeout 함수를 사용
+                        }, 200); // 지구본 함수가 fetch 함수보다 먼저 실행되어서 나라 코드가 초기화 되지 않는 문제를 해결하기 위해 setTimeout 함수를 사용
 
 
                     }
                     else {
                         matchingCountries = countries.features.filter(d => countryCodes.includes(d.properties.ISO_A2));
-                        console.log('-----------------------------------');
-                        console.log('countryCodes:', countryCodes);
-                        console.log(countries.features.filter(d => countryCodes.includes(d.properties.ISO_A2)));
-                        console.log('-----------------------------------');
                         //표시된 나라 코드 초기화
                         world.polygonAltitude(d => matchingCountries.includes(d) ? 0.06 : 0.06);
                         world.polygonCapColor(d => matchingCountries.includes(d) ? 'rgba(255, 255, 200,0.7)' : 'rgba(255, 255, 200,0.7)');
                         setTimeout(() => {
                             countryCodes = [];
                             matchingCountries = null;
-                        }, 1000);
+                        }, 200);
                         console.log(countryCodes);
                     }
                 });
@@ -1571,13 +1760,14 @@
                 world.pointOfView({ lat: lastCountryCenter[1], lng: lastCountryCenter[0], altitude: 2.0 }, 2000);
                 setTimeout(() => {
                     console.log(lastClickedCountry.properties.ADMIN)
-                }, 2000);
+                }, 1000);
                 document.getElementById('species-by-country').style.display = 'none';
             }
             else {
                 document.getElementById('species-by-country').style.display = 'none';
             }
         }
+
 
         // Temp_____________________________________________________________________________________about-drag
         let dragObj = null;
