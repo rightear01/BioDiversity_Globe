@@ -1111,6 +1111,63 @@
             document.querySelector('.Rank').addEventListener('click', rank);
         });
 
+
+        
+        document.addEventListener('DOMContentLoaded', () => {
+            fetch('http://localhost:8080/api/v2/species', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    speciesName: "",
+                    mode: "전체"
+                })
+            })
+                .then(response => response.json())
+                .then(data => {
+                    const results = data.result;
+                    const mixResults = results.sort(() => 0.5 - Math.random());
+
+                    let selected = [];
+                    const selectedNames = new Set();
+
+                    let finalResultOfRandomPick = [];
+
+                    for (let item of mixResults) {
+                        if (selected.length >= 4) break;
+                        const koreanName = item.scientific_name_korean;
+                        if (!selectedNames.has(koreanName)) {
+                            selected.push(item);
+                            selectedNames.add(koreanName);
+                        }
+                    }
+
+                    selected.forEach(item => {
+                        fetch('http://localhost:8080/api/v2/species/list', {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json',
+                            },
+                            body: JSON.stringify({ speciesName: item.scientific_name })
+                        })
+                            .then(response => response.json())
+                            .then(data => {
+                                finalResultOfRandomPick.push(data.result[0])
+                                console.log(finalResultOfRandomPick);
+                            })
+                            .catch(error => {
+                                console.error('Error:', error);
+                            });
+                    });
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                });
+        });
+
+
+
         function search() {
             // 검색어 가져오기
             var searchTypes = document.getElementById('searchTypes').value;
