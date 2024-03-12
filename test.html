@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Popup Example</title>
+    <style>
+        /* 팝업창 스타일 */
+        .popup-window {
+            position: fixed; /* 고정 위치 */
+            bottom: 0px; /* 하단에서 20px 떨어진 위치 */
+            right: 0px; /* 우측에서 20px 떨어진 위치 */
+            width: 400px; /* 너비 400px */
+            height: 500px; /* 높이 500px */
+            background-color: white; /* 배경색 */
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5); /* 그림자 효과 */
+            border-radius: 8px; /* 모서리 둥글게 */
+            padding: 20px; /* 내부 여백 */
+            box-sizing: border-box; /* 박스 크기 결정 방식 */
+            z-index: 1000; /* z축 위치 */
+        }
+
+        /* 팝업창 제목 스타일 */
+        .popup-title {
+            margin: 0;
+            padding-bottom: 10px; /* 제목 아래 여백 */
+            border-bottom: 1px solid #eee; /* 하단 경계선 */
+            font-size: 20px; /* 글자 크기 */
+        }
+
+        /* 팝업창 내용 스타일 */
+        .popup-content {
+            margin-top: 10px; /* 내용 상단 여백 */
+        }
+    </style>
+</head>
+<body>
+
+<div class="popup-window">
+    <h2 class="popup-title">팝업 제목</h2>
+    <div class="popup-content">
+        여기에 팝업창 내용을 넣으세요.
+    </div>
+</div>
+
+</body>
+</html>

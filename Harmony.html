@@ -827,6 +827,61 @@
         .rank-close-popup:hover {
             color: red;
         }
+
+        /* 팝업창 스타일 */
+        .random-popup {
+            position: fixed;
+            bottom: 1px;
+            right: 10px;
+            width: 300px;
+            height: 400px;
+            background-color: rgb(91, 90, 90);
+            border-radius: 8px;
+            box-sizing: border-box;
+            z-index: 1;
+        }
+
+        /* 팝업창 제목 스타일 */
+        .random-header {
+            background-color: rgb(38, 38, 38);
+            border-top-left-radius: 8px;
+            border-top-right-radius: 8px;
+            height: 23px;
+        }
+
+        .random-content {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            grid-gap: 10px;
+            padding: 5px;
+        }
+
+        .grid-item {
+            background-color: #f0f0f0;
+            border-radius: 5px;
+            width: 135px;
+            height: 175px;
+        }
+
+        .grid-item .scientificName-content {
+            width: 100%;
+            height: 20px;
+            border-top: #000000 2px solid;
+            text-align: center;
+            font-size: 10px;
+            font-weight: 300;
+            color: #000000;
+        }
+
+        .grid-item .category-content {
+            width: 100%;
+            height: 20px;
+            border-top: #000000 2px solid;
+            text-align: center;
+            font-size: 10px;
+            font-weight: 300;
+            color: #000000;
+        }
     </style>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 
@@ -859,6 +914,36 @@
 
         </div>
     </div>
+
+    <!--랜덤픽 소개 팝업 03-12 추가.-->
+    <div class="random-popup">
+        <div class="random-header" id="random-header" style="text-align: right; padding-right: 7px;">&times;</div>
+        <div class="random-content">
+            <div class="random-content">
+                <div class="grid-item">
+                    <img style="width: 100%; height: 130px; object-fit: cover;" alt="동물 이미지"></img>
+                    <div class="scientificName-content"></div>
+                    <div class="category-content"></div>
+                </div>
+                <div class="grid-item">
+                    <img style="width: 100%; height: 130px; object-fit: cover;" alt="동물 이미지"></img>
+                    <div class="scientificName-content"></div>
+                    <div class="category-content"></div>
+                </div>
+                <div class="grid-item">
+                    <img style="width: 100%; height: 130px; object-fit: cover;" alt="동물 이미지"></img>
+                    <div class="scientificName-content"></div>
+                    <div class="category-content"></div>
+                </div>
+                <div class="grid-item">
+                    <img style="width: 100%; height: 130px; object-fit: cover;" alt="동물 이미지"></img>
+                    <div class="scientificName-content"></div>
+                    <div class="category-content"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <!-- 랭크 팝업창 구조  03-12 18:48 수정 -->
     <div class="rank-popup-background">
         <div class="rank-popup-content">
