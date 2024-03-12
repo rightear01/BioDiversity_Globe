@@ -754,6 +754,7 @@
             left: 75%;
             /* 왼쪽으로 50%만큼 떨어진 위치 */
         }
+
         .wrapper_nav nav input {
             display: none;
             /* 화면에 표시하지 않음 */
@@ -764,19 +765,26 @@
             display: none;
             /* 기본적으로 숨김 */
             position: fixed;
-            top: 0;     /* 상단 정렬 */
-            left: 0;       /* 왼쪽 정렬 */
-            width: 100%;        /* 너비를 100%로 설정 */
-            height: 100%;   /* 높이를 100%로 설정 */
+            top: 0;
+            /* 상단 정렬 */
+            left: 0;
+            /* 왼쪽 정렬 */
+            width: 100%;
+            /* 너비를 100%로 설정 */
+            height: 100%;
+            /* 높이를 100%로 설정 */
             background: rgba(0, 0, 0, 0.3);
             /* 반투명 검은색 배경 */
-            align-items: center;    /* 가운데 정렬 */
-            justify-content: center; /* 가운데 정렬 */
-            z-index: 1000;        /* 팝업창을 최상위로 표시 */
+            align-items: center;
+            /* 가운데 정렬 */
+            justify-content: center;
+            /* 가운데 정렬 */
+            z-index: 1000;
+            /* 팝업창을 최상위로 표시 */
         }
 
         .rank-popup-content {
-            background: rgba(5, 0, 0,0.7);
+            background: rgba(5, 0, 0, 0.7);
             padding: 20px;
             border-radius: 5px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
@@ -799,6 +807,7 @@
             margin-bottom: 10px;
             font-size: 24px;
         }
+
         .rank-popup-content ul li:hover {
             background: linear-gradient(90deg, rgb(187, 248, 172), rgb(42, 235, 241));
             /* 배경색 추가 */
@@ -814,6 +823,7 @@
             float: right;
             cursor: pointer;
         }
+
         .rank-close-popup:hover {
             color: red;
         }
@@ -988,7 +998,7 @@
                     // 데이터 처리 및 팝업 내용 채우기
                     const rankList = document.getElementById('rankList');
                     rankList.innerHTML = ''; // 이전 내용 초기화
-                    apiUrl="http://localhost:8080/api/v2/species/list";
+                    apiUrl = "http://localhost:8080/api/v2/species/list";
                     // 받아온 데이터를 사용하여 리스트 아이템 생성
                     data.slice(0, 10).forEach((item, index) => {
                         const [animalName, searchCount] = item.split(',');
@@ -1006,6 +1016,8 @@
             // 팝업 닫기 이벤트 리스너
             document.querySelector('.rank-close-popup').addEventListener('click', () => {
                 document.querySelector('.rank-popup-background').style.display = 'none';
+                // "Home" 라디오 버튼을 자동으로 선택
+                document.getElementById('home').checked = true;
             });
         }
 
