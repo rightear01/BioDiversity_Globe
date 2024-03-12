@@ -857,20 +857,21 @@
         }
 
         .grid-item {
-            background-color: #f0f0f0;
+            background-color: #363535;
+            border: #4f4e4e 2px solid;
             border-radius: 5px;
-            width: 135px;
-            height: 175px;
+            width: 131px;
+            height: 171px;
         }
 
         .grid-item .scientificName-content {
-            width: 100%;
-            height: 20px;
-            border-top: #000000 2px solid;
+            width: 131px;
             text-align: center;
-            font-size: 10px;
-            font-weight: 300;
-            color: #000000;
+            background-color: #1e1e1e;
+            font-size: 13px;
+            font-weight: 700;
+            font-family: 'Black Han Sans', sans-serif;
+            color: #ffffff;
         }
 
         .grid-item .category-content {
@@ -878,9 +879,10 @@
             height: 20px;
             border-top: #000000 2px solid;
             text-align: center;
-            font-size: 10px;
-            font-weight: 300;
-            color: #000000;
+            font-size: 13px;
+            font-family: 'Black Han Sans', sans-serif;
+            font-weight: 500;
+            color: #ffffff;
         }
     </style>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
@@ -921,22 +923,22 @@
         <div class="random-content">
             <div class="random-content">
                 <div class="grid-item">
-                    <img style="width: 100%; height: 130px; object-fit: cover;" alt="동물 이미지"></img>
+                    <img style="width: 100%; height: 130px; object-fit: fill; margin-bottom: 0;" alt="동물 이미지"></img>
                     <div class="scientificName-content"></div>
                     <div class="category-content"></div>
                 </div>
                 <div class="grid-item">
-                    <img style="width: 100%; height: 130px; object-fit: cover;" alt="동물 이미지"></img>
+                    <img style="width: 100%; height: 130px; object-fit: fill;" alt="동물 이미지"></img>
                     <div class="scientificName-content"></div>
                     <div class="category-content"></div>
                 </div>
                 <div class="grid-item">
-                    <img style="width: 100%; height: 130px; object-fit: cover;" alt="동물 이미지"></img>
+                    <img style="width: 100%; height: 130px; object-fit: fill;" alt="동물 이미지"></img>
                     <div class="scientificName-content"></div>
                     <div class="category-content"></div>
                 </div>
                 <div class="grid-item">
-                    <img style="width: 100%; height: 130px; object-fit: cover;" alt="동물 이미지"></img>
+                    <img style="width: 100%; height: 130px; object-fit: fill;" alt="동물 이미지"></img>
                     <div class="scientificName-content"></div>
                     <div class="category-content"></div>
                 </div>
@@ -1073,6 +1075,7 @@
                 search(); // 검색 버튼의 onclick 이벤트와 동일한 함수를 호출합니다.
             }
         });
+
         // 랭크 팝업창 열기 03-12 18:48 수정 
         function rank() {
             console.log('rank');
@@ -1111,8 +1114,7 @@
             document.querySelector('.Rank').addEventListener('click', rank);
         });
 
-
-        
+        // 랜덤 팝업 관련 3/13
         document.addEventListener('DOMContentLoaded', () => {
             fetch('http://localhost:8080/api/v2/species', {
                 method: 'POST',
@@ -1132,18 +1134,18 @@
                     let selected = [];
                     const selectedNames = new Set();
 
-                    let finalResultOfRandomPick = [];
-
                     for (let item of mixResults) {
                         if (selected.length >= 4) break;
+
                         const koreanName = item.scientific_name_korean;
-                        if (!selectedNames.has(koreanName)) {
+
+                        if (!selectedNames.has(koreanName) && item.img_url !== "null") {
                             selected.push(item);
                             selectedNames.add(koreanName);
                         }
                     }
 
-                    selected.forEach(item => {
+                    return Promise.all(selected.map(item =>
                         fetch('http://localhost:8080/api/v2/species/list', {
                             method: 'POST',
                             headers: {
@@ -1152,19 +1154,30 @@
                             body: JSON.stringify({ speciesName: item.scientific_name })
                         })
                             .then(response => response.json())
-                            .then(data => {
-                                finalResultOfRandomPick.push(data.result[0])
-                                console.log(finalResultOfRandomPick);
-                            })
-                            .catch(error => {
-                                console.error('Error:', error);
-                            });
+                    ));
+                })
+                .then(allData => {
+                    const finalResultOfRandomPick = allData.map(data => data.result[0]);
+
+                    const gridItems = document.querySelectorAll('.grid-item');
+                    finalResultOfRandomPick.forEach((item, index) => {
+                        if (!gridItems[index]) return;
+                        const imgElement = gridItems[index].querySelector('img');
+                        const scientificNameElement = gridItems[index].querySelector('.scientificName-content');
+                        const categoryElement = gridItems[index].querySelector('.category-content');
+
+                        imgElement.src = item.img_url.split(',')[0];
+                        imgElement.alt = item.scientific_name_korean;
+
+                        scientificNameElement.textContent = item.scientific_name_korean;
+                        categoryElement.textContent = item.category;
                     });
                 })
                 .catch(error => {
                     console.error('Error:', error);
                 });
         });
+
 
 
 
