@@ -832,7 +832,7 @@
         .random-popup {
             position: fixed;
             bottom: 1px;
-            right: 10px;
+            right: 20px;
             width: 300px;
             height: 400px;
             background-color: rgb(91, 90, 90);
@@ -896,7 +896,6 @@
             margin-bottom: 0;
             object-fit: fill;
         }
-
     </style>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 
@@ -1095,14 +1094,14 @@
         // 랭크 팝업창 열기 03-12 18:48 수정 
         function rank() {
             console.log('rank');
-            fetch('http://localhost:8080/api/v2/test')
+            fetch('http://localhost:8080/api/v3/test')
                 .then(response => response.json())
                 .then(data => {
                     console.log(data);
                     // 데이터 처리 및 팝업 내용 채우기
                     const rankList = document.getElementById('rankList');
                     rankList.innerHTML = ''; // 이전 내용 초기화
-                    apiUrl = "http://localhost:8080/api/v2/species/list";
+                    apiUrl = "http://localhost:8080/api/v3/species/list";
                     // 받아온 데이터를 사용하여 리스트 아이템 생성
                     data.slice(0, 10).forEach((item, index) => {
                         const [animalName, searchCount] = item.split(',');
@@ -1131,13 +1130,13 @@
         });
 
         // 랜덤 팝업 관련 3/13
-        function closeRandomPopup(){
+        function closeRandomPopup() {
             const popup = document.getElementById('random-popup');
             popup.style.display = 'none';
         }
 
         function displayRandomSpecies() {
-            fetch('http://localhost:8080/api/v2/species', {
+            fetch('http://localhost:8080/api/v3/species', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -1150,7 +1149,8 @@
                 .then(response => response.json())
                 .then(data => {
                     const results = data.result;
-                    const mixResults = results.sort(() => 0.5 - Math.random());
+
+                    const mixResults = fisherYatesShuffle(results);
 
                     let selected = [];
                     const selectedNames = new Set();
@@ -1167,7 +1167,7 @@
                     }
 
                     return Promise.all(selected.map(item =>
-                        fetch('http://localhost:8080/api/v2/species/list', {
+                        fetch('http://localhost:8080/api/v3/species/list', {
                             method: 'POST',
                             headers: {
                                 'Content-Type': 'application/json',
@@ -1205,6 +1205,18 @@
                 .catch(error => {
                     console.error('Error:', error);
                 });
+        }
+        
+        // 배열 셔플 알고리즘
+        function fisherYatesShuffle(arr) {
+            let i, j, temp;
+            for (i = arr.length - 1; i > 0; i--) {
+                j = Math.floor(Math.random() * (i + 1));    // 0과 i 사이의 무작위 인덱스
+                temp = arr[i];                              // 현재 요소를 임시 변수에 저장
+                arr[i] = arr[j];                            // 무작위 인덱스의 요소를 현재 위치로 이동
+                arr[j] = temp;                              // 임시 변수에 저장된 현재 요소를 무작위 인덱스로 이동
+            }
+            return arr;
         }
 
         document.addEventListener('DOMContentLoaded', () => {
@@ -1250,7 +1262,7 @@
             // 백엔드 API 엔드포인트
             var apiUrl = '';
             // 국가 이름으로 검색 http://localhost:8080/api/v2/country
-            apiUrl = 'http://localhost:8080/api/v2/country';
+            apiUrl = 'http://localhost:8080/api/v3/country';
             // POST 요청 보내기
             fetchmethod(apiUrl, 'countryName', searchQuery, searchTypes);
         }
@@ -1260,7 +1272,7 @@
             // 백엔드 API 엔드포인트
             var apiUrl = '';
             // 동물 이름으로 검색  http://localhost:8080/api/species/speciesnameall
-            apiUrl = 'http://localhost:8080/api/v2/species';
+            apiUrl = 'http://localhost:8080/api/v3/species';
             // POST 요청 보내기
             fetchmethod(apiUrl, 'speciesName', searchQuery, searchTypes);
         }
@@ -1414,7 +1426,7 @@
             if (data[0].hasOwnProperty('country') && data[0].hasOwnProperty('flag_img')) {
                 // 백엔드 API 엔드포인트
                 console.log('searchCountry\n', data)
-                var apiUrl = 'http://localhost:8080/api/v2/country/list';
+                var apiUrl = 'http://localhost:8080/api/v3/country/list';
                 data.slice(startIndex, endIndex).forEach((item) => {
                     const countryElement = document.createElement('div');   // 블럭 요소로 추가
                     countryElement.classList.add('country-item');           // CSS 클래스 추가
@@ -1486,7 +1498,7 @@
             else {
                 console.log('searchAnimal\n', data, searchTypes)
                 // 국가 이름으로 검색 http://localhost:8080/api/species/speciesname
-                apiUrl = 'http://localhost:8080/api/v2/species/list';
+                apiUrl = 'http://localhost:8080/api/v3/species/list';
                 data.slice(startIndex, endIndex).forEach(item => {
                     const imageUrls = item.img_url.split(',').filter(url => url.trim() !== '');
                     const animalElement = document.createElement('div');
@@ -1673,7 +1685,7 @@
             // "나라 더보기..." 클릭 이벤트 추가
             let isExpanded = false; // 더보기 상태를 추적하는 변수 초기화
             moreCountries.addEventListener('click', function () {
-                var apiUrl = 'http://localhost:8080/api/v2/species/country';
+                var apiUrl = 'http://localhost:8080/api/v3/species/country';
                 // POST 요청 보내기
 
                 fetch(apiUrl, {
@@ -1938,7 +1950,7 @@
             var popupText = document.getElementById('popupText');
             popupText.textContent = `Selected Country: ${countryName}`;
             // 팝업창을 표시 
-            apiUrl = 'http://localhost:8080/api/v2/country/list';
+            apiUrl = 'http://localhost:8080/api/v3/country/list';
             sendPostRequest(apiUrl, 'countryName', countryName, '전체'); closePopup_globe();
             //document.getElementById('species-by-country').style.display = 'block';
         }
