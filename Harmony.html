@@ -865,6 +865,7 @@
 
         .grid-item .scientificName-content {
             width: 131px;
+            max-height: 17px;
             text-align: center;
             background-color: #1e1e1e;
             font-size: 13px;
@@ -883,6 +884,19 @@
             font-weight: 500;
             color: #ffffff;
         }
+
+        .random-header {
+            text-align: right;
+            padding-right: 7px;
+        }
+
+        .grid-item img {
+            width: 100%;
+            height: 130px;
+            margin-bottom: 0;
+            object-fit: fill;
+        }
+
     </style>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 
@@ -893,6 +907,38 @@
 </head>
 
 <body>
+
+    <!--랜덤픽 소개 팝업 03-12 추가.-->
+    <div class="random-popup" id="random-popup">
+        <div class="random-header">
+            <span id="close-random-popup" style="cursor: pointer;" onclick="closeRandomPopup()">&times;</span>
+        </div>
+        <div class="random-content">
+            <div class="random-content">
+                <div class="grid-item">
+                    <img alt="동물 이미지"></img>
+                    <div class="scientificName-content"></div>
+                    <div class="category-content"></div>
+                </div>
+                <div class="grid-item">
+                    <img alt="동물 이미지"></img>
+                    <div class="scientificName-content"></div>
+                    <div class="category-content"></div>
+                </div>
+                <div class="grid-item">
+                    <img alt="동물 이미지"></img>
+                    <div class="scientificName-content"></div>
+                    <div class="category-content"></div>
+                </div>
+                <div class="grid-item">
+                    <img alt="동물 이미지"></img>
+                    <div class="scientificName-content"></div>
+                    <div class="category-content"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <div class="Page-Header">
         <h1 id="Page-Title">Harmony</h1>
         <div class="wrapper_nav">
@@ -913,35 +959,6 @@
                 <div class="tab"></div>
             </nav>
 
-        </div>
-    </div>
-
-    <!--랜덤픽 소개 팝업 03-12 추가.-->
-    <div class="random-popup">
-        <div class="random-header" id="random-header" style="text-align: right; padding-right: 7px;">&times;</div>
-        <div class="random-content">
-            <div class="random-content">
-                <div class="grid-item">
-                    <img style="width: 100%; height: 130px; object-fit: fill; margin-bottom: 0;" alt="동물 이미지"></img>
-                    <div class="scientificName-content"></div>
-                    <div class="category-content"></div>
-                </div>
-                <div class="grid-item">
-                    <img style="width: 100%; height: 130px; object-fit: fill;" alt="동물 이미지"></img>
-                    <div class="scientificName-content"></div>
-                    <div class="category-content"></div>
-                </div>
-                <div class="grid-item">
-                    <img style="width: 100%; height: 130px; object-fit: fill;" alt="동물 이미지"></img>
-                    <div class="scientificName-content"></div>
-                    <div class="category-content"></div>
-                </div>
-                <div class="grid-item">
-                    <img style="width: 100%; height: 130px; object-fit: fill;" alt="동물 이미지"></img>
-                    <div class="scientificName-content"></div>
-                    <div class="category-content"></div>
-                </div>
-            </div>
         </div>
     </div>
 
@@ -1114,7 +1131,12 @@
         });
 
         // 랜덤 팝업 관련 3/13
-        document.addEventListener('DOMContentLoaded', () => {
+        function closeRandomPopup(){
+            const popup = document.getElementById('random-popup');
+            popup.style.display = 'none';
+        }
+
+        function displayRandomSpecies() {
             fetch('http://localhost:8080/api/v2/species', {
                 method: 'POST',
                 headers: {
@@ -1138,7 +1160,7 @@
 
                         const koreanName = item.scientific_name_korean;
 
-                        if (!selectedNames.has(koreanName) && item.img_url !== "null") {
+                        if (!selectedNames.has(koreanName) && item.img_url !== 'null') {
                             selected.push(item);
                             selectedNames.add(koreanName);
                         }
@@ -1156,7 +1178,6 @@
                     ));
                 })
                 .then(allData => {
-                    console.log(allData);
                     const finalResultOfRandomPick = allData.map(data => data.result[0]);
                     const gridItems = document.querySelectorAll('.grid-item');
 
@@ -1166,7 +1187,6 @@
                         const scientificNameElement = gridItems[index].querySelector('.scientificName-content');
                         const categoryElement = gridItems[index].querySelector('.category-content');
                         const imageUrls = item.img_url ? item.img_url.split(',').filter(url => url.trim() !== '') : [];
-
                         gridItems[index].addEventListener('click', () => {
                             const itemData = {
                                 ...item,
@@ -1174,7 +1194,7 @@
                             };
                             displayResult(itemData);
                         })
-                        
+
                         imgElement.src = item.img_url.split(',')[0];
                         imgElement.alt = item.scientific_name_korean;
 
@@ -1185,10 +1205,12 @@
                 .catch(error => {
                     console.error('Error:', error);
                 });
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            displayRandomSpecies();
+            setInterval(displayRandomSpecies, 20000);
         });
-
-
-
 
         function search() {
             // 검색어 가져오기
