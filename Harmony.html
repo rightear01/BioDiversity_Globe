@@ -1166,13 +1166,15 @@
                         const scientificNameElement = gridItems[index].querySelector('.scientificName-content');
                         const categoryElement = gridItems[index].querySelector('.category-content');
                         const imageUrls = item.img_url ? item.img_url.split(',').filter(url => url.trim() !== '') : [];
+
                         gridItems[index].addEventListener('click', () => {
                             const itemData = {
-                                ...item,        // 나라이름 , 동물이름, 동물이름(한글), 설명, 멸종위기단계      
-                                imageUrls,      // 이미지 URL 목록
+                                ...item,
+                                imageUrls,
                             };
-                            displayResult(itemData); //상세 팝업으로 표시하는 함수
+                            displayResult(itemData);
                         })
+                        
                         imgElement.src = item.img_url.split(',')[0];
                         imgElement.alt = item.scientific_name_korean;
 
