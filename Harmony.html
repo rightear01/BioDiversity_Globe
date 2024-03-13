@@ -827,6 +827,7 @@
         .rank-close-popup:hover {
             color: red;
         }
+
         /*------------------------------------랜덤 픽 팝업창---------------------------------------*/
         .random-popup {
             position: fixed;
@@ -1155,15 +1156,23 @@
                     ));
                 })
                 .then(allData => {
+                    console.log(allData);
                     const finalResultOfRandomPick = allData.map(data => data.result[0]);
-
                     const gridItems = document.querySelectorAll('.grid-item');
+
                     finalResultOfRandomPick.forEach((item, index) => {
                         if (!gridItems[index]) return;
                         const imgElement = gridItems[index].querySelector('img');
                         const scientificNameElement = gridItems[index].querySelector('.scientificName-content');
                         const categoryElement = gridItems[index].querySelector('.category-content');
-
+                        const imageUrls = item.img_url ? item.img_url.split(',').filter(url => url.trim() !== '') : [];
+                        gridItems[index].addEventListener('click', () => {
+                            const itemData = {
+                                ...item,        // 나라이름 , 동물이름, 동물이름(한글), 설명, 멸종위기단계      
+                                imageUrls,      // 이미지 URL 목록
+                            };
+                            displayResult(itemData); //상세 팝업으로 표시하는 함수
+                        })
                         imgElement.src = item.img_url.split(',')[0];
                         imgElement.alt = item.scientific_name_korean;
 
@@ -1567,6 +1576,7 @@
         // 동물이름으로 검색 시 결과를 상세 팝업으로 표시하는 함수
         function displayResultlistanimal(data) {
             // 데이터를 가공하여 필요한 정보를 추출하고 DOM에 추가
+            console.log('result Animal:\n', data)
             data.result.forEach((item, index) => {
                 if (index < 20) {
                     const imageUrls = item.img_url.split(',').filter(url => url.trim() !== '');
@@ -1583,6 +1593,7 @@
 
         // 선택한 결과를 팝업으로 표시하는 함수
         function displayResult(itemData) {
+            console.log('displayRe:\n', itemData) // specieslist의 호출 결과가 넘어옴.
             searchResultsDatas = itemData;
             searchResultsData = itemData.imageUrls;
             showImage(0); // 첫 번째 이미지와 정보 표시
