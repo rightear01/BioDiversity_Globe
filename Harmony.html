@@ -11,6 +11,9 @@
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap');
         @import url('https://fonts.googleapis.com/css2?family=Angkor&family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100..900&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Rammetto+One&family=Tourney:ital,wght@0,100..900;1,100..900&display=swap');
+
         /* 기본 글꼴과 배경 설정 */
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -334,7 +337,8 @@
 
         .popup-content img {
             width: 100%;
-            height: auto;
+            max-height: 50vh;
+            object-fit: fill;
             display: block;
 
             background: linear-gradient(90deg, rgba(0, 0, 0, 1), rgba(0, 0, 0, 1));
@@ -352,7 +356,7 @@
         .popup-footer {
             background-color: #f8f8f8;
             /* 배경색 */
-            padding: 15px;
+            padding: 20px;
             /* 내부 여백 */
             text-align: left;
             /* 텍스트 정렬 */
@@ -387,11 +391,6 @@
         .info-content {
             margin-top: 10px;
             /* 위쪽 여백 */
-        }
-
-        .info-content div {
-            margin-bottom: 5px;
-            /* 아래쪽 여백 */
         }
 
         .info-content strong {
@@ -835,8 +834,8 @@
             position: fixed;
             bottom: 1px;
             right: 20px;
-            width: 300px;
-            height: 400px;
+            width: 400px;
+            height: 450px;
             background-color: rgb(91, 90, 90);
             border-radius: 8px;
             box-sizing: border-box;
@@ -860,17 +859,18 @@
             display: none;
             bottom: 1px;
             right: 20px;
-            width: 300px;
-            height: 40px;
+            width: 400px;
+            height: 30px;
             background-color: rgb(38, 38, 38);
-            border-top-left-radius: 8px;
-            border-top-right-radius: 8px;
-            padding-top: 10px;
-            font-size: 25px;
+            border-top-left-radius: 7px;
+            border-top-right-radius: 7px;
+            padding-top: 0;
+            font-size: 20px;
             font-weight: 600;
             font-family: "Angkor", sans-serif;
             text-align: center;
             cursor: pointer;
+            z-index: 2;
         }
 
         .random-content {
@@ -884,16 +884,17 @@
             background-color: #363535;
             border: #4f4e4e 2px solid;
             border-radius: 5px;
-            width: 131px;
-            height: 171px;
+            width: 180px;
+            height: 190px;
         }
 
         .grid-item .scientificName-content {
-            width: 131px;
+            width: 180px;
+            overflow-y: hidden;
             max-height: 17px;
             text-align: center;
             background-color: #1e1e1e;
-            font-size: 13px;
+            font-size: 15px;
             font-weight: 700;
             font-family: sans-serif;
             color: #ffffff;
@@ -917,11 +918,11 @@
 
         .grid-item img {
             width: 100%;
-            height: 130px;
+            height: 150px;
             margin-bottom: 0;
             object-fit: fill;
         }
-       
+
         .home,
         .Quiz,
         .Rank,
@@ -931,6 +932,76 @@
             font-weight: 900;
         }
 
+        .categoryWrapper {
+            position: absolute;
+            bottom: 14px;
+            left: 0;
+            display: flex;
+            flex-direction: row;
+            height: 90px;
+            width: 300px;
+            margin: 0 auto;
+            align-items: flex-start;
+            opacity: 0.75;
+            z-index: 30;
+        }
+
+        .category-des {
+            display: flex;
+            height: 50px;
+            width: 200px;
+            flex-direction: column;
+            text-align: center;
+            font-size: 40px;
+            color: #dddddd;
+            font-weight: 300;
+            font-family: "Rammetto One", Tahoma, sans-serif;
+            text-shadow: 5px 5px rgb(48, 47, 47);
+            justify-content: flex-start;
+        }
+
+        .category-des .description {
+            text-align: center;
+            margin-top: 0;
+            font-size: 13px;
+            font-family: "Noto Sans KR", sans-serif !important;
+            text-shadow: none;
+            font-weight: 700;
+            height: 50px;
+            width: 200px;
+        }
+
+        .battery-container {
+            display: flex;
+            margin: 0 auto;
+            margin-top: 5px;
+            width: 55px;
+            height: 75px;
+            flex-direction: column;
+            justify-content: flex-end;
+            background-image: linear-gradient(to right, #fff, #ffffffb7, #fff);
+            box-shadow: 6px 8px 5px rgba(22, 22, 22, 0.6);
+            border: 2px solid #ada8a8;
+            padding: 2px;
+        }
+
+        .battery-level {
+            width: 100%;
+            bottom: 0;
+            margin-bottom: 1px;
+            transition: height 2s ease-in-out;
+        }
+
+        .text {
+            position: absolute;
+            padding-left: 8px;
+            padding-bottom: 1px;
+            font-size: 20px;
+            font-weight: 800;
+            margin: 0 auto;
+            font-family: 'Arial, sans-serif, Helvetica';
+            text-shadow: -1px 0 rgb(5, 5, 5), 0 1px rgb(5, 5, 5), 1px 0 rgb(5, 5, 5), 0 -1px rgb(5, 5, 5);
+        }
     </style>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 
@@ -1067,8 +1138,12 @@
             <button id="nextBtn" class="arrow-btn right" onclick="showNextImage()">&#10095;</button>
         </div>
         <!-- 팝업 콘텐츠 -->
-        <div class="popup-content">
+        <div class="popup-content" style="position: relative;">
             <img id="popupImg" src="" alt="동물 이미지">
+            <div class="categoryWrapper">
+                <div class="battery-container"></div>
+                <div class="category-des"></div>
+            </div>
         </div>
         <!-- 팝업 푸터 -->
         <div id="popupInfo" class="popup-footer">
@@ -1079,11 +1154,13 @@
             <div id="countryList"></div>
             <div id="moreCountries">나라 더보기...</div>
 
+
+
             <div class="info-content">
                 <span class="country-name-kr" id="countryNameKr"></span>
                 <div id="scientificName"></div>
+                
                 <div id="definition"></div>
-                <div id="category"></div>
             </div>
         </div>
         <!-- 닫기 버튼 -->
@@ -1102,6 +1179,222 @@
 
 
     <script>
+        function setBatteryLevel(category) {
+            const batteryContainer = document.querySelector('.battery-container');
+            const categoryDes = document.querySelector('.category-des');
+            batteryContainer.innerHTML = ' ';
+            categoryDes.innerHTML = ' ';
+
+            const batteryLevel = document.createElement('div');
+            batteryLevel.classList.add('battery-level');
+            batteryLevel.style.height = '100%';
+            batteryContainer.appendChild(batteryLevel);
+
+            const capacity = document.createElement('div');
+            capacity.classList.add('capacity');
+            capacity.textContent = "개체 안전도 비율";
+            capacity.style.position = 'absolute';
+            capacity.style.fontFamily = 'Noto Sans KR, sans-serif';
+            capacity.style.left = '108px';
+            capacity.style.fontSize = '13px';
+            capacity.style.fontWeight = '700';
+            capacity.style.bottom = '1px';
+            batteryContainer.appendChild(capacity);
+
+            if (category === 'NE') {
+                batteryLevel.style.backgroundImage = "linear-gradient(to right, rgb(33, 130, 33),rgb(4, 255, 4), rgb(33, 130, 33))";
+                setTimeout(() => {
+                    batteryLevel.style.height = `0%`;
+                    categoryDes.textContent = `" ${category} "`;
+                    const description = document.createElement('div');
+                    description.classList.add('description');
+                    description.innerHTML = '아직 평가를<br>실시하지 않음';
+                    categoryDes.appendChild(description);
+
+                    setTimeout(() => {
+                        document.querySelectorAll('.text').forEach(function (element) {
+                            element.remove();
+                        });
+                        const Text = document.createElement('div');
+                        Text.classList.add('text');
+                        Text.innerHTML = 'None';
+                        batteryContainer.appendChild(Text);
+                    }, 2400)
+                }, 100)
+            } else if (category === 'DD') {
+                batteryLevel.style.backgroundImage = "linear-gradient(to right, rgb(30, 160, 30),rgb(3, 255, 3), rgb(30, 160, 30))";
+                setTimeout(() => {
+                    batteryLevel.style.height = `100%`;
+                    categoryDes.textContent = `" ${category} "`;
+                    const description = document.createElement('div');
+                    description.classList.add('description');
+                    description.innerHTML = '위험 평가<br>기준이 낮음';
+                    categoryDes.appendChild(description);
+                    setTimeout(() => {
+                        document.querySelectorAll('.text').forEach(function (element) {
+                            element.remove();
+                        });
+                        const Text = document.createElement('div');
+                        Text.classList.add('text');
+                        Text.innerHTML = '100%'
+                        batteryContainer.appendChild(Text);
+                    }, 2400)
+                }, 100)
+            } else if (category === 'LC') {
+                batteryLevel.style.backgroundImage = "linear-gradient(to right, rgb(45, 176, 45),rgb(2, 255, 2), rgb(45, 176, 45))";
+                setTimeout(() => {
+                    batteryLevel.style.height = `90%`;
+                    categoryDes.textContent = `" ${category} "`;
+                    const description = document.createElement('div');
+                    description.classList.add('description');
+                    description.innerHTML = '개체 수가 많아 위험 범주에<br>도달하지 않음';
+                    categoryDes.appendChild(description);
+                    setTimeout(() => {
+                        document.querySelectorAll('.text').forEach(function (element) {
+                            element.remove();
+                        });
+                        const Text = document.createElement('div');
+                        Text.classList.add('text');
+                        Text.innerHTML = '90%';
+                        batteryContainer.appendChild(Text);
+                    }, 2400)
+                }, 100)
+            } else if (category === 'NT') {
+                batteryLevel.style.backgroundImage = "linear-gradient(to right, rgb(70, 170, 55),rgb(1, 255, 1), rgb(70, 170, 55))";
+                setTimeout(() => {
+                    batteryLevel.style.height = `70%`;
+                    categoryDes.textContent = `" ${category} "`;
+                    const description = document.createElement('div');
+                    description.classList.add('description');
+                    description.innerHTML = '가까운 장래에 야생에서<br>멸종 위기 가능성이 높음';
+                    categoryDes.appendChild(description);
+                    setTimeout(() => {
+                        document.querySelectorAll('.text').forEach(function (element) {
+                            element.remove();
+                        });
+                        const Text = document.createElement('div');
+                        Text.classList.add('text');
+                        Text.innerHTML = '60%';
+                        batteryContainer.appendChild(Text);
+                    }, 2400)
+                }, 100)
+            } else if (category === 'VU') {
+                batteryLevel.style.backgroundImage = "linear-gradient(to right, rgb(220, 190, 40),rgb(248, 255, 45), rgb(220, 190, 40))";
+                setTimeout(() => {
+                    batteryLevel.style.height = `50%`;
+                    categoryDes.textContent = `" ${category} "`;
+                    const description = document.createElement('div');
+                    description.classList.add('description');
+                    description.innerHTML = '야생에서 멸종 위기에<br>처할 가능성이 높음';
+                    categoryDes.appendChild(description);
+                    setTimeout(() => {
+                        document.querySelectorAll('.text').forEach(function (element) {
+                            element.remove();
+                        });
+                        const Text = document.createElement('div');
+                        Text.classList.add('text');
+                        Text.innerHTML = '40%';
+                        batteryContainer.appendChild(Text);
+                    }, 2400)
+                }, 100)
+            } else if (category === 'EN') {
+                batteryLevel.style.backgroundImage = "linear-gradient(to right, rgb(180, 170, 50),rgb(255, 240, 29), rgb(180, 170, 50))";
+                setTimeout(() => {
+                    batteryLevel.style.height = `40%`;
+                    categoryDes.textContent = `" ${category} "`;
+                    const description = document.createElement('div');
+                    description.classList.add('description');
+                    description.innerHTML = '야생에서 멸종할<br>가능성이 높음';
+                    categoryDes.appendChild(description);
+                    setTimeout(() => {
+                        document.querySelectorAll('.text').forEach(function (element) {
+                            element.remove();
+                        });
+                        const Text = document.createElement('div');
+                        Text.classList.add('text');
+                        Text.innerHTML = '30%';
+                        batteryContainer.appendChild(Text);
+                    }, 2400)
+                }, 100)
+            } else if (category === 'CR') {
+                batteryLevel.style.backgroundImage = "linear-gradient(to right, rgb(183, 155, 45),rgb(255, 221, 53), rgb(183, 155, 45))";
+                setTimeout(() => {
+                    batteryLevel.style.height = `30%`;
+                    categoryDes.textContent = `" ${category} "`;
+                    const description = document.createElement('div');
+                    description.classList.add('description');
+                    description.innerHTML = '야생에서 멸종할<br>가능성이 매우 높음';
+                    categoryDes.appendChild(description);
+                    setTimeout(() => {
+                        document.querySelectorAll('.text').forEach(function (element) {
+                            element.remove();
+                        });
+                        const Text = document.createElement('div');
+                        Text.classList.add('text');
+                        Text.innerHTML = '20%';
+                        batteryContainer.appendChild(Text);
+                    }, 2400)
+                }, 100)
+            } else if (category === 'EW') {
+                batteryLevel.style.backgroundImage = "linear-gradient(to right, rgb(170, 30, 30),rgb(255, 45, 45) ,rgb(170, 30, 30))";
+                setTimeout(() => {
+                    batteryLevel.style.height = `20%`;
+                    categoryDes.textContent = `" ${category} "`;
+                    const description = document.createElement('div');
+                    description.classList.add('description');
+                    description.innerHTML = '야생에서는 멸종,<br>보호시설에서 인위적 생존';
+                    categoryDes.appendChild(description);
+                    setTimeout(() => {
+                        document.querySelectorAll('.text').forEach(function (element) {
+                            element.remove();
+                        });
+                        const Text = document.createElement('div');
+                        Text.classList.add('text');
+                        Text.innerHTML = '10%';
+                        batteryContainer.appendChild(Text);
+                    }, 2400)
+                }, 100)
+            } else if (category === 'EX') {
+                batteryLevel.style.backgroundImage = "linear-gradient(to right, rgb(186, 34, 34),rgb(255, 50, 50), rgb(186, 34, 34))";
+                setTimeout(() => {
+                    batteryLevel.style.height = `10%`;
+                    categoryDes.textContent = `" ${category} "`;
+                    const description = document.createElement('div');
+                    description.classList.add('description');
+                    description.innerHTML = '완전 멸종';
+                    categoryDes.appendChild(description);
+                    setTimeout(() => {
+                        document.querySelectorAll('.text').forEach(function (element) {
+                            element.remove();
+                        });
+                        const Text = document.createElement('div');
+                        Text.classList.add('text');
+                        Text.innerHTML = '0%';
+                        batteryContainer.appendChild(Text);
+                    }, 2400)
+                }, 100)
+            } else {
+                batteryLevel.style.backgroundImage = "linear-gradient(to right, rgb(200, 31, 31), rgb(255, 60, 55), rgb(200, 31, 31))";
+                setTimeout(() => {
+                    batteryLevel.style.height = `7%`;
+                    categoryDes.textContent = `" ${category} "`;
+                    const description = document.createElement('div');
+                    description.classList.add('description');
+                    description.innerHTML = 'Error..';
+                    categoryDes.appendChild(description);
+                    setTimeout(() => {
+                        document.querySelectorAll('.text').forEach(function (element) {
+                            element.remove();
+                        });
+                        const Text = document.createElement('div');
+                        Text.classList.add('text');
+                        Text.innerHTML = 'Err..';
+                        batteryContainer.appendChild(Text);
+                    }, 2400)
+                }, 100)
+            }
+        }
+
         // 페이지 로드 시 실행 03-12 17:48 수정 
         document.addEventListener('DOMContentLoaded', function () {
             var labels = document.querySelectorAll('.wrapper_nav nav label');
@@ -1256,12 +1549,28 @@
                         imgElement.alt = item.scientific_name_korean;
 
                         scientificNameElement.textContent = item.scientific_name_korean;
-                        categoryElement.textContent = item.category;
+                        categoryElement.textContent = switch_case(item);
                     });
                 })
                 .catch(error => {
                     console.error('Error:', error);
                 });
+        }
+
+        // 3/14 등급 한글화
+        function switch_case(item) {
+            switch (item.category) {
+                case "NE": return "미평가(NE)";
+                case "DD": return "정보부족(DD)";
+                case "LC": return "관심대상(LC)";
+                case "NT": return "준위협(NT)";
+                case "VU": return "취약(VU)";
+                case "EN": return "위기(EN)";
+                case "CR": return "위급(CR)";
+                case "EW": return "야생절멸(EW)";
+                case "EX": return "절멸(EX)";
+                default: return "Error: Unknown";
+            }
         }
 
         // 배열 셔플 알고리즘
@@ -1522,7 +1831,7 @@
                 data.slice(startIndex, endIndex).forEach((item, index) => {
                     const imageUrls = item.img_url ? item.img_url.split(',').filter(url => url.trim() !== '') : [];
                     const countryElement = document.createElement('div');
-                    countryElement.textContent = `${item.country} (${item.scientific_name}) (${item.scientific_name_korean}) ${item.category}`;
+                    countryElement.textContent = `${item.country} (${item.scientific_name}) (${item.scientific_name_korean}) ${switch_case(item)}`;
                     countryElement.addEventListener('mouseenter', () => {
                         console.log(imageUrls[0]);
                         const imagePreviewContainer = document.getElementById('imagePreviewContainer');
@@ -1732,6 +2041,7 @@
                 waveLoader.style.display = 'none'; // 이미지 로드 실패 시 로딩 효과 숨김
                 imgElement.alt = '이미지를 불러올 수 없습니다.(none)'; // 대체 텍스트 설정
                 imgElement.style.opacity = 1;      // 이미지를 표시
+                imgElement.style.maxHeight = '20vh';
                 popupContent.style.display = 'block'; // 정보 표시
             };
 
@@ -1740,7 +2050,7 @@
             document.getElementById('countryNameKr').textContent = searchResultsDatas.country_korean;
             document.getElementById('scientificName').textContent = `${searchResultsDatas.scientific_name} (${searchResultsDatas.scientific_name_korean})`;
             document.getElementById('definition').textContent = searchResultsDatas.definition;
-            document.getElementById('category').textContent = searchResultsDatas.category;
+            setBatteryLevel(searchResultsDatas.category);
 
             // "나라 더보기..." 클릭 이벤트 추가
             let isExpanded = false; // 더보기 상태를 추적하는 변수 초기화
@@ -1788,6 +2098,7 @@
             updateButtonStates(); // 버튼 상태 업데이트
             document.getElementById('popup').style.display = 'block'; // 팝업 표시
         }
+
         // 나라 코드 목록을 추적하는 전역 변수 - 지구본에  표시하기 위해
         let countryCodes = [];
         function iscodelist(countryNames) {
@@ -1996,8 +2307,6 @@
             });
         }
 
-
-
         //렌더링 크기 조정
         function a() {
             const globeContainer = document.getElementById('globeContainer');
@@ -2028,7 +2337,6 @@
                 document.getElementById('species-by-country').style.display = 'none';
             }
         }
-
 
         // Temp_____________________________________________________________________________________about-drag
         let dragObj = null;
