@@ -13,6 +13,7 @@
         @import url('https://fonts.googleapis.com/css2?family=Angkor&family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap');
         @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100..900&display=swap');
         @import url('https://fonts.googleapis.com/css2?family=Rammetto+One&family=Tourney:ital,wght@0,100..900;1,100..900&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Black+Han+Sans&display=swap');
 
         /* 기본 글꼴과 배경 설정 */
         body {
@@ -88,9 +89,16 @@
 
         /* 지구본 컨테이너 스타일링 */
         #globeContainer {
+
             width: 100%;
-            height: 750px;
+            height: 1100px;
             margin: 20px 0;
+        }
+
+        .globeViz {
+            left: 300px;
+            width: 40%;
+            height: 100%;
         }
 
         /*지구본  팝업창 스타일링 */
@@ -119,100 +127,64 @@
             cursor: pointer;
         }
 
-        @keyframes spin {
-            0% {
-                transform: rotate(0deg);
-            }
-
-            100% {
-                transform: rotate(360deg);
-            }
-        }
-
-
 
         /* 나라 팝업창 스타일링 */
         .popup-item {
             display: none;
-            /* 팝업창 숨김 */
             position: fixed;
-            /* 고정 위치 */
-            z-index: 1;
-            /* 팝업창을 최상위로 표시 */
-            left: 0;
-            /* 왼쪽 정렬 */
+            z-index: 1000;
+            left: 10;
             top: 0;
-            /* 상단 정렬 */
             width: 100%;
-            /* 너비 설정 */
             height: 100%;
-            /* 높이 설정 */
-            /* overflow: auto;
-            /* 스크롤바 표시 */
             background-color: rgba(0, 0, 0, 0.4);
-            /* 반투명한 검은색 배경 */
         }
 
         .popup-content-item {
-            border-radius: 10px;
-            background-color: rgba(0, 0, 0, 0.4);
+
+            border-radius: 20px;
+            background-color: rgb(32, 32, 32);
             margin: 15% auto;
+            /* 상 우 하 좌 margin: 10% 20% 0% 75%;*/
             /* 중앙 정렬 */
             padding: 20px;
-            /* 내부 여백 추가 */
-            border: 1px solid #888;
-            /* 테두리 추가 */
-            width: 80%;
-            /* 너비 설정 */
-            max-width: 800px;
-            /* 수정함 */
-            /* 최대 너비 설정 */
-            /* 글자 크기 조정 */
-            font-size: 1.3em;
+            border: none;
+            width: 90%;
+            max-width: 600px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            font-size: 24px;
+            animation: fadeIn 0.3s;
         }
 
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+
+            to {
+                opacity: 1;
+            }
+        }
 
         .close-country {
-            color: #ff0c0c;
-            /* 글자색 설정 */
+            color: #ededf1;
             float: right;
-            /* 오른쪽 정렬 */
-            font-size: 28px;
-            /* 글자 크기 설정 */
+            font-size: 24px;
             font-weight: bold;
-            /* 글자 굵기 설정 */
         }
 
         .close-country:hover,
-
         .close-country:focus {
-            color: rgb(2, 48, 253);
-            /* 마우스 호버 시 글자색 변경 */
+            color: #007aff;
             text-decoration: none;
-            /* 밑줄 제거 */
             cursor: pointer;
-            /* 커서를 포인터로 변경 */
-        }
-
-        .item-list {
-            max-height: 600px;
-            /* 20개 항목의 높이로 설정 (각 항목의 높이가 20px라고 가정) */
-            /* overflow-y: auto;
-            /* 필요할 경우 세로 스크롤 바 표시 */
-            width: 100%;
-            /* 너비 설정 */
-            box-sizing: border-box;
-            /* 패딩을 포함한 너비 계산 */
         }
 
         .item-list div {
+            color: #ffffff;
             cursor: pointer;
-            /* 커서를 포인터로 변경 */
             padding: 10px;
-            /* 내부 여백 설정 */
             border-bottom: 1px solid #ddd;
-            /* 하단 테두리 추가 */
-            /* 테두리 색상 설정 */
         }
 
         .item-list div:hover {
@@ -226,27 +198,38 @@
             /* 글자색을 투명하게 설정 */
         }
 
-        /* 상세 팝업창 스타일링 */
-        /* 동물 팝업창 스타일링 */
-        .popup {
-            position: fixed;
-            /* 고정 위치 */
-            top: 50%;
-            /* 상단에서 50% 위치 */
-            right: 20px;
-            /* 오른쪽에서 20px 위치 */
-            transform: translateY(-50%);
-            /* 세로 중앙 정렬 */
-            width: 500px;
-            /* 너비 */
-            background-color: #fff;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-            /* 그림자 효과 */
-            border-radius: 8px;
-            /* 테두리 둥글게 */
-            overflow: hidden;
-            z-index: 1001;
+
+        #pagination button {
+            background-color: #007aff;
+            color: #ffffff;
+            margin-top: 10px;
+            padding: 8px 16px;
+            font-family: "Helvetica Neue", sans-serif;
+            font-size: 15px;
+            font-weight: 400;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            border-radius: 20px;
+            border: none;
+            transition: background-color 0.3s, transform 0.1s;
         }
+
+        #pagination button:hover {
+            background-color: #005ecb;
+            transform: translateY(-2px);
+        }
+
+        #imagePreviewContainer {
+            display: none;
+            position: absolute;
+            border-radius: 5px;
+            padding: 5px;
+            z-index: 1010;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+
 
         /* 모바일 화면에 대응하는 스타일링 */
 
@@ -273,19 +256,14 @@
             }
 
             #globeContainer {
-                width: 100%;
-                height: 500px;
+                width: 300px;
+                height: 30%;
             }
-
-            .popup {
-                width: 350px;
-            }
-
         }
 
-        @media (max-width: 768px) {
+        @media (max-width: 680px) {
 
-            /* 768px 이하의 작은 화면에 대응하는 스타일링 */
+            /* 480px 이하의 작은 화면에 대응하는 스타일링 */
             #searchForm {
                 flex-direction: column;
                 align-items: center;
@@ -295,24 +273,23 @@
             #searchForm select,
             #searchForm input,
             #searchForm button {
-                white-space: nowrap;
-                /* 줄바꿈 방지 */
                 width: 90%;
                 margin-bottom: 10px;
+                white-space: nowrap;
+                /* 줄바꿈 방지 */
             }
 
             #globeContainer {
-                width: 100%;
-                height: 500px;
-            }
-
-            .popup {
-                width: 350px;
+                width: 30%;
+                height: 30%;
             }
         }
 
-        @media (max-width: 800px) {
-            /* 1024px 이하의 작은 화면에 대응하는 스타일링 */
+
+        /*http://192.168.45.166:5500/Harmony.html*/
+
+        @media (max-width: 830px) {
+            /* 830px 이하의 작은 화면에 대응하는 스타일링 */
 
             #searchForm label,
             #searchForm select,
@@ -327,19 +304,52 @@
 
             #globeContainer {
                 width: 100%;
-                height: 500px;
+                height: 600px;
             }
 
-            .popup {
-                width: 350px;
+        }
+
+        @media (max-width: 1400px) {
+            /* 1400px 이하의 작은 화면에 대응하는 스타일링 */
+
+
+
+            #globeContainer {
+                width: 100%;
+                height: 800px;
             }
+
+        }
+
+
+        /* ------------------------- 상세 팝업창 스타일링------------------------------------- */
+        /* 동물 팝업창 스타일링 */
+        .popup {
+            position: fixed;
+            /* 고정 위치 */
+            top: 50%;
+            /* 상단에서 50% 위치 */
+            right: 20px;
+            /* 오른쪽에서 20px 위치 */
+            transform: translateY(-50%);
+            /* 세로 중앙 정렬 */
+            width: 500px;
+            /* 너비 */
+            background-color: #fff;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            /* 그림자 효과 */
+            border-radius: 8px;
+            /* 테두리 둥글게 */
+            overflow: hidden;
+            z-index: 1001;
         }
 
         .popup-content img {
             width: 100%;
             max-height: 50vh;
-            object-fit: fill;
+            min-height: 30vh;
             display: block;
+            object-fit: fill;
 
             background: linear-gradient(90deg, rgba(0, 0, 0, 1), rgba(0, 0, 0, 1));
             /* 배경색 추가 */
@@ -351,12 +361,10 @@
             /* 글자색을 투명하게 설정 */
         }
 
-
-
         .popup-footer {
             background-color: #f8f8f8;
             /* 배경색 */
-            padding: 20px;
+            padding: 15px;
             /* 내부 여백 */
             text-align: left;
             /* 텍스트 정렬 */
@@ -393,6 +401,11 @@
             /* 위쪽 여백 */
         }
 
+        .info-content div {
+            margin-bottom: 5px;
+            /* 아래쪽 여백 */
+        }
+
         .info-content strong {
             color: #FFD700;
             /* gold color for labels */
@@ -415,27 +428,10 @@
             /* 밑줄 스타일 */
         }
 
-
-        /* 이미지 간 전환 효과 */
-        .fade {
-            animation-name: fade;
-            animation-duration: 0.5s;
-        }
-
-        @keyframes fade {
-            from {
-                opacity: 0.4
-            }
-
-            to {
-                opacity: 1
-            }
-        }
-
         .arrow-btn {
             cursor: pointer;
             /* 커서를 포인터로 변경 */
-            background-color: rgba(0, 0, 0, 0.3);
+            background-color: rgba(3, 255, 3, 0.3);
             /* 반투명한 검은색 배경 */
             border: none;
             /* 테두리 제거 */
@@ -472,7 +468,6 @@
         .arrow-btn:hover {
             background-color: rgba(0, 0, 0, 0.8);
         }
-
 
         /* 팝업창 닫기 버튼 스타일링 개선 */
         .close-btn {
@@ -564,14 +559,6 @@
             }
         }
 
-        #imagePreviewContainer {
-            display: none;
-            position: absolute;
-            border-radius: 3px;
-            padding: 5px;
-            z-index: 1001;
-        }
-
         .drag-header {
             padding: 3px;
             cursor: pointer;
@@ -579,43 +566,140 @@
             border-bottom: 1px #2d2dc2;
         }
 
+        @media (max-width: 1600px) {
+            .popup {
+                width: 30%;
+                /* 팝업창 너비를 화면의 80%로 조정 */
+                right: 10%;
+                /* 좌우 중앙 정렬을 위해 오른쪽 여백 조정 */
+                left: 0%;
+                /* 좌우 중앙 정렬을 위해 왼쪽 여백 추가 */
+                top: 50%;
+                /* 상단에서 10% 위치 */
+            }
 
+            .popup-content img {
+                width: 100%;
+                height: auto;
+                /* 이미지 높이 자동 조절 */
+            }
 
-        #pagination button {
-            -webkit-appearance: none;
-            /* 웹킷 브라우저 대응 */
-            -moz-appearance: none;
-            /* 모질라 브라우저 대응 */
-            appearance: none;
-            /* 표준 브라우저 대응 */
+            .text {
+                position: absolute;
+                left: 10%;
+                padding-bottom: 1px;
+                font-size: 10px;
+                font-weight: 800;
+                margin: 0 auto;
+                font-family: 'Arial, sans-serif, Helvetica';
+                text-shadow: -1px 0 rgb(5, 5, 5), 0 1px rgb(5, 5, 5), 1px 0 rgb(5, 5, 5), 0 -1px rgb(5, 5, 5);
+            }
 
-            background-color: #29292b;
-            /* 배경색 */
-            color: #ffffff;
-            /* 글자색 */
-            margin-top: 10px;
-            /* 위쪽 여백 */
-            padding: 0.3rem 0.8rem;
-            /* 내부 여백 */
-            font-family: "Playfair Display", sans-serif;
-            /* 글꼴 설정 */
-            font-size: 15px;
-            /* 글자 크기 */
-            font-weight: 500;
-            /* 글자 굵기 */
-            text-align: center;
-            /* 텍스트 정렬 */
-            text-decoration: none;
-            /* 밑줄 제거 */
-            display: inline-block;
-            /* 인라인 블록 요소로 설정 */
-            width: auto;
-            /* 너비 자동 설정 */
-            border-radius: 4px;
-            /* 테두리 둥글게 */
-            border-color: #ddd;
-            /* 테두리 색상 */
+            .popup-footer,
+            .info-header,
+            .info-content {
+                padding: 10px;
+                /* 팝업 푸터 및 정보 표시 영역의 패딩 조정 */
+                font-size: 12px;
+                /* 글자 크기 축소 */
+            }
+
+            .arrow-btn {
+                width: 24px;
+                /* 화살표 버튼 너비 축소 */
+                height: 28px;
+                /* 화살표 버튼 높이 축소 */
+                font-size: 18px;
+                /* 화살표 버튼 내 아이콘 크기 축소 */
+            }
         }
+
+        @media (max-width: 1200px) {
+            .popup {
+                width: 30%;
+                /* 팝업창 너비를 화면의 80%로 조정 */
+                top: 80%;
+                right: 10%;
+                /* 좌우 중앙 정렬을 위해 오른쪽 여백 조정 */
+                left: 0%;
+                /* 좌우 중앙 정렬을 위해 왼쪽 여백 추가 */
+            }
+
+            .popup-content img {
+                height: auto;
+                /* 이미지 높이 자동 조절 */
+            }
+
+            .popup-footer,
+            .info-header,
+            .info-content {
+                padding: 10px;
+                /* 팝업 푸터 및 정보 표시 영역의 패딩 조정 */
+                font-size: 12px;
+                /* 글자 크기 축소 */
+            }
+
+            .arrow-btn {
+                width: 24px;
+                /* 화살표 버튼 너비 축소 */
+                height: 28px;
+                /* 화살표 버튼 높이 축소 */
+                font-size: 18px;
+                /* 화살표 버튼 내 아이s콘 크기 축소 */
+            }
+        }
+
+        /* 화면 너비가 최대 830px일 때의 스타일링 */
+        @media (max-width: 830px) {
+            .popup {
+                width: 50%;
+                /* 팝업창 너비를 화면의 80%로 조정 */
+                top: 80%;
+                right: 10%;
+                /* 좌우 중앙 정렬을 위해 오른쪽 여백 조정 */
+                left: 0%;
+                /* 좌우 중앙 정렬을 위해 왼쪽 여백 추가 */
+            }
+        }
+
+        /* 화면 너비가 최대 480px일 때의 스타일링 */
+        @media (max-width: 480px) {
+            .popup {
+                width: 50%;
+                /* 팝업창 너비를 화면의 95%로 조정 */
+                right: 30%;
+                /* 좌우 중앙 정렬을 위해 오른쪽 여백 조정 */
+                left: 30%;
+                /* 좌우 중앙 정렬을 위해 왼쪽 여백 추가 */
+                top: 50%;
+            }
+
+            .popup-content img {
+                height: auto;
+                /* 이미지 높이 자동 조절 */
+            }
+
+            .popup-footer,
+            .info-header,
+            .info-content {
+                padding: 10px;
+                /* 팝업 푸터 및 정보 표시 영역의 패딩 조정 */
+                font-size: 12px;
+                /* 글자 크기 축소 */
+            }
+
+            .arrow-btn {
+                width: 24px;
+                /* 화살표 버튼 너비 축소 */
+                height: 28px;
+                /* 화살표 버튼 높이 축소 */
+                font-size: 18px;
+                /* 화살표 버튼 내 아이콘 크기 축소 */
+            }
+        }
+
+        /* ------------------------상세팝업창 스타일링 여기까지-----------------------------*/
+
 
         /* 하이퍼링크 스타일링*/
         .Page-Header {
@@ -650,7 +734,7 @@
             /* 글자 크기 */
             font-weight: 800;
             /* 글자 굵기 */
-            font-family: sans-serif;
+            font-family: 'Black Han Sans', sans-serif;
             /* 글꼴 설정 */
         }
 
@@ -832,15 +916,72 @@
         /*------------------------------------랜덤 픽 팝업창---------------------------------------*/
         .random-popup {
             position: fixed;
-            bottom: 1px;
-            right: 20px;
-            width: 400px;
-            height: 450px;
+            bottom: 0vh;
+            right: 1vh;
+            width: 300px;
+            height: 400px;
             background-color: rgb(91, 90, 90);
             border-radius: 8px;
             box-sizing: border-box;
             transition: all 1s ease-in-out;
             z-index: 1;
+        }
+
+        .grid-item:hover {
+            transform: skewY(1.3);
+        }
+
+        .random-popup:hover {
+            width: 500px;
+            height: 500px;
+        }
+
+        .random-popup:hover .grid-item {
+            width: 233px;
+            height: 216px;
+            font-size: 17px;
+        }
+
+        .random-popup:hover .scientificName-content {
+            height: 21px;
+        }
+
+        .random-content {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            grid-gap: 10px;
+            padding: 5px;
+        }
+
+        .grid-item {
+            transition: width 1s ease-in-out, height 1s ease-in-out, font-size 1s ease-in-out;
+            background-color: #363535;
+            border: #4f4e4e 2px solid;
+            border-radius: 5px;
+            width: 131px;
+            height: 171px;
+            font-size: 13px;
+        }
+
+        .grid-item .scientificName-content {
+            transition: height 1s ease-in-out;
+            width: 100%;
+            height: 17px;
+            text-align: center;
+            background-color: #1e1e1e;
+            font-weight: 700;
+            font-family: sans-serif;
+            color: #ffffff;
+        }
+
+        .grid-item .category-content {
+            width: 100%;
+            height: 20px;
+            border-top: #000000 2px solid;
+            text-align: center;
+            font-family: sans-serif;
+            font-weight: 500;
+            color: #ffffff;
         }
 
         .random-popup.hide {
@@ -857,58 +998,20 @@
         .hidden-popup {
             position: fixed;
             display: none;
-            bottom: 1px;
-            right: 20px;
-            width: 400px;
-            height: 30px;
+            bottom: 0vh;
+            right: 1vh;
+            width: 300px;
+            height: 40px;
             background-color: rgb(38, 38, 38);
-            border-top-left-radius: 7px;
-            border-top-right-radius: 7px;
-            padding-top: 0;
-            font-size: 20px;
-            font-weight: 600;
-            font-family: "Angkor", sans-serif;
-            text-align: center;
-            cursor: pointer;
-            z-index: 2;
-        }
-
-        .random-content {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            grid-gap: 10px;
-            padding: 5px;
-        }
-
-        .grid-item {
-            background-color: #363535;
-            border: #4f4e4e 2px solid;
-            border-radius: 5px;
-            width: 180px;
-            height: 190px;
-        }
-
-        .grid-item .scientificName-content {
-            width: 180px;
-            overflow-y: hidden;
-            max-height: 17px;
-            text-align: center;
-            background-color: #1e1e1e;
-            font-size: 15px;
+            border-top-left-radius: 8px;
+            border-top-right-radius: 8px;
+            padding-top: 10px;
+            font-size: 30px;
             font-weight: 700;
             font-family: sans-serif;
-            color: #ffffff;
-        }
-
-        .grid-item .category-content {
-            width: 100%;
-            height: 20px;
-            border-top: #000000 2px solid;
             text-align: center;
-            font-size: 13px;
-            font-family: sans-serif;
-            font-weight: 500;
-            color: #ffffff;
+            cursor: pointer;
+            z-index: 8;
         }
 
         .random-header {
@@ -918,41 +1021,56 @@
 
         .grid-item img {
             width: 100%;
-            height: 150px;
+            height: 75%;
             margin-bottom: 0;
             object-fit: fill;
         }
 
-        .home,
-        .Quiz,
-        .Rank,
-        .About {
-            font-family: "Playfair Display", sans-serif;
-            font-size: 15px;
-            font-weight: 900;
+        /* 스크롤 탑 버튼 03-15 추가*/
+        #scrollTopBtn {
+            z-index: 11;
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            display: block;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            cursor: pointer;
+            padding: 10px;
+            border-radius: 5px;
+        }
+
+        #scrollTopBtn:hover {
+            background-color: #0056b3;
         }
 
         .categoryWrapper {
             position: absolute;
-            bottom: 14px;
+            bottom: 6px;
             left: 0;
             display: flex;
             flex-direction: row;
-            height: 90px;
-            width: 300px;
+            text-align: center;
+            height: 9.62vh;
+            width: 21vh;
+            min-height: 103px;
+            min-width: 227px;
             margin: 0 auto;
             align-items: flex-start;
-            opacity: 0.75;
+            background-color: #616161;
+            border-top-right-radius: 10px;
+            border-bottom-right-radius: 10px;
             z-index: 30;
         }
 
         .category-des {
             display: flex;
-            height: 50px;
-            width: 200px;
+            height: 52.63%;
+            width: 63.73%;
+            font-size: 2.1rem;
             flex-direction: column;
             text-align: center;
-            font-size: 40px;
             color: #dddddd;
             font-weight: 300;
             font-family: "Rammetto One", Tahoma, sans-serif;
@@ -963,44 +1081,79 @@
         .category-des .description {
             text-align: center;
             margin-top: 0;
-            font-size: 13px;
             font-family: "Noto Sans KR", sans-serif !important;
+            color: #ffffff;
             text-shadow: none;
             font-weight: 700;
+            font-size: 0.7rem;
             height: 50px;
-            width: 200px;
+            width: 100%;
         }
 
         .battery-container {
             display: flex;
             margin: 0 auto;
-            margin-top: 5px;
-            width: 55px;
-            height: 75px;
+            margin-top: 10px;
+            width: 18.16%;
+            height: 47.37%;
             flex-direction: column;
             justify-content: flex-end;
             background-image: linear-gradient(to right, #fff, #ffffffb7, #fff);
             box-shadow: 6px 8px 5px rgba(22, 22, 22, 0.6);
             border: 2px solid #ada8a8;
             padding: 2px;
+
+
         }
 
         .battery-level {
             width: 100%;
             bottom: 0;
             margin-bottom: 1px;
-            transition: height 2s ease-in-out;
+            transition: height 1.5s ease-in-out;
         }
 
         .text {
             position: absolute;
-            padding-left: 8px;
+            padding-left: 4px;
             padding-bottom: 1px;
-            font-size: 20px;
+            font-size: 1.5vh;
             font-weight: 800;
             margin: 0 auto;
             font-family: 'Arial, sans-serif, Helvetica';
             text-shadow: -1px 0 rgb(5, 5, 5), 0 1px rgb(5, 5, 5), 1px 0 rgb(5, 5, 5), 0 -1px rgb(5, 5, 5);
+        }
+
+        #IUCN-header {
+            margin-left: 4.5vw;
+            font-size: 2.8rem;
+            color: #ddd;
+            color: #d83131;
+            text-shadow: -2px 0 rgb(195, 190, 190), 0 2px rgb(195, 190, 190), 2px 0 rgb(195, 190, 190), 0 -2px rgb(195, 190, 190);
+            font-family: "Rammetto One", "Noto Sans KR", sans-serif;
+        }
+
+        #Text-content {
+            padding-top: 3%;
+            font-size: 2.8rem;
+            font-family: "Black Han Sans", sans-serif;
+            color: #ddd;
+            text-shadow: 5px 5px rgb(48, 47, 47);
+        }
+
+        .IUCN-wrap {
+            display: flex;
+            border: 1px #dddddd solid;
+            margin-left: 2vw;
+            margin-bottom: 0;
+            align-items: center;
+            justify-content: space-between;
+            text-shadow: 5px 5px rgb(48, 47, 47);
+            font-family: "Rammetto One", Tahoma, sans-serif;
+            background-image: linear-gradient(to right, rgb(191, 191, 191), rgb(30, 30, 30));
+            width: 80%;
+            font-size: 1em;
+            padding: 6px;
         }
     </style>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
@@ -1012,7 +1165,8 @@
 </head>
 
 <body>
-
+    <!-- 스크롤 탑 버튼 03-15 추가 -->
+    <button id="scrollTopBtn">↑ Top</button>
     <!--랜덤픽 소개 팝업 03-12 추가.-->
     <div class="random-popup" id="random-popup">
         <div class="random-header">
@@ -1148,19 +1302,15 @@
         <!-- 팝업 푸터 -->
         <div id="popupInfo" class="popup-footer">
             <!-- 정보 표시 요소들 미리 정의 -->
-            <div class="info-header">
-                <span class="country-name" id="countryName"></span> (<span id="countryCode"></span>)
-            </div>
+            <div id="scientificName"></div>
             <div id="countryList"></div>
             <div id="moreCountries">나라 더보기...</div>
-
-
-
             <div class="info-content">
-                <span class="country-name-kr" id="countryNameKr"></span>
-                <div id="scientificName"></div>
-                
                 <div id="definition"></div>
+                <div id="IUCN-header" style="display: flex;">IUCN
+                    <div id="Text-content">&nbsp;위험등급</div>
+                </div>
+                <div class="IUCN-wrap"></div>
             </div>
         </div>
         <!-- 닫기 버튼 -->
@@ -1175,7 +1325,7 @@
             <p id="popupText"></p>
         </div>
     </div>
-    </div>
+
 
 
     <script>
@@ -1195,8 +1345,9 @@
             capacity.textContent = "개체 안전도 비율";
             capacity.style.position = 'absolute';
             capacity.style.fontFamily = 'Noto Sans KR, sans-serif';
-            capacity.style.left = '108px';
-            capacity.style.fontSize = '13px';
+            capacity.style.left = '5px';
+            capacity.style.top = '73%';
+            capacity.style.fontSize = '10px';
             capacity.style.fontWeight = '700';
             capacity.style.bottom = '1px';
             batteryContainer.appendChild(capacity);
@@ -1236,6 +1387,7 @@
                         });
                         const Text = document.createElement('div');
                         Text.classList.add('text');
+                        Text.style.position = 'absolute';
                         Text.innerHTML = '100%'
                         batteryContainer.appendChild(Text);
                     }, 2400)
@@ -1394,6 +1546,16 @@
                 }, 100)
             }
         }
+
+        // 스크롤 탑 버튼 03-15 추가
+        // 스크롤 버튼 요소를 선택
+        // 스크롤 버튼 클릭 이벤트
+        document.getElementById('scrollTopBtn').onclick = function () {
+            document.body.scrollTop = 0; // For Safari
+            document.documentElement.scrollTop = 0; // For Chrome, Firefox, IE, and Opera
+        };
+
+
 
         // 페이지 로드 시 실행 03-12 17:48 수정 
         document.addEventListener('DOMContentLoaded', function () {
@@ -1556,7 +1718,6 @@
                     console.error('Error:', error);
                 });
         }
-
         // 3/14 등급 한글화
         function switch_case(item) {
             switch (item.category) {
@@ -1803,15 +1964,15 @@
                         const flagImage = document.createElement('img');
                         flagImage.src = item.flag_img;
                         flagImage.alt = 'Flag';
-                        flagImage.style.width = '30px'; // 이미지 크기 설정
-                        flagImage.style.height = '20px'; // 이미지 크기 설정
+                        flagImage.style.width = '40px'; // 이미지 크기 설정
+                        flagImage.style.height = '30px'; // 이미지 크기 설정
                         flagImage.style.marginRight = '10px'; // 오른쪽 여백 설정
                         countryElement.appendChild(flagImage);  // 생성된 div에 해당 이미지 태그 추가.
                     }
 
                     // 나라 정보 텍스트 추가
                     const countryText = document.createElement('span');
-                    countryText.textContent = `${item.country_en} (${item.country}) (${item.country_korean})`;
+                    countryText.textContent = ` ${item.country_korean}`; //${item.country_en} (${item.country})  03/15 수정
                     countryElement.appendChild(countryText);
 
                     countryElement.onclick = () => {
@@ -1831,7 +1992,7 @@
                 data.slice(startIndex, endIndex).forEach((item, index) => {
                     const imageUrls = item.img_url ? item.img_url.split(',').filter(url => url.trim() !== '') : [];
                     const countryElement = document.createElement('div');
-                    countryElement.textContent = `${item.country} (${item.scientific_name}) (${item.scientific_name_korean}) ${switch_case(item)}`;
+                    countryElement.textContent = `${item.country} (${item.scientific_name}) (${item.scientific_name_korean}) ${item.category}`;
                     countryElement.addEventListener('mouseenter', () => {
                         console.log(imageUrls[0]);
                         const imagePreviewContainer = document.getElementById('imagePreviewContainer');
@@ -1947,7 +2108,6 @@
             const moreCountries = document.getElementById('moreCountries');     // 나라 더보기
             const countryList = document.getElementById('countryList');         // 더보기 나라 리스트
             moreCountries.textContent = '나라 더보기...';                        // 버튼 텍스트 원래대로 업데이트
-            countryList.textContent = '';                                       // 국가 목록 축소
             isExpanded = false; // 상태 업데이트
 
             fetch(apiUrl, {
@@ -2008,6 +2168,16 @@
         let searchResultsData = []; // 검색 결과 데이터 중 선택한 튜플 한 줄 데이터의 이미지 URL 목록
         let searchResultsDatas = [];   // 검색 결과 데이터 중 선택한 튜플 한 줄 데이터
 
+        const iucnWrap = document.querySelector('.IUCN-wrap');
+        const grade = ['LC', 'NT', 'VU', 'EN', 'CR', 'EW', 'EX'];
+
+        grade.forEach(item => {
+            const div = document.createElement('div');
+            div.textContent = item;
+            div.style.width = 'auto';
+            iucnWrap.appendChild(div);
+        });
+
         // 특정 인덱스의 이미지와 정보를 보여주는 함수
         function showImage(index) {
             currentImageIndex = index;
@@ -2015,16 +2185,15 @@
 
             // DOM 요소 선택
             const imgElement = document.getElementById('popupImg');
-            const infoElement = document.getElementById('popupInfo');
             const popupContent = document.getElementsByClassName('popup-content')[0];
             const waveLoader = document.getElementById('waveLoader');
             const countryName = document.getElementById('countryName');
-            const countryCode = document.getElementById('countryCode');
-            const countryNameKr = document.getElementById('countryNameKr');
             const scientificName = document.getElementById('scientificName');
             const definition = document.getElementById('definition');
             const category = document.getElementById('category');
             const moreCountries = document.getElementById("moreCountries");
+
+
             // 로딩 물결 효과 표시 및 팝업 콘텐츠 숨김
             waveLoader.style.display = 'flex';
             popupContent.style.display = 'none';
@@ -2041,14 +2210,17 @@
                 waveLoader.style.display = 'none'; // 이미지 로드 실패 시 로딩 효과 숨김
                 imgElement.alt = '이미지를 불러올 수 없습니다.(none)'; // 대체 텍스트 설정
                 imgElement.style.opacity = 1;      // 이미지를 표시
-                imgElement.style.maxHeight = '20vh';
                 popupContent.style.display = 'block'; // 정보 표시
             };
 
-            document.getElementById('countryName').textContent = searchResultsDatas.country_en;
-            document.getElementById('countryCode').textContent = searchResultsDatas.country;
-            document.getElementById('countryNameKr').textContent = searchResultsDatas.country_korean;
-            document.getElementById('scientificName').textContent = `${searchResultsDatas.scientific_name} (${searchResultsDatas.scientific_name_korean})`;
+            imgElement.addEventListener('mouseenter', function () {
+                document.querySelector('.categoryWrapper').style.opacity = 0.4;
+            })
+            imgElement.addEventListener('mouseleave', function () {
+                document.querySelector('.categoryWrapper').style.opacity = 1;
+            })
+
+            document.getElementById('scientificName').textContent = `${searchResultsDatas.scientific_name_korean}(${searchResultsDatas.scientific_name})`;
             document.getElementById('definition').textContent = searchResultsDatas.definition;
             setBatteryLevel(searchResultsDatas.category);
 
@@ -2197,53 +2369,57 @@
         //let hoverDD = null; // 마우스 오버된 나라 감지 초기값 설정
         let world = null;
         let matchingCountries = null; // 더보기 버튼 클릭 시 상시 hover기능 활성화를 위한 변수
+        const MAP_CENTER = { lat: 37.6, lng: -16.6, altitude: 1.5 };
+        const polygonColor = "rgba(245, 229, 86,0.1)";
         function createGlobe() {
             fetch('//unpkg.com/globe.gl/example/datasets/ne_110m_admin_0_countries.geojson').then(res => res.json()).then(countries => {
 
                 world = Globe()
-                    .globeImageUrl('//unpkg.com/three-globe/example/img/earth-night.jpg')
+                    .globeImageUrl('./brighter_123.jpg') // 지구본 스킨 바꿀 수 있으면 좋을 듯
                     .backgroundImageUrl('//unpkg.com/three-globe/example/img/night-sky.png')
                     .lineHoverPrecision(0)
                     .polygonsData(countries.features.filter(d => d.properties.ISO_A2 !== ''))
                     .polygonAltitude(0.06)
-                    .polygonCapColor(() => 'rgba(255, 255, 200,0.7)')
+                    .polygonCapColor(() => polygonColor)
                     .polygonSideColor(() => 'rgba(0, 100, 0, 0)')
-                    .polygonStrokeColor(() => 'rgba(0, 0, 0, 0.6)')
+                    .polygonStrokeColor(() => 'rgba(0, 0, 0, 0.33)')
                     .polygonLabel(({ properties: d }) => `
-              <b>${d.ADMIN} (${d.ISO_A2}):</b> <br /> 
+            <b style="color: black">${d.ADMIN} (${d.ISO_A2}):</b> <br /> 
             `
                     )
                     .onPolygonHover(hoverD => {
                         if (!matchingCountries) {
                             world
                                 .polygonAltitude(d => d === hoverD ? 0.12 : 0.06)
-                                .polygonCapColor(d => d === hoverD ? 'steelblue' : 'rgba(255, 255, 200,0.7)')
+                                .polygonCapColor(d => d === hoverD ? ' rgba(218, 165, 32, 0.7)' : polygonColor)
                         }
+
 
 
                     }).onPolygonClick(d => {
                         const countryCenter = d3.geoCentroid(d);
                         lastClickedCountry = d;
                         lastCountryCenter = countryCenter;
-                        world.pointOfView({ lat: countryCenter[1], lng: countryCenter[0], altitude: 1.2 }, 2000);
+                        world.pointOfView({ lat: countryCenter[1], lng: countryCenter[0], altitude: 0.6 }, 2000);
                         setTimeout(() => {
                             showPopup(d.properties.ISO_A2);
                             console.log(countryCenter)
                         }, 1000);
                     })
-                    .polygonsTransitionDuration(300)
+
+                    .polygonsTransitionDuration(300)    // 
+                    .pointOfView(MAP_CENTER, 2000)
 
                     (document.getElementById('globeViz'))
 
-                document.getElementById('itemList').addEventListener('click', function () {
-
+                document.getElementById('itemList').addEventListener('click', function () { // 나라 검색 시 해당 나라로 초점 이동 
                     if (currentCountry) {
                         const countryFeature = world.polygonsData().find(d => d.properties.ISO_A2.toLowerCase() === currentCountry.toLowerCase());
                         if (countryFeature === undefined) {
                             return;
                         }
                         const countryCenter = d3.geoCentroid(countryFeature);
-                        world.pointOfView({ lat: countryCenter[1], lng: countryCenter[0], altitude: 2.0 }, 2000); // 지구본 카메라를 해당 나라 중심으로 이동
+                        world.pointOfView({ lat: countryCenter[1], lng: countryCenter[0], altitude: 0.8 }, 2000); // 지구본 카메라를 해당 나라 중심으로 이동
                         currentCountry = null;
                     }
 
@@ -2257,7 +2433,7 @@
                             matchingCountries = countries.features.filter(d => countryCodes.includes(d.properties.ISO_A2));
 
                             world.polygonAltitude(d => matchingCountries.includes(d) ? 0.12 : 0.06);
-                            world.polygonCapColor(d => matchingCountries.includes(d) ? 'steelblue' : 'rgba(255, 255, 200,0.7)');
+                            world.polygonCapColor(d => matchingCountries.includes(d) ? 'steelblue' : polygonColor);
 
                             const countryFeature = world.polygonsData().find(d => d.properties.ISO_A2.toLowerCase() === matchingCountries[0].properties.ISO_A2.toLowerCase());
                             const countryCenter = d3.geoCentroid(countryFeature);
@@ -2272,7 +2448,7 @@
                         matchingCountries = countries.features.filter(d => countryCodes.includes(d.properties.ISO_A2));
                         //표시된 나라 코드 초기화
                         world.polygonAltitude(d => matchingCountries.includes(d) ? 0.06 : 0.06);
-                        world.polygonCapColor(d => matchingCountries.includes(d) ? 'rgba(255, 255, 200,0.7)' : 'rgba(255, 255, 200,0.7)');
+                        world.polygonCapColor(d => matchingCountries.includes(d) ? polygonColor : polygonColor);
                         setTimeout(() => {
                             countryCodes = [];
                             matchingCountries = null;
@@ -2287,7 +2463,7 @@
                     const countryList = document.getElementById('countryList');
                     if (moreCountries.textContent === '나라 더보기...') {
                         world.polygonAltitude(0.06)
-                            .polygonCapColor(() => 'rgba(255, 255, 200,0.7)')
+                            .polygonCapColor(() => polygonColor)
                     }
                 });
                 document.getElementById("itemPopup").addEventListener("mouseover", function () {
@@ -2295,7 +2471,7 @@
                     const countryList = document.getElementById('countryList');
                     if (moreCountries.textContent === '나라 더보기...') {
                         world.polygonAltitude(0.06)
-                            .polygonCapColor(() => 'rgba(255, 255, 200,0.7)')
+                            .polygonCapColor(() => polygonColor)
                     }
                 });
 
@@ -2306,6 +2482,8 @@
 
             });
         }
+
+
 
         //렌더링 크기 조정
         function a() {
@@ -2327,7 +2505,7 @@
         // 1/26 추가 : 팝업창 닫는 F
         function closePopup_globe() {
             if (lastCountryCenter && lastClickedCountry) {
-                world.pointOfView({ lat: lastCountryCenter[1], lng: lastCountryCenter[0], altitude: 2.0 }, 2000);
+                world.pointOfView({ lat: lastCountryCenter[1], lng: lastCountryCenter[0], altitude: 1.6 }, 2000);
                 setTimeout(() => {
                     console.log(lastClickedCountry.properties.ADMIN)
                 }, 1000);
@@ -2337,6 +2515,7 @@
                 document.getElementById('species-by-country').style.display = 'none';
             }
         }
+
 
         // Temp_____________________________________________________________________________________about-drag
         let dragObj = null;
