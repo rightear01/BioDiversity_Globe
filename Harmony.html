@@ -2359,8 +2359,10 @@
             moreCountries.textContent = '나라 더보기...'; // 버튼 텍스트 원래대로 업데이트
             countryList.textContent = ''; // 국가 목록 축소
             isExpanded = false; // 상태 업데이트
-
             matchingCountries = null// 더보기 버튼 클릭 시 상시 hover기능 활성화를 위한 변수
+
+            // 3/21 closePopup 시에 마지막으로 클릭했던 시점으로 돌아감. (지구본 시점 고정)
+            world.pointOfView({ altitude: 1.6 }, 2000);
         }
 
         // 나라 목록 팝업창을 닫는 함수
@@ -2372,11 +2374,13 @@
             countryList.textContent = ''; // 국가 목록 축소
             isExpanded = false; // 상태 업데이트
             matchingCountries = null// 더보기 버튼 클릭 시 상시 hover기능 활성화를 위한 변수
+
+            // 3/21 closePopup 시에 마지막으로 클릭했던 시점으로 돌아감. (지구본 시점 고정)
+            world.pointOfView({ altitude: 1.6 }, 2000); 
         }
 
         // Path: public/globe3.js
         // 지구본 전역 변수 및 함수
-
         let lastClickedCountry = null;      // Last Clicked Country
         let lastCountryCenter = null;
         //let hoverDD = null; // 마우스 오버된 나라 감지 초기값 설정
@@ -2395,8 +2399,8 @@
                 world = Globe()
                     (document.getElementById('globeViz'))
                     .globeImageUrl('./brighter_123.jpg') // 지구본 스킨 바꿀 수 있으면 좋을 듯
-                    .backgroundImageUrl('//unpkg.com/three-globe/example/img/night-sky.png')
-                    .bumpImageUrl('//unpkg.com/three-globe/example/img/earth-topology.png')
+                    .backgroundImageUrl('//unpkg.com/three-globe/example/img/night-sky.png') 
+                    .bumpImageUrl('//unpkg.com/three-globe/example/img/earth-topology.png') // 입체적인 지구본을 위한 범퍼이미지. 
 
                     .lineHoverPrecision(0)
                     .polygonsData(countries.features.filter(d => d.properties.ISO_A2 !== ''))
@@ -2415,7 +2419,7 @@
                         const countryCenter = d3.geoCentroid(d);
                         lastClickedCountry = d;
                         lastCountryCenter = countryCenter;
-                        world.pointOfView({ lat: countryCenter[1], lng: countryCenter[0], altitude: 0.8 }, 2000);
+                        world.pointOfView({ lat: countryCenter[1], lng: countryCenter[0], altitude: 1 }, 2000);
                         setTimeout(() => {
                             showPopup(d.properties.ISO_A2);
                             console.log(countryCenter)
@@ -2435,7 +2439,6 @@
                         world.pointOfView({ lat: countryCenter[1], lng: countryCenter[0], altitude: 0.8 }, 2000); // 지구본 카메라를 해당 나라 중심으로 이동
                         currentCountry = null;
                     }
-
                 });
                 // 지구본에 나라 이름을 표시하는 함수
                 document.getElementById("moreCountries").addEventListener("click", function () {
@@ -2454,14 +2457,15 @@
 
 
                         }, 200); // 지구본 함수가 fetch 함수보다 먼저 실행되어서 나라 코드가 초기화 되지 않는 문제를 해결하기 위해 setTimeout 함수를 사용
-
-
                     }
                     else {
                         matchingCountries = countries.features.filter(d => countryCodes.includes(d.properties.ISO_A2));
                         //표시된 나라 코드 초기화
                         world.polygonAltitude(d => matchingCountries.includes(d) ? 0.06 : 0.06);
                         world.polygonCapColor(d => matchingCountries.includes(d) ? polygonColor : polygonColor);
+
+                        // 3/21 지구본 시점 초기화
+                        world.pointOfView({ altitude: 1.6 }, 2000);
                         setTimeout(() => {
                             countryCodes = [];
                             matchingCountries = null;
@@ -2471,7 +2475,6 @@
                 });
                 // 지구본에 나라 이름을 표시 제거하는 함수
                 document.getElementById("globeViz").addEventListener("mouseover", function () {
-
                     const moreCountries = document.getElementById('moreCountries');
                     const countryList = document.getElementById('countryList');
                     if (moreCountries.textContent === '나라 더보기...') {
