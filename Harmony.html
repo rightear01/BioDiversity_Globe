@@ -1730,6 +1730,7 @@
                     console.error('Error:', error);
                 });
         }
+
         // 3/14 등급 한글화
         function switch_case(item) {
             switch (item.category) {
@@ -1764,6 +1765,7 @@
         });
 
         function search() {
+
             // 검색어 가져오기
             var searchTypes = document.getElementById('searchTypes').value;
             var searchType = document.getElementById('searchType').value;
@@ -1792,6 +1794,9 @@
                     searchAnimalall(searchQuery, searchTypes);
                 }
             }
+            
+            // 3/21 검색 누르면, 초기화.
+            document.getElementById('searchQuery').value = '';
         }
 
         //_________________________________________1차 feach________________________________________
@@ -2354,12 +2359,12 @@
         // 팝업창을 닫는 함수
         function closePopup() {
             document.getElementById('popup').style.display = 'none'; // 팝업창을 숨깁니다.
+            isExpanded = false; // 상태 업데이트
+            matchingCountries = null// 더보기 버튼 클릭 시 상시 hover기능 활성화를 위한 변수
             const moreCountries = document.getElementById('moreCountries');
             const countryList = document.getElementById('countryList');
             moreCountries.textContent = '나라 더보기...'; // 버튼 텍스트 원래대로 업데이트
             countryList.textContent = ''; // 국가 목록 축소
-            isExpanded = false; // 상태 업데이트
-            matchingCountries = null// 더보기 버튼 클릭 시 상시 hover기능 활성화를 위한 변수
 
             // 3/21 closePopup 시에 마지막으로 클릭했던 시점으로 돌아감. (지구본 시점 고정)
             world.pointOfView({ altitude: 1.6 }, 2000);
@@ -2376,7 +2381,7 @@
             matchingCountries = null// 더보기 버튼 클릭 시 상시 hover기능 활성화를 위한 변수
 
             // 3/21 closePopup 시에 마지막으로 클릭했던 시점으로 돌아감. (지구본 시점 고정)
-            world.pointOfView({ altitude: 1.6 }, 2000); 
+            world.pointOfView({ altitude: 1.6 }, 2000);
         }
 
         // Path: public/globe3.js
@@ -2399,7 +2404,7 @@
                 world = Globe()
                     (document.getElementById('globeViz'))
                     .globeImageUrl('./brighter_123.jpg') // 지구본 스킨 바꿀 수 있으면 좋을 듯
-                    .backgroundImageUrl('//unpkg.com/three-globe/example/img/night-sky.png') 
+                    .backgroundImageUrl('//unpkg.com/three-globe/example/img/night-sky.png')
                     .bumpImageUrl('//unpkg.com/three-globe/example/img/earth-topology.png') // 입체적인 지구본을 위한 범퍼이미지. 
 
                     .lineHoverPrecision(0)
@@ -2444,7 +2449,6 @@
                 document.getElementById("moreCountries").addEventListener("click", function () {
                     console.log(document.getElementById("moreCountries").textContent);
                     if (document.getElementById("moreCountries").textContent === "나라 더보기...") {
-
                         setTimeout(() => {
                             matchingCountries = countries.features.filter(d => countryCodes.includes(d.properties.ISO_A2));
 
@@ -2454,8 +2458,6 @@
                             const countryFeature = world.polygonsData().find(d => d.properties.ISO_A2.toLowerCase() === matchingCountries[0].properties.ISO_A2.toLowerCase());
                             const countryCenter = d3.geoCentroid(countryFeature);
                             world.pointOfView({ lat: countryCenter[1], lng: countryCenter[0], altitude: 2.0 }, 2000); // 지구본 카메라를 해당 나라 중심으로 이동
-
-
                         }, 200); // 지구본 함수가 fetch 함수보다 먼저 실행되어서 나라 코드가 초기화 되지 않는 문제를 해결하기 위해 setTimeout 함수를 사용
                     }
                     else {
@@ -2464,11 +2466,12 @@
                         world.polygonAltitude(d => matchingCountries.includes(d) ? 0.06 : 0.06);
                         world.polygonCapColor(d => matchingCountries.includes(d) ? polygonColor : polygonColor);
 
-                        // 3/21 지구본 시점 초기화
-                        world.pointOfView({ altitude: 1.6 }, 2000);
                         setTimeout(() => {
                             countryCodes = [];
                             matchingCountries = null;
+
+                            // 3/21 지구본 시점 초기화
+                            world.pointOfView({ altitude: 1.6 }, 2000);
                         }, 200);
                         console.log(countryCodes);
                     }
