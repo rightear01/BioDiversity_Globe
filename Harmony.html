@@ -947,8 +947,7 @@
 
         .random-popup:hover .scientificName-content {
             height: 21px;
-            overflow-y: hidden;
-            overflow-x: hidden;
+
         }
 
         .random-content {
@@ -977,6 +976,7 @@
             font-weight: 700;
             font-family: sans-serif;
             color: #ffffff;
+            overflow: hidden;
         }
 
         .grid-item .category-content {
@@ -1739,8 +1739,8 @@
                 .then(allData => {
                     const finalResultOfRandomPick = allData.map(data => data.result[0]);
                     const gridItems = document.querySelectorAll('.grid-item');
-
-                    finalResultOfRandomPick.forEach((item, index) => {
+                    setTimeout(()=>{
+                        finalResultOfRandomPick.forEach((item, index) => {
                         if (!gridItems[index]) return;
                         const imgElement = gridItems[index].querySelector('img');
                         const scientificNameElement = gridItems[index].querySelector('.scientificName-content');
@@ -1760,6 +1760,7 @@
                         scientificNameElement.textContent = item.scientific_name_korean;
                         categoryElement.textContent = switch_case(item);
                     });
+                    }, 300)
                 })
                 .catch(error => {
                     console.error('Error:', error);
@@ -2584,6 +2585,7 @@
                         new THREE.SphereGeometry(world.getGlobeRadius() * (1 + CLOUDS_ALT), 75, 75),
                         new THREE.MeshPhongMaterial({ map: cloudsTexture, transparent: true })
                     );
+
                     world.scene().add(clouds);
                     world.pointsMerge(true);    // 랜더링 성능 향상
 
