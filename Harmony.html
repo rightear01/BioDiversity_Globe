@@ -1173,7 +1173,7 @@
         }
 
         #flag-container {
-            width: 30%;
+            width: 40%;
             height: 100%;
         }
 
@@ -1186,7 +1186,6 @@
         #flagName {
             text-align: center;
             width: 100%;
-            height: 100%;
             padding-top: 10px;
             padding-left: 3%;
         }
@@ -2413,7 +2412,7 @@
             matchingCountries = null// 더보기 버튼 클릭 시 상시 hover기능 활성화를 위한 변수
 
             // 3/21 closePopup 시에 마지막으로 클릭했던 시점으로 돌아감. (지구본 시점 고정)
-            setTimeout(()=> {
+            setTimeout(() => {
                 world.pointOfView({ altitude: 1.6 }, 2000);
             }, 300)
         }
@@ -2440,21 +2439,20 @@
         let world = null;
         let matchingCountries = null; // 더보기 버튼 클릭 시 상시 hover기능 활성화를 위한 변수
         const MAP_CENTER = { lat: 37.6, lng: -16.6, altitude: 1.6 };
-        const polygonColor = "rgba(245, 229, 86,0.1)";
+        const polygonColor = "rgba(245, 229, 86, 0.1)";
 
         // 지구본에 구름 추가
         const CLOUDS_IMG_URL = './clouds.png';
         const CLOUDS_ALT = 0.004;
         const CLOUDS_ROTATION_SPEED = -0.01;
-
         function createGlobe() {
             fetch('//unpkg.com/globe.gl/example/datasets/ne_110m_admin_0_countries.geojson').then(res => res.json()).then(countries => {
                 world = Globe()
                     (document.getElementById('globeViz'))
-                    .globeImageUrl('./brighter_123.jpg') // 지구본 스킨 바꿀 수 있으면 좋을 듯
+                    .pointsMerge(true)                      // 랜더링 성능 향상
+                    .globeImageUrl('./brighter_123.jpg')    // 지구본 스킨 바꿀 수 있으면 좋을 듯
                     .backgroundImageUrl('//unpkg.com/three-globe/example/img/night-sky.png')
-                    .bumpImageUrl('//unpkg.com/three-globe/example/img/earth-topology.png') // 입체적인 지구본을 위한 범퍼이미지. 
-
+                    .bumpImageUrl('//unpkg.com/three-globe/example/img/earth-topology.png') // 입체적인 지구본을 위한 범퍼이미지.
                     .lineHoverPrecision(0)
                     .polygonsData(countries.features.filter(d => d.properties.ISO_A2 !== ''))
                     .polygonAltitude(0.06)
@@ -2469,15 +2467,37 @@
                                 .polygonCapColor(d => d === hoverD ? ' rgba(218, 165, 32, 0.7)' : polygonColor)
                         }
                     }).onPolygonClick(d => {
+                        const apiUrl = 'http://localhost:8080/api/v3/country';
+                        fetch(apiUrl, {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json',
+                            },
+                            body: JSON.stringify({ ['countryName']: d.properties.ISO_A2, mode: '전체' }),
+                        })
+                            .then(response => response.json())
+                            .then(data => {
+                                console.log('Success:', data);
+                                data.result.forEach(countryInfo => {
+                                    if (countryInfo.country === d.properties.ISO_A2) {
+                                        clickedflagImage = countryInfo.flag_img;
+                                    }
+                                });
+                            })
+                            .catch(error => {
+                                console.error('Error:', error);
+                            });
                         const countryCenter = d3.geoCentroid(d);
                         lastClickedCountry = d;
                         lastCountryCenter = countryCenter;
                         world.pointOfView({ lat: countryCenter[1], lng: countryCenter[0], altitude: 1 }, 2000);
                         setTimeout(() => {
                             showPopup(d.properties.ISO_A2);
-                            console.log(countryCenter)
+                            console.log(d.properties.ISO_A2)
                         }, 2000);
                     })
+                    .polygonsTransitionDuration(300)
+                    .pointOfView(MAP_CENTER, 2000)
 
                     .polygonsTransitionDuration(300)
                     .pointOfView(MAP_CENTER, 2000)
@@ -2542,10 +2562,13 @@
                     }
                 });
 
-                globeResize();
-                window.addEventListener('resize', () => {
-                    globeResize();
-                });
+                const scene = world.scene();
+                scene.remove();
+                const lightsToRemove = scene.children.filter(child => child.type === 'AmbientLight');
+                lightsToRemove.forEach(light => scene.remove(light));
+                console.log(scene);
+
+
 
                 // 구름 텍스쳐 관련.
                 new THREE.TextureLoader().load(CLOUDS_IMG_URL, cloudsTexture => {
@@ -2559,6 +2582,11 @@
                         clouds.rotation.y += CLOUDS_ROTATION_SPEED * Math.PI / 180;
                         requestAnimationFrame(rotateClouds);
                     })();
+                });
+
+                globeResize();
+                window.addEventListener('resize', () => {
+                    globeResize();
                 });
             });
         }
