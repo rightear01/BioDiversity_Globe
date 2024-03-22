@@ -1968,6 +1968,8 @@
             console.log('img_url:\n', data.result.img_url)
             const itemPopup = document.getElementById('itemPopup');
             const itemList = document.getElementById('itemList');
+
+            // 3/22 나라 국기 갱신 - 지구본에서 나라 클릭시에 갱신 아직 미해결. showpopup => sendpostRequest => displayResultlist
             const flagContainer = document.getElementById('flag').src = `${clickedflagImage}`;
             const flagName = document.getElementById('flagName').innerHTML = `${data.result[0].country_korean}<br>(${data.result[0].country_en})`
             const itemPopupHeader = document.querySelector('.itemPopup-header');
