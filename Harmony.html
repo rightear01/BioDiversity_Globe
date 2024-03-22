@@ -1130,16 +1130,19 @@
 
         /*팝업창의 세부 정보에 뜨는 IUCN 위험등급 관련*/
         #IUCN-header {
-            margin-left: 3.4vw;
+            display: flex;
+            justify-content: center;
+            align-items: center;
             font-size: 2.4vw;
-            color: #ddd;
+            width: auto;
             color: #d83131;
             text-shadow: -2px 0 rgb(195, 190, 190), 0 2px rgb(195, 190, 190), 2px 0 rgb(195, 190, 190), 0 -2px rgb(195, 190, 190);
             font-family: "Rammetto One", "Noto Sans KR", sans-serif;
         }
 
         #Text-content {
-            padding-top: 3%;
+            align-self: center;
+            margin-top: 10px;
             font-size: 2.4vw;
             font-family: "Black Han Sans", sans-serif;
             color: #ddd;
@@ -1148,16 +1151,15 @@
 
         .IUCN-wrap {
             display: flex;
+            margin: 0 auto;
             border: 1px #dddddd solid;
-            margin-left: 0.3vw;
-            margin-bottom: 0;
             align-items: center;
             justify-content: space-between;
             text-shadow: 5px 5px rgb(48, 47, 47);
             font-family: "Rammetto One", Tahoma, sans-serif;
+            font-size: 1.5em;
             background-image: linear-gradient(to right, rgb(191, 191, 191), rgb(30, 30, 30));
             width: 95%;
-            font-size: 100%;
             padding: 6px;
         }
 
@@ -1185,8 +1187,8 @@
 
         #flagName {
             text-align: center;
+            align-self: center;
             width: 100%;
-            padding-top: 10px;
             padding-left: 3%;
         }
     </style>
@@ -1349,7 +1351,7 @@
             <div id="moreCountries">나라 더보기...</div>
             <div class="info-content">
                 <div id="definition"></div>
-                <div id="IUCN-header" style="display: flex;">IUCN
+                <div id="IUCN-header">IUCN
                     <div id="Text-content">&nbsp;위험등급</div>
                 </div>
                 <div class="IUCN-wrap"></div>
@@ -2487,6 +2489,7 @@
                             .catch(error => {
                                 console.error('Error:', error);
                             });
+
                         const countryCenter = d3.geoCentroid(d);
                         lastClickedCountry = d;
                         lastCountryCenter = countryCenter;
@@ -2496,9 +2499,6 @@
                             console.log(d.properties.ISO_A2)
                         }, 2000);
                     })
-                    .polygonsTransitionDuration(300)
-                    .pointOfView(MAP_CENTER, 2000)
-
                     .polygonsTransitionDuration(300)
                     .pointOfView(MAP_CENTER, 2000)
 
