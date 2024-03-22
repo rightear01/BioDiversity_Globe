@@ -2056,7 +2056,7 @@
                 data.slice(startIndex, endIndex).forEach((item, index) => {
                     const imageUrls = item.img_url ? item.img_url.split(',').filter(url => url.trim() !== '') : [];
                     const countryElement = document.createElement('div');
-                    countryElement.textContent = `${item.country} (${item.scientific_name}) (${item.scientific_name_korean}) ${item.category}`;
+                    countryElement.textContent = `${item.scientific_name_korean} (${item.scientific_name})`;
                     countryElement.addEventListener('mouseenter', () => {
                         console.log(imageUrls[0]);
                         const imagePreviewContainer = document.getElementById('imagePreviewContainer');
@@ -2461,7 +2461,12 @@
                     .polygonCapColor(() => polygonColor)
                     .polygonSideColor(() => 'rgba(0, 100, 0, 0)')
                     .polygonStrokeColor(() => 'rgba(0, 0, 0, 0.23)')
-                    .polygonLabel(({ properties: d }) => ` <b style="color: black">${d.ADMIN} (${d.ISO_A2}):</b> <br /> `)
+                    .polygonLabel(({ properties: d }) => ` 
+                                                        <b style="color: rgb(0, 0, 0); 
+                                                        font-size: 1.6em; 
+                                                        text-shadow: -2px 0 rgb(244, 244, 244), 0 2px rgb(244, 244, 244), 2px 0 rgb(244, 244, 244), 0 -2px rgb(244, 244, 244); ">
+                                                        ${d.ADMIN} </b> <br> `
+                                                    )
                     .onPolygonHover(hoverD => {
                         if (!matchingCountries) {
                             world
