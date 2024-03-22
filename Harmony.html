@@ -1165,6 +1165,32 @@
         .IUCN-wrap div {
             width: 40px;
         }
+
+        .itemPopup-header {
+            display: flex;
+            width: 100%;
+            height: 10vh;
+            border-bottom: 1px #ddd solid;
+        }
+
+        #flag-container {
+            width: 30%;
+            height: 100%;
+        }
+
+        #flag-container img {
+            width: 100%;
+            height: 100%;
+            object-fit: fill;
+        }
+
+        #flagName {
+            text-align: center;
+            width: 100%;
+            height: 100%;
+            padding-top: 10px;
+            padding-left: 3%;
+        }
     </style>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 
@@ -1268,9 +1294,16 @@
 
     <!--  리스트 팝업 창의 기본 구조 -->
     <div id="itemPopup" class="popup-item">
-        <div class="itemPopup-header"></div>
         <div class="popup-content-item">
             <span class="close-country" onclick="closePopup_country()">&times;</span>
+
+            <div class="itemPopup-header" style="display: none;">
+                <div id="flag-container">
+                    <img id="flag" src="" alt="국기 이미지">
+                </div>
+                <div id="flagName"></div>
+            </div>
+
             <div id="itemList" class="item-list"></div>
             <!-- 페이지 네이션 팝업 -->
             <div id="pagination" class="pagination" style="text-align: center;"></div>
@@ -1794,7 +1827,7 @@
                     searchAnimalall(searchQuery, searchTypes);
                 }
             }
-            
+
             // 3/21 검색 누르면, 초기화.
             document.getElementById('searchQuery').value = '';
         }
@@ -1873,6 +1906,8 @@
             console.log('searchCountry:\n', data)
             const itemPopup = document.getElementById('itemPopup');
             const itemList = document.getElementById('itemList');
+            const itemPopupHeader = document.querySelector('.itemPopup-header');
+            itemPopupHeader.style.display = 'none';
             itemList.innerHTML = ''; // 기존 목록 초기화
 
             console.log('item2:', item2);
@@ -1904,6 +1939,8 @@
             console.log('searchAnimal:\n data,item:', data, item2)
             const itemPopup = document.getElementById('itemPopup');
             const itemList = document.getElementById('itemList');
+            const itemPopupHeader = document.querySelector('.itemPopup-header');
+            itemPopupHeader.style.display = 'none';
             itemList.innerHTML = ''; // 기존 목록 초기화
 
             if (data.result.length === 0) {
@@ -1927,10 +1964,15 @@
 
         // 나라 이름으로 검색 시 데이터를 리스트로 보여주고, 클릭 시 결과를 팝업으로 표시하는 함수
         function displayResultlist(data) {
-            console.log('displayResultlist:\n', data)
+            console.log('displayResultlist 나라:\n', clickedflagImage)
             console.log('img_url:\n', data.result.img_url)
             const itemPopup = document.getElementById('itemPopup');
             const itemList = document.getElementById('itemList');
+            const flagContainer = document.getElementById('flag').src = `${clickedflagImage}`;
+            const flagName = document.getElementById('flagName').innerHTML = `${data.result[0].country_korean}<br>(${data.result[0].country_en})`
+            const itemPopupHeader = document.querySelector('.itemPopup-header');
+            itemPopupHeader.style.display = 'flex';
+
             itemList.innerHTML = ''; // 기존 목록 초기화
 
             if (data.result.length === 0) {
@@ -1954,8 +1996,10 @@
         //____________________________________pagination(temp)______________________________________
         // itemPopup dependancy => displayResultlist, searchAnimal, searchCountry
         let currentPage = 1;				// 표시할 팝업의 페이지네이션 인덱스
-        const itemsPerPage = 10; 			// 페이지당 표시할 아이템 수
+        const itemsPerPage = 8; 			// 페이지당 표시할 아이템 수
         let currentCountry = '';			// 현재 선택된 나라 이름
+        let clickedflagImage = null;               // 나라 국기 가져오기.
+
         function updateList(page, data, searchTypes = '전체') {
             const itemPopup = document.getElementById('itemPopup');
             const itemList = document.getElementById('itemList');
@@ -1996,6 +2040,7 @@
                         currentCountry = item.country; // 현재 선택된 나라 이름 저장 지구본에 띄울때 사용
                         console.log('2page/item.country:', apiUrl, item.country, searchTypes)
                         sendPostRequest(apiUrl, 'countryName', item.country, searchTypes);
+                        clickedflagImage = item.flag_img;
                         closePopup_country(); // 팝업 닫기
                     };
                     itemList.appendChild(countryElement);
