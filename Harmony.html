@@ -2451,7 +2451,7 @@
 
         // 지구본에 구름 추가
         const CLOUDS_IMG_URL = './clouds.png';
-        const CLOUDS_ALT = 0.05;    // 구름 고도
+        const CLOUDS_ALT = 0.065;    // 구름 고도
         const CLOUDS_ROTATION_SPEED = -0.01;
         function createGlobe() {
             fetch('//unpkg.com/globe.gl/example/datasets/ne_110m_admin_0_countries.geojson').then(res => res.json()).then(countries => {
@@ -2464,7 +2464,7 @@
                     .pointsMerge(true)                                                          // 랜더링 성능 향상
                     .lineHoverPrecision(0)
                     .polygonsData(countries.features.filter(d => d.properties.ISO_A2 !== ''))
-                    .polygonAltitude(0.03)
+                    .polygonAltitude(0.06)
                     .polygonCapColor(() => polygonColor)
                     .polygonSideColor(() => 'rgba(0, 100, 0, 0)')
                     .polygonStrokeColor(() => 'rgba(0, 0, 0, 0.23)')
@@ -2477,7 +2477,7 @@
                     .onPolygonHover(hoverD => {
                         if (!matchingCountries) {
                             world
-                                .polygonAltitude(d => d === hoverD ? 0.12 : 0.03)
+                                .polygonAltitude(d => d === hoverD ? 0.12 : 0.06)
                                 .polygonCapColor(d => d === hoverD ? ' rgba(218, 165, 32, 0.7)' : polygonColor)
                         }
                     }).onPolygonClick(d => {
@@ -2532,7 +2532,7 @@
                         setTimeout(() => {
                             matchingCountries = countries.features.filter(d => countryCodes.includes(d.properties.ISO_A2));
 
-                            world.polygonAltitude(d => matchingCountries.includes(d) ? 0.12 : 0.03);
+                            world.polygonAltitude(d => matchingCountries.includes(d) ? 0.12 : 0.06);
                             world.polygonCapColor(d => matchingCountries.includes(d) ? 'steelblue' : polygonColor);
 
                             const countryFeature = world.polygonsData().find(d => d.properties.ISO_A2.toLowerCase() === matchingCountries[0].properties.ISO_A2.toLowerCase());
@@ -2543,7 +2543,7 @@
                     else {
                         matchingCountries = countries.features.filter(d => countryCodes.includes(d.properties.ISO_A2));
                         //표시된 나라 코드 초기화
-                        world.polygonAltitude(d => matchingCountries.includes(d) ? 0.06 : 0.03);
+                        world.polygonAltitude(d => matchingCountries.includes(d) ? 0.06 : 0.06);
                         world.polygonCapColor(d => matchingCountries.includes(d) ? polygonColor : polygonColor);
 
                         setTimeout(() => {
@@ -2561,7 +2561,7 @@
                     const moreCountries = document.getElementById('moreCountries');
                     const countryList = document.getElementById('countryList');
                     if (moreCountries.textContent === '나라 더보기...') {
-                        world.polygonAltitude(0.03)
+                        world.polygonAltitude(0.06)
                             .polygonCapColor(() => polygonColor)
                     }
                 });
@@ -2569,7 +2569,7 @@
                     const moreCountries = document.getElementById('moreCountries');
                     const countryList = document.getElementById('countryList');
                     if (moreCountries.textContent === '나라 더보기...') {
-                        world.polygonAltitude(0.03)
+                        world.polygonAltitude(0.06)
                             .polygonCapColor(() => polygonColor)
                     }
                 });
