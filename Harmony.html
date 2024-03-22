@@ -2457,7 +2457,7 @@
                     .globeImageUrl('./brighter_123.jpg')    // 지구본 스킨 바꿀 수 있으면 좋을 듯
                     .backgroundImageUrl('//unpkg.com/three-globe/example/img/night-sky.png')
                     .bumpImageUrl('//unpkg.com/three-globe/example/img/earth-topology.png') // 입체적인 지구본을 위한 범퍼이미지.
-                    .pointsMerge(true)                      // 랜더링 성능 향상
+                    //.pointsMerge(true)                      // 랜더링 성능 향상
                     .lineHoverPrecision(0)
                     .polygonsData(countries.features.filter(d => d.properties.ISO_A2 !== ''))
                     .polygonAltitude(0.06)
