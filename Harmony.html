@@ -2436,7 +2436,7 @@
             matchingCountries = null// 더보기 버튼 클릭 시 상시 hover기능 활성화를 위한 변수
 
             // 3/21 closePopup 시에 마지막으로 클릭했던 시점으로 돌아감. (지구본 시점 고정)
-            world.pointOfView({ altitude: 1.6 }, 2000);
+            world.pointOfView({ altitude: 1.6 }, 1300);
         }
 
         // Path: public/globe3.js
@@ -2451,13 +2451,13 @@
 
         // 지구본에 구름 추가
         const CLOUDS_IMG_URL = './clouds.png';
-        const CLOUDS_ALT = 0.002;
+        const CLOUDS_ALT = 0.004;
         const CLOUDS_ROTATION_SPEED = -0.01;
         function createGlobe() {
-            fetch('//unpkg.com/globe.gl/example/datasets/ne_110m_admin_0_countries.geojson').then(res => res.json()).then(countries => {
+            fetch('./datasets/ne_110m_admin_0_countries.geojson').then(res => res.json()).then(countries => {
                 world = Globe()
                     (document.getElementById('globeViz'))
-                    .globeImageUrl('./Optimized.jpg')                                           // 지구본 스킨 바꿀 수 있으면 좋을 듯
+                    .globeImageUrl('./Optimized.jpg')                                        // 지구본 스킨 바꿀 수 있으면 좋을 듯
                     .backgroundImageUrl('//unpkg.com/three-globe/example/img/night-sky.png')
                     .bumpImageUrl('//unpkg.com/three-globe/example/img/earth-topology.png')     // 입체적인 지구본을 위한 범퍼이미지.
                     .lineHoverPrecision(0)
@@ -2470,7 +2470,7 @@
                                                         <b style="color: rgb(0, 0, 0); 
                                                         font-size: 1.6em; 
                                                         text-shadow: -2px 0 rgb(244, 244, 244), 0 2px rgb(244, 244, 244), 2px 0 rgb(244, 244, 244), 0 -2px rgb(244, 244, 244); ">
-                                                        ${d.ADMIN} </b> <br> `
+                                                        ${d.ADMIN_Ko} (${d.ADMIN}) </b> <br> `
                                                     )
                     .onPolygonHover(hoverD => {
                         if (!matchingCountries) {
