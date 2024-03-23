@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Dynamic SVG Creation for GeoJSON Visualization with D3.js</title>
+    <script src="https://d3js.org/d3.v6.min.js"></script>
+    <style>
+        /* Basic styling for countries */
+        .country {
+            fill: #ccc;
+            stroke: #fff;
+            stroke-width: 0.5px;
+        }
+    </style>
+</head>
+<body>
+<div id="map"></div> <!-- Container for the SVG -->
+<script>
+    var width = 960, height = 600; // Dimensions for the SVG
+
+    var projection = d3.geoNaturalEarth1()
+                       .translate([width / 2, height / 2])
+                       .scale(160);
+
+    var path = d3.geoPath().projection(projection);
+
+    // Append an SVG element to the 'map' div (or any other container)
+    var svg = d3.select("#map").append("svg")
+                .attr("width", width)
+                .attr("height", height);
+
+    // Load and render GeoJSON data
+    d3.json("./countries.geojson").then(function(geojsonData) {
+        svg.selectAll(".country")
+           .data(geojsonData.features)
+           .enter().append("path")
+           .attr("class", "country")
+           .attr("d", path);
+    });
+</script>
+</body>
+</html>
