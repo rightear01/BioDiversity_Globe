@@ -1349,7 +1349,8 @@
         <div id="popupInfo" class="popup-footer">
             <!-- 정보 표시 요소들 미리 정의 -->
             <div id="scientificName"></div>
-            <div id="countryList"></div>
+            <div id="countryList_korean"></div>
+            <div id="countryList" style="display: none;"></div>
             <div id="moreCountries">나라 더보기...</div>
             <div class="info-content">
                 <div id="definition"></div>
@@ -2312,6 +2313,7 @@
                     .then(data => {
                         // API 응답 결과를 처리
                         console.log('Success:', data);
+                        const countryList_korean = document.getElementById('countryList_korean');
                         const countryList = document.getElementById('countryList'); // 
                         const moreCountries = document.getElementById("moreCountries");
                         if (!isExpanded) {
@@ -2319,8 +2321,10 @@
                             console.log('isExpanded:', isExpanded);
                             moreCountries.textContent = '더보기 해제'; // 버튼 텍스트 업데이트
 
-                            const countryNames = data.result.map(item => item.country).join(", "); // 
-                            countryList.textContent = countryNames; //
+                            const countryNames = data.result.map(item => item.country).join(", ");
+                            countryList.textContent = countryNames;
+
+                            countryList_korean.textContent =  data.result.map(item => item.country_korean).join(", ");
                             iscodelist(countryNames);
                             isExpanded = true; // 상태 업데이트 
                             console.log('isExpanded:', isExpanded);
@@ -2330,6 +2334,7 @@
                             // 현재 확장 상태이므로 축소해야 함
                             moreCountries.textContent = '나라 더보기...'; // 버튼 텍스트 원래대로 업데이트
                             countryList.textContent = ''; // 국가 목록 축소
+                            countryList_korean.textContent = '';
                             isExpanded = false; // 상태 업데이트
                         }
                     })
@@ -2416,6 +2421,8 @@
             const countryList = document.getElementById('countryList');
             moreCountries.textContent = '나라 더보기...'; // 버튼 텍스트 원래대로 업데이트
             countryList.textContent = ''; // 국가 목록 축소
+
+            document.getElementById('countryList_korean').textContent = '';
             isExpanded = false; // 상태 업데이트
             matchingCountries = null// 더보기 버튼 클릭 시 상시 hover기능 활성화를 위한 변수
 
@@ -2571,13 +2578,6 @@
                             .polygonCapColor(() => polygonColor)
                     }
                 });
-
-                const scene = world.scene();
-                const lightsToRemove = scene.children.filter(child => child.type === 'AmbientLight');
-                lightsToRemove.forEach(light => scene.remove(light));
-                console.log(scene);
-
-
 
                 // 구름 텍스쳐 관련.
                 new THREE.TextureLoader().load(CLOUDS_IMG_URL, cloudsTexture => {
