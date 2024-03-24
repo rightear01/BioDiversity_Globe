@@ -1376,6 +1376,12 @@
 
 
     <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            // 페이지 로드 시 지구본 생성
+            createGlobe();
+        });
+
+
         // 개체 안전도 비율에 대한 F.
         function setBatteryLevel(category) {
             const batteryContainer = document.querySelector('.battery-container');
@@ -1685,14 +1691,6 @@
             }, { once: true });
 
             setTimeout(() => { document.getElementById('hidden-popup').style.display = 'block'; }, 800)
-        }
-
-        function openRandomPopup() {
-            const popup = document.getElementById('random-popup');
-            popup.classList.remove('hide');
-            popup.style.display = 'block';
-
-            document.getElementById('hidden-popup').style.display = 'none';
         }
 
         async function displayRandomSpecies() {
@@ -2447,11 +2445,9 @@
             world.pointOfView({ altitude: 1.6 }, 1300);
         }
 
-        // Path: public/globe3.js
         // 지구본 전역 변수 및 함수
         let lastClickedCountry = null;      // Last Clicked Country
         let lastCountryCenter = null;
-        //let hoverDD = null; // 마우스 오버된 나라 감지 초기값 설정
         let world = null;
         let matchingCountries = null; // 더보기 버튼 클릭 시 상시 hover기능 활성화를 위한 변수
         const MAP_CENTER = { lat: 37.6, lng: -16.6, altitude: 1.6 };
@@ -2461,65 +2457,88 @@
         const CLOUDS_IMG_URL = '/texture/clouds.png';
         const CLOUDS_ALT = 0.004;
         const CLOUDS_ROTATION_SPEED = -0.01;
-        function createGlobe() {
-            fetch('/datasets/ne_110m_admin_0_countries.geojson').then(res => res.json()).then(countries => {
-                world = Globe()
-                    (document.getElementById('globeViz'))
-                    .globeImageUrl('/texture/Optimized.jpg')                                        // 지구본 스킨 바꿀 수 있으면 좋을 듯
+
+        async function createGlobe() {
+            try {
+                const response = await fetch('/datasets/ne_110m_admin_0_countries.geojson');
+                const countries = await response.json();
+
+                world = Globe()(document.getElementById('globeViz'))
+                    .globeImageUrl('/texture/Optimized.jpg')
                     .backgroundImageUrl('//unpkg.com/three-globe/example/img/night-sky.png')
-                    .bumpImageUrl('//unpkg.com/three-globe/example/img/earth-topology.png')     // 입체적인 지구본을 위한 범퍼이미지.
+                    .bumpImageUrl('//unpkg.com/three-globe/example/img/earth-topology.png')
                     .lineHoverPrecision(0)
                     .polygonsData(countries.features.filter(d => d.properties.ISO_A2 !== ''))
                     .polygonAltitude(0.06)
                     .polygonCapColor(() => polygonColor)
                     .polygonSideColor(() => 'rgba(0, 100, 0, 0)')
                     .polygonStrokeColor(() => 'rgba(0, 0, 0, 0.23)')
-                    .polygonLabel(({ properties: d }) => ` 
-                                                        <b style="color: rgb(0, 0, 0); 
-                                                        font-size: 1.6em; 
-                                                        text-shadow: -2px 0 rgb(244, 244, 244), 0 2px rgb(244, 244, 244), 2px 0 rgb(244, 244, 244), 0 -2px rgb(244, 244, 244); ">
-                                                        ${d.ADMIN_Ko} (${d.ADMIN}) </b> <br> `
-                    )
+                    .polygonLabel(({ properties: d }) => `<b style=
+                                                                "color: rgb(0, 0, 0); 
+                                                                font-size: 1.6em; 
+                                                                text-shadow: -2px 0 rgb(244, 244, 244), 0 2px rgb(244, 244, 244), 2px 0 rgb(244, 244, 244), 0 -2px rgb(244, 244, 244);
+                                                                ">
+                                                                ${d.ADMIN_Ko} (${d.ADMIN}) 
+                                                                </b> `)
                     .onPolygonHover(hoverD => {
                         if (!matchingCountries) {
                             world
                                 .polygonAltitude(d => d === hoverD ? 0.12 : 0.06)
                                 .polygonCapColor(d => d === hoverD ? ' rgba(218, 165, 32, 0.7)' : polygonColor)
                         }
-                    }).onPolygonClick(d => {
-                        const apiUrl = 'http://localhost:8080/api/v3/country';
-                        fetch(apiUrl, {
-                            method: 'POST',
-                            headers: {
-                                'Content-Type': 'application/json',
-                            },
-                            body: JSON.stringify({ ['countryName']: d.properties.ISO_A2, mode: '전체' }),
-                        })
-                            .then(response => response.json())
-                            .then(data => {
-                                console.log('Success:', data);
-                                data.result.forEach(countryInfo => {
-                                    if (countryInfo.country === d.properties.ISO_A2) {
-                                        clickedflagImage = countryInfo.flag_img;
-                                    }
-                                });
-                            })
-                            .catch(error => {
-                                console.error('Error:', error);
+                    })
+                    .onPolygonClick(async (d) => {
+                        try {
+                            const apiUrl = 'http://localhost:8080/api/v3/country';
+                            const response = await fetch(apiUrl, {
+                                method: 'POST',
+                                headers: {
+                                    'Content-Type': 'application/json',
+                                },
+                                body: JSON.stringify({ ['countryName']: d.properties.ISO_A2, mode: '전체' }),
+                            });
+                            const data = await response.json();
+                            console.log('Success:', data);
+
+                            data.result.forEach(countryInfo => {
+                                if (countryInfo.country === d.properties.ISO_A2) {
+                                    clickedflagImage = countryInfo.flag_img;
+                                }
                             });
 
-                        const countryCenter = d3.geoCentroid(d);
-                        lastClickedCountry = d;
-                        lastCountryCenter = countryCenter;
-                        world.pointOfView({ lat: countryCenter[1], lng: countryCenter[0], altitude: 1 }, 2000);
-                        setTimeout(() => {
-                            showPopup(d.properties.ISO_A2);
-                            console.log(d.properties.ISO_A2)
-                        }, 2000);
+                            const countryCenter = d3.geoCentroid(d);
+                            lastClickedCountry = d;
+                            lastCountryCenter = countryCenter;
+                            world.pointOfView({ lat: countryCenter[1], lng: countryCenter[0], altitude: 1 }, 2000);
+
+                            setTimeout(() => {
+                                showPopup(d.properties.ISO_A2);
+                                console.log(d.properties.ISO_A2);
+                            }, 2000);
+                        } catch (error) {
+                            console.error('Error:', error);
+                        }
                     })
                     .polygonsTransitionDuration(300)
-                    .pointOfView(MAP_CENTER, 2000)
+                    .pointOfView(MAP_CENTER, 2000);
 
+                // 구름 텍스쳐 추가
+                const cloudsTexture = await new THREE.TextureLoader().load(CLOUDS_IMG_URL);
+                const clouds = new THREE.Mesh(
+                    new THREE.SphereGeometry(world.getGlobeRadius() * (1 + CLOUDS_ALT), 75, 75),
+                    new THREE.MeshPhongMaterial({ map: cloudsTexture, transparent: true })
+                );
+
+                world.scene().add(clouds);
+                world.pointsMerge(true); // 랜더링 성능 향상
+
+                // 구름 회전 애니메이션
+                (function rotateClouds() {
+                    clouds.rotation.y += CLOUDS_ROTATION_SPEED * Math.PI / 180;
+                    requestAnimationFrame(rotateClouds);
+                })();
+
+                // 이벤트 리스너 및 추가적인 설정 코드는 여기에 포함됩니다.
                 document.getElementById('itemList').addEventListener('click', function () { // 나라 검색 시 해당 나라로 초점 이동 
                     if (currentCountry) {
                         const countryFeature = world.polygonsData().find(d => d.properties.ISO_A2.toLowerCase() === currentCountry.toLowerCase());
@@ -2579,31 +2598,16 @@
                             .polygonCapColor(() => polygonColor)
                     }
                 });
-
-                // 구름 텍스쳐 관련.
-                new THREE.TextureLoader().load(CLOUDS_IMG_URL, cloudsTexture => {
-                    const clouds = new THREE.Mesh(
-                        new THREE.SphereGeometry(world.getGlobeRadius() * (1 + CLOUDS_ALT), 75, 75),
-                        new THREE.MeshPhongMaterial({ map: cloudsTexture, transparent: true })
-                    );
-
-                    world.scene().add(clouds);
-                    world.pointsMerge(true);    // 랜더링 성능 향상
-
-                    (function rotateClouds() {
-                        clouds.rotation.y += CLOUDS_ROTATION_SPEED * Math.PI / 180;
-                        requestAnimationFrame(rotateClouds);
-                    })();
-                });
-
                 globeResize();
                 window.addEventListener('resize', () => {
                     globeResize();
                 });
-            });
+            } catch (error) {
+                console.error('Error:', error);
+            }
         }
 
-        //렌더링 크기 조정
+        // 렌더링 크기 조정
         function globeResize() {
             const globeContainer = document.getElementById('globeContainer');
             const currentWindowSize = new THREE.Vector2(globeContainer.offsetWidth, globeContainer.offsetHeight);
