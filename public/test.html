@@ -29,7 +29,7 @@
                 .attr("height", height);
 
     // Load and render GeoJSON data
-    d3.json("./countries.geojson").then(function(geojsonData) {
+    d3.json("/datasets/countries.geojson").then(function(geojsonData) {
         svg.selectAll(".country")
            .data(geojsonData.features)
            .enter().append("path")

@@ -1687,66 +1687,59 @@
             setTimeout(() => { document.getElementById('hidden-popup').style.display = 'block'; }, 800)
         }
 
-        function openRandomPopup() {
-            const popup = document.getElementById('random-popup');
-            popup.classList.remove('hide');
-            popup.style.display = 'block';
+        async function displayRandomSpecies() {
+            try {
+                const response = await fetch('http://localhost:8080/api/v3/species', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        speciesName: "",
+                        mode: "전체"
+                    })
+                });
+                const data = await response.json();
+                const results = data.result;
 
-            document.getElementById('hidden-popup').style.display = 'none';
-        }
+                const mixResults = fisherYatesShuffle(results);
 
-        function displayRandomSpecies() {
-            fetch('http://localhost:8080/api/v3/species', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({
-                    speciesName: "",
-                    mode: "전체"
-                })
-            })
-                .then(response => response.json())
-                .then(data => {
-                    const results = data.result;
+                let selected = [];
+                const selectedNames = new Set();
 
-                    const mixResults = fisherYatesShuffle(results);
+                for (let item of mixResults) {
+                    if (selected.length >= 4) break;
 
-                    let selected = [];
-                    const selectedNames = new Set();
+                    const koreanName = item.scientific_name_korean;
 
-                    for (let item of mixResults) {
-                        if (selected.length >= 4) break;
-
-                        const koreanName = item.scientific_name_korean;
-
-                        if (!selectedNames.has(koreanName) && item.img_url !== 'null') {
-                            selected.push(item);
-                            selectedNames.add(koreanName);
-                        }
+                    if (!selectedNames.has(koreanName) && item.img_url !== 'null') {
+                        selected.push(item);
+                        selectedNames.add(koreanName);
                     }
+                }
 
-                    return Promise.all(selected.map(item =>
-                        fetch('http://localhost:8080/api/v3/species/list', {
-                            method: 'POST',
-                            headers: {
-                                'Content-Type': 'application/json',
-                            },
-                            body: JSON.stringify({ speciesName: item.scientific_name })
-                        })
-                            .then(response => response.json())
-                    ));
-                })
-                .then(allData => {
-                    const finalResultOfRandomPick = allData.map(data => data.result[0]);
-                    const gridItems = document.querySelectorAll('.grid-item');
-                    setTimeout(()=>{
-                        finalResultOfRandomPick.forEach((item, index) => {
+                const allData = await Promise.all(selected.map(async (item) => {
+                    const res = await fetch('http://localhost:8080/api/v3/species/list', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify({ speciesName: item.scientific_name })
+                    });
+                    return res.json();
+                }));
+
+                const finalResultOfRandomPick = allData.map(data => data.result[0]);
+                const gridItems = document.querySelectorAll('.grid-item');
+
+                setTimeout(() => {
+                    finalResultOfRandomPick.forEach((item, index) => {
                         if (!gridItems[index]) return;
                         const imgElement = gridItems[index].querySelector('img');
                         const scientificNameElement = gridItems[index].querySelector('.scientificName-content');
                         const categoryElement = gridItems[index].querySelector('.category-content');
                         const imageUrls = item.img_url ? item.img_url.split(',').filter(url => url.trim() !== '') : [];
+
                         gridItems[index].addEventListener('click', () => {
                             const itemData = {
                                 ...item,
@@ -1761,12 +1754,12 @@
                         scientificNameElement.textContent = item.scientific_name_korean;
                         categoryElement.textContent = switch_case(item);
                     });
-                    }, 300)
-                })
-                .catch(error => {
-                    console.error('Error:', error);
-                });
+                }, 300);
+            } catch (error) {
+                console.error('Error:', error);
+            }
         }
+
 
         // 3/14 등급 한글화
         function switch_case(item) {
@@ -2324,7 +2317,7 @@
                             const countryNames = data.result.map(item => item.country).join(", ");
                             countryList.textContent = countryNames;
 
-                            countryList_korean.textContent =  data.result.map(item => item.country_korean).join(", ");
+                            countryList_korean.textContent = data.result.map(item => item.country_korean).join(", ");
                             iscodelist(countryNames);
                             isExpanded = true; // 상태 업데이트 
                             console.log('isExpanded:', isExpanded);
@@ -2478,7 +2471,7 @@
                                                         font-size: 1.6em; 
                                                         text-shadow: -2px 0 rgb(244, 244, 244), 0 2px rgb(244, 244, 244), 2px 0 rgb(244, 244, 244), 0 -2px rgb(244, 244, 244); ">
                                                         ${d.ADMIN_Ko} (${d.ADMIN}) </b> <br> `
-                                                    )
+                    )
                     .onPolygonHover(hoverD => {
                         if (!matchingCountries) {
                             world
