@@ -1349,8 +1349,7 @@
         <div id="popupInfo" class="popup-footer">
             <!-- 정보 표시 요소들 미리 정의 -->
             <div id="scientificName"></div>
-            <div id="countryList_korean"></div>
-            <div id="countryList" style="display: none;"></div>
+            <div id="countryList"></div>
             <div id="moreCountries">나라 더보기...</div>
             <div class="info-content">
                 <div id="definition"></div>
@@ -2318,7 +2317,6 @@
                     .then(data => {
                         // API 응답 결과를 처리
                         console.log('Success:', data);
-                        const countryList_korean = document.getElementById('countryList_korean');
                         const countryList = document.getElementById('countryList'); // 
                         const moreCountries = document.getElementById("moreCountries");
                         if (!isExpanded) {
@@ -2326,10 +2324,8 @@
                             console.log('isExpanded:', isExpanded);
                             moreCountries.textContent = '더보기 해제'; // 버튼 텍스트 업데이트
 
-                            const countryNames = data.result.map(item => item.country).join(", ");
+                            const countryNames = data.result.map(item => item.country_korean).join(", ");
                             countryList.textContent = countryNames;
-
-                            countryList_korean.textContent = data.result.map(item => item.country_korean).join(", ");
                             iscodelist(countryNames);
                             isExpanded = true; // 상태 업데이트 
                             console.log('isExpanded:', isExpanded);
@@ -2339,7 +2335,6 @@
                             // 현재 확장 상태이므로 축소해야 함
                             moreCountries.textContent = '나라 더보기...'; // 버튼 텍스트 원래대로 업데이트
                             countryList.textContent = ''; // 국가 목록 축소
-                            countryList_korean.textContent = '';
                             isExpanded = false; // 상태 업데이트
                         }
                     })
@@ -2427,7 +2422,6 @@
             moreCountries.textContent = '나라 더보기...'; // 버튼 텍스트 원래대로 업데이트
             countryList.textContent = ''; // 국가 목록 축소
 
-            document.getElementById('countryList_korean').textContent = '';
             isExpanded = false; // 상태 업데이트
             matchingCountries = null// 더보기 버튼 클릭 시 상시 hover기능 활성화를 위한 변수
 
@@ -2542,18 +2536,18 @@
                     console.log(document.getElementById("moreCountries").textContent);
                     if (document.getElementById("moreCountries").textContent === "나라 더보기...") {
                         setTimeout(() => {
-                            matchingCountries = countries.features.filter(d => countryCodes.includes(d.properties.ISO_A2));
-
+                            matchingCountries = countries.features.filter(d => countryCodes.includes(d.properties.ADMIN_Ko));
+console.log(matchingCountries);
                             world.polygonAltitude(d => matchingCountries.includes(d) ? 0.12 : 0.06);
                             world.polygonCapColor(d => matchingCountries.includes(d) ? 'steelblue' : polygonColor);
 
-                            const countryFeature = world.polygonsData().find(d => d.properties.ISO_A2.toLowerCase() === matchingCountries[0].properties.ISO_A2.toLowerCase());
+                            const countryFeature = world.polygonsData().find(d => d.properties.ADMIN_Ko.toLowerCase() === matchingCountries[0].properties.ADMIN_Ko.toLowerCase());
                             const countryCenter = d3.geoCentroid(countryFeature);
                             world.pointOfView({ lat: countryCenter[1], lng: countryCenter[0], altitude: 2.0 }, 2000); // 지구본 카메라를 해당 나라 중심으로 이동
                         }, 200); // 지구본 함수가 fetch 함수보다 먼저 실행되어서 나라 코드가 초기화 되지 않는 문제를 해결하기 위해 setTimeout 함수를 사용
                     }
                     else {
-                        matchingCountries = countries.features.filter(d => countryCodes.includes(d.properties.ISO_A2));
+                        matchingCountries = countries.features.filter(d => countryCodes.includes(d.properties.ADMIN_Ko));
                         //표시된 나라 코드 초기화
                         world.polygonAltitude(d => matchingCountries.includes(d) ? 0.06 : 0.06);
                         world.polygonCapColor(d => matchingCountries.includes(d) ? polygonColor : polygonColor);
