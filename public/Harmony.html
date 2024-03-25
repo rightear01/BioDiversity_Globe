@@ -1727,17 +1727,21 @@
                 }
 
                 const allData = await Promise.all(selected.map(async (item) => {
-                    const res = await fetch('http://localhost:8080/api/v3/species/list', {
+                    const response = await fetch('http://localhost:8080/api/v3/species/list', {
                         method: 'POST',
                         headers: {
                             'Content-Type': 'application/json',
                         },
                         body: JSON.stringify({ speciesName: item.scientific_name })
                     });
-                    return res.json();
+                    return response.json();
                 }));
+                // Promise()를 사용하면, 실행의 순서를 보장할 수 있다. 각각의 fetch문 실행을 순차적으로 진행함.
+                // Promise.all() 함수를 사용하면, 각 fetch문 수행을 비동기 작업으로 진행할 수 있다.
 
                 const finalResultOfRandomPick = allData.map(data => data.result[0]);
+                // allData의 모든 배열들의 첫 번째 요소 배열을 선택하여 결과를 저장.
+
                 const gridItems = document.querySelectorAll('.grid-item');
 
                 setTimeout(() => {
@@ -2429,7 +2433,7 @@
 
             // 3/21 closePopup 시에 마지막으로 클릭했던 시점으로 돌아감. (지구본 시점 고정)
             setTimeout(() => {
-                world.pointOfView({ altitude: 1.6 }, 2000);
+                world.pointOfView({ altitude: 1.6 }, 1300);
             }, 300)
         }
 
@@ -2461,8 +2465,10 @@
         const CLOUDS_IMG_URL = '/texture/clouds.png';
         const CLOUDS_ALT = 0.004;
         const CLOUDS_ROTATION_SPEED = -0.01;
-        function createGlobe() {
-            fetch('/datasets/ne_110m_admin_0_countries.geojson').then(res => res.json()).then(countries => {
+        async function createGlobe() {
+            try {
+                const response = await fetch('/datasets/ne_110m_admin_0_countries.geojson');
+                const countries = await response.json();
                 world = Globe()
                     (document.getElementById('globeViz'))
                     .globeImageUrl('/texture/Optimized.jpg')                                        // 지구본 스킨 바꿀 수 있으면 좋을 듯
@@ -2557,7 +2563,7 @@
                             matchingCountries = null;
 
                             // 3/21 지구본 시점 초기화
-                            world.pointOfView({ altitude: 1.6 }, 2000);
+                            world.pointOfView({ altitude: 1.6 }, 00);
                         }, 200);
                         console.log(countryCodes);
                     }
@@ -2581,26 +2587,27 @@
                 });
 
                 // 구름 텍스쳐 관련.
-                new THREE.TextureLoader().load(CLOUDS_IMG_URL, cloudsTexture => {
-                    const clouds = new THREE.Mesh(
-                        new THREE.SphereGeometry(world.getGlobeRadius() * (1 + CLOUDS_ALT), 75, 75),
-                        new THREE.MeshPhongMaterial({ map: cloudsTexture, transparent: true })
-                    );
+                const cloudsTexture = await new THREE.TextureLoader().load(CLOUDS_IMG_URL);
+                const clouds = new THREE.Mesh(
+                    new THREE.SphereGeometry(world.getGlobeRadius() * (1 + CLOUDS_ALT), 75, 75),
+                    new THREE.MeshPhongMaterial({ map: cloudsTexture, transparent: true })
+                );
 
-                    world.scene().add(clouds);
-                    world.pointsMerge(true);    // 랜더링 성능 향상
+                world.scene().add(clouds);
+                world.pointsMerge(true);    // 랜더링 성능 향상
 
-                    (function rotateClouds() {
-                        clouds.rotation.y += CLOUDS_ROTATION_SPEED * Math.PI / 180;
-                        requestAnimationFrame(rotateClouds);
-                    })();
-                });
+                (function rotateClouds() {
+                    clouds.rotation.y += CLOUDS_ROTATION_SPEED * Math.PI / 180;
+                    requestAnimationFrame(rotateClouds);
+                })();
 
                 globeResize();
                 window.addEventListener('resize', () => {
                     globeResize();
                 });
-            });
+            } catch (error) {
+                error => console.log(error)
+            };
         }
 
         //렌더링 크기 조정
