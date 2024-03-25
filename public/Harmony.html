@@ -2630,7 +2630,7 @@
         // 1/26 추가 : 팝업창 닫는 F
         function closePopup_globe() {
             if (lastCountryCenter && lastClickedCountry) {
-                world.pointOfView({ lat: lastCountryCenter[1], lng: lastCountryCenter[0], altitude: 1.6 }, 2000);
+                world.pointOfView({ lat: lastCountryCenter[1], lng: lastCountryCenter[0], altitude: 1.6 }, 1300);
                 setTimeout(() => {
                     console.log(lastClickedCountry.properties.ADMIN)
                 }, 1000);
