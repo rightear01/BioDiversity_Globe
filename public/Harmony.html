@@ -2081,13 +2081,8 @@
                     });
                     countryElement.addEventListener('mouseleave', () => { imagePreviewContainer.style.display = 'none'; });
                     countryElement.onclick = () => {
-                        const itemData = {
-                            ...item,        // 나라이름 , 동물이름, 동물이름(한글), 설명, 멸종위기단계      
-                            imageUrls,      // 이미지 URL 목록
-                        };
-                        console.log('Detail Item :\n', item)
-                        displayResult(itemData); //상세 팝업으로 표시하는 함수
-                        closePopup_country();
+                        apiUrl = 'http://localhost:8080/api/v3/species/list';
+                         console.log('sendPost\n'); sendPostRequest(apiUrl, 'speciesName', item.scientific_name, 'none'); closePopup_country(); 
                     };
                     itemList.appendChild(countryElement);
                 }
@@ -2176,7 +2171,9 @@
         // item1 -> country                      => 국가 코드
         // item2 -> searchTypes                  => 전체 * 동 * 식물
         function sendPostRequest(apiUrl, key1, item1, item2) {
-            console.log('searchQuery\n', item1);
+            console.log('item1\n', item1);
+            console.log('key1\n', key1);
+            console.log('item2\n', item2);
             const moreCountries = document.getElementById('moreCountries');     // 나라 더보기
             const countryList = document.getElementById('countryList');         // 더보기 나라 리스트
             moreCountries.textContent = '나라 더보기...';                        // 버튼 텍스트 원래대로 업데이트
@@ -2230,6 +2227,7 @@
 
         // 선택한 결과를 팝업으로 표시하는 함수
         function displayResult(itemData) {
+            
             console.log('displayRe:\n', itemData) // specieslist의 호출 결과가 넘어옴.
             searchResultsDatas = itemData;
             searchResultsData = itemData.imageUrls;
@@ -2287,7 +2285,7 @@
             };
 
             imgElement.addEventListener('mouseenter', function () {
-                document.querySelector('.categoryWrapper').style.opacity = 0.4;
+                document.querySelector('.categoryWrapper').style.opacity = 0;
             })
             imgElement.addEventListener('mouseleave', function () {
                 document.querySelector('.categoryWrapper').style.opacity = 1;
