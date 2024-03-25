@@ -339,13 +339,32 @@
             /* 그림자 효과 */
             border-radius: 8px;
             /* 테두리 둥글게 */
-            overflow: hidden;
             z-index: 1001;
+        }
+
+        .popup #countryList{
+            display: none;
+            overflow-y: scroll;
+            height: 3.6vh;
+        }
+
+        .popup #countryList::-webkit-scrollbar {
+            width: 5px;
+        }
+
+        .popup #countryList::-webkit-scrollbar-thumb {
+            background-color: rgb(228, 222, 222);
+            border-radius: 6px;
+        }
+
+        .popup #countryList::-webkit-scrollbar-track {
+            background-color: rgb(172, 168, 168);
+            border-radius: 6px;
         }
 
         .popup-content img {
             width: 100%;
-            max-height: 50vh;
+            max-height: 60vh;
             min-height: 30vh;
             display: block;
             object-fit: fill;
@@ -560,8 +579,10 @@
 
         .drag-header {
             padding: 3px;
+            border-top-right-radius: 20px;
+            border-top-left-radius: 20px;
             cursor: pointer;
-            background: linear-gradient(15deg, #ffffff, rgb(153, 152, 152), #ffffff);
+            background: linear-gradient(to right, rgb(228, 226, 226), rgb(99, 98, 98), rgb(228, 226, 226));
             border-bottom: 1px #2d2dc2;
         }
 
@@ -2082,7 +2103,7 @@
                     countryElement.addEventListener('mouseleave', () => { imagePreviewContainer.style.display = 'none'; });
                     countryElement.onclick = () => {
                         apiUrl = 'http://localhost:8080/api/v3/species/list';
-                         console.log('sendPost\n'); sendPostRequest(apiUrl, 'speciesName', item.scientific_name, 'none'); closePopup_country(); 
+                        console.log('sendPost\n'); sendPostRequest(apiUrl, 'speciesName', item.scientific_name, 'none'); closePopup_country();
                     };
                     itemList.appendChild(countryElement);
                 }
@@ -2227,7 +2248,7 @@
 
         // 선택한 결과를 팝업으로 표시하는 함수
         function displayResult(itemData) {
-            
+
             console.log('displayRe:\n', itemData) // specieslist의 호출 결과가 넘어옴.
             searchResultsDatas = itemData;
             searchResultsData = itemData.imageUrls;
@@ -2315,7 +2336,7 @@
                     .then(data => {
                         // API 응답 결과를 처리
                         console.log('Success:', data);
-                        const countryList = document.getElementById('countryList'); // 
+                        const countryList = document.getElementById('countryList');
                         const moreCountries = document.getElementById("moreCountries");
                         if (!isExpanded) {
                             console.log('if')
@@ -2324,6 +2345,7 @@
 
                             const countryNames = data.result.map(item => item.country_korean).join(", ");
                             countryList.textContent = countryNames;
+                            countryList.style.display = 'block';
                             iscodelist(countryNames);
                             isExpanded = true; // 상태 업데이트 
                             console.log('isExpanded:', isExpanded);
@@ -2333,6 +2355,7 @@
                             // 현재 확장 상태이므로 축소해야 함
                             moreCountries.textContent = '나라 더보기...'; // 버튼 텍스트 원래대로 업데이트
                             countryList.textContent = ''; // 국가 목록 축소
+                            countryList.style.display = 'none';
                             isExpanded = false; // 상태 업데이트
                         }
                     })
@@ -2419,6 +2442,7 @@
             const countryList = document.getElementById('countryList');
             moreCountries.textContent = '나라 더보기...'; // 버튼 텍스트 원래대로 업데이트
             countryList.textContent = ''; // 국가 목록 축소
+            countryList.style.display = 'none';
 
             isExpanded = false; // 상태 업데이트
             matchingCountries = null// 더보기 버튼 클릭 시 상시 hover기능 활성화를 위한 변수
@@ -2465,7 +2489,7 @@
                     (document.getElementById('globeViz'))
                     .globeImageUrl('/texture/Optimized.jpg')                                        // 지구본 스킨 바꿀 수 있으면 좋을 듯
                     .backgroundImageUrl('//unpkg.com/three-globe/example/img/night-sky.png')
-                    .bumpImageUrl('//unpkg.com/three-globe/example/img/earth-topology.png')     // 입체적인 지구본을 위한 범퍼이미지.
+                    .bumpImageUrl('//unpkg.com/three-globe/example/img/earth-topology.png')         // 입체적인 지구본을 위한 범퍼이미지.
                     .lineHoverPrecision(0)
                     .polygonsData(countries.features.filter(d => d.properties.ISO_A2 !== ''))
                     .polygonAltitude(0.06)
@@ -2535,7 +2559,7 @@
                     if (document.getElementById("moreCountries").textContent === "나라 더보기...") {
                         setTimeout(() => {
                             matchingCountries = countries.features.filter(d => countryCodes.includes(d.properties.ADMIN_Ko));
-console.log(matchingCountries);
+                            console.log(matchingCountries);
                             world.polygonAltitude(d => matchingCountries.includes(d) ? 0.12 : 0.06);
                             world.polygonCapColor(d => matchingCountries.includes(d) ? 'steelblue' : polygonColor);
 
