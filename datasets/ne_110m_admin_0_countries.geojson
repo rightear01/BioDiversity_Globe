@@ -18044,160 +18044,6 @@
             "properties": {
                 "scalerank": 1,
                 "featurecla": "Admin-0 country",
-                "LABELRANK": 6,
-                "SOVEREIGNT": "Northern Cyprus",
-                "SOV_A3": "CYN",
-                "ADM0_DIF": 0,
-                "LEVEL": 2,
-                "TYPE": "Sovereign country",
-                "ADMIN": "Northern Cyprus",
-                "ADMIN_Ko": "북키프로스",
-                "ADM0_A3": "CYN",
-                "GEOU_DIF": 0,
-                "GEOUNIT": "Northern Cyprus",
-                "GU_A3": "CYN",
-                "SU_DIF": 0,
-                "SUBUNIT": "Northern Cyprus",
-                "SU_A3": "CYN",
-                "BRK_DIFF": 1,
-                "NAME": "N. Cyprus",
-                "NAME_LONG": "Northern Cyprus",
-                "BRK_A3": "B20",
-                "BRK_NAME": "N. Cyprus",
-                "BRK_GROUP": null,
-                "ABBREV": "N. Cy.",
-                "POSTAL": "CN",
-                "FORMAL_EN": "Turkish Republic of Northern Cyprus",
-                "FORMAL_FR": null,
-                "NAME_CIAWF": null,
-                "NOTE_ADM0": "Self admin.",
-                "NOTE_BRK": "Self admin.; Claimed by Cyprus",
-                "NAME_SORT": "Cyprus, Northern",
-                "NAME_ALT": null,
-                "MAPCOLOR7": 3,
-                "MAPCOLOR8": 1,
-                "MAPCOLOR9": 4,
-                "MAPCOLOR13": 8,
-                "POP_EST": 265100,
-                "POP_RANK": 10,
-                "GDP_MD_EST": 3600,
-                "POP_YEAR": 2013,
-                "LASTCENSUS": -99,
-                "GDP_YEAR": 2013,
-                "ECONOMY": "6. Developing region",
-                "INCOME_GRP": "3. Upper middle income",
-                "WIKIPEDIA": -99,
-                "FIPS_10_": "-99",
-                "ISO_A2": "-99",
-                "ISO_A3": "-99",
-                "ISO_A3_EH": "-99",
-                "ISO_N3": "-99",
-                "UN_A3": "-099",
-                "WB_A2": "-99",
-                "WB_A3": "-99",
-                "WOE_ID": -90,
-                "WOE_ID_EH": 23424995,
-                "WOE_NOTE": "WOE lists as subunit of united Cyprus",
-                "ADM0_A3_IS": "CYP",
-                "ADM0_A3_US": "CYP",
-                "ADM0_A3_UN": -99,
-                "ADM0_A3_WB": -99,
-                "CONTINENT": "Asia",
-                "REGION_UN": "Asia",
-                "SUBREGION": "Western Asia",
-                "REGION_WB": "Europe & Central Asia",
-                "NAME_LEN": 9,
-                "LONG_LEN": 15,
-                "ABBREV_LEN": 6,
-                "TINY": -99,
-                "HOMEPART": 1,
-                "MIN_ZOOM": 0,
-                "MIN_LABEL": 6,
-                "MAX_LABEL": 10
-            },
-            "bbox": [
-                32.73178,
-                35.000345,
-                34.576474,
-                35.671596
-            ],
-            "geometry": {
-                "type": "Polygon",
-                "coordinates": [
-                    [
-                        [
-                            32.73178,
-                            35.140026
-                        ],
-                        [
-                            32.802474,
-                            35.145504
-                        ],
-                        [
-                            32.946961,
-                            35.386703
-                        ],
-                        [
-                            33.667227,
-                            35.373216
-                        ],
-                        [
-                            34.576474,
-                            35.671596
-                        ],
-                        [
-                            33.900804,
-                            35.245756
-                        ],
-                        [
-                            33.973617,
-                            35.058506
-                        ],
-                        [
-                            33.86644,
-                            35.093595
-                        ],
-                        [
-                            33.675392,
-                            35.017863
-                        ],
-                        [
-                            33.525685,
-                            35.038688
-                        ],
-                        [
-                            33.475817,
-                            35.000345
-                        ],
-                        [
-                            33.455922,
-                            35.101424
-                        ],
-                        [
-                            33.383833,
-                            35.162712
-                        ],
-                        [
-                            33.190977,
-                            35.173125
-                        ],
-                        [
-                            32.919572,
-                            35.087833
-                        ],
-                        [
-                            32.73178,
-                            35.140026
-                        ]
-                    ]
-                ]
-            }
-        },
-        {
-            "type": "Feature",
-            "properties": {
-                "scalerank": 1,
-                "featurecla": "Admin-0 country",
                 "LABELRANK": 5,
                 "SOVEREIGNT": "Cyprus",
                 "SOV_A3": "CYP",
@@ -18279,6 +18125,70 @@
                 "type": "Polygon",
                 "coordinates": [
                     [
+                        [
+                            32.73178,
+                            35.140026
+                        ],
+                        [
+                            32.802474,
+                            35.145504
+                        ],
+                        [
+                            32.946961,
+                            35.386703
+                        ],
+                        [
+                            33.667227,
+                            35.373216
+                        ],
+                        [
+                            34.576474,
+                            35.671596
+                        ],
+                        [
+                            33.900804,
+                            35.245756
+                        ],
+                        [
+                            33.973617,
+                            35.058506
+                        ],
+                        [
+                            33.86644,
+                            35.093595
+                        ],
+                        [
+                            33.675392,
+                            35.017863
+                        ],
+                        [
+                            33.525685,
+                            35.038688
+                        ],
+                        [
+                            33.475817,
+                            35.000345
+                        ],
+                        [
+                            33.455922,
+                            35.101424
+                        ],
+                        [
+                            33.383833,
+                            35.162712
+                        ],
+                        [
+                            33.190977,
+                            35.173125
+                        ],
+                        [
+                            32.919572,
+                            35.087833
+                        ],
+                        [
+                            32.73178,
+                            35.140026
+                        ],
                         [
                             32.73178,
                             35.140026
@@ -49282,200 +49192,6 @@
                         [
                             -90.095555,
                             13.735338
-                        ]
-                    ]
-                ]
-            }
-        },
-        {
-            "type": "Feature",
-            "properties": {
-                "scalerank": 1,
-                "featurecla": "Admin-0 country",
-                "LABELRANK": 5,
-                "SOVEREIGNT": "Somaliland",
-                "SOV_A3": "SOL",
-                "ADM0_DIF": 0,
-                "LEVEL": 2,
-                "TYPE": "Indeterminate",
-                "ADMIN": "Somaliland",
-                "ADMIN_Ko": "소말릴란드",
-                "ADM0_A3": "SOL",
-                "GEOU_DIF": 0,
-                "GEOUNIT": "Somaliland",
-                "GU_A3": "SOL",
-                "SU_DIF": 0,
-                "SUBUNIT": "Somaliland",
-                "SU_A3": "SOL",
-                "BRK_DIFF": 1,
-                "NAME": "Somaliland",
-                "NAME_LONG": "Somaliland",
-                "BRK_A3": "B30",
-                "BRK_NAME": "Somaliland",
-                "BRK_GROUP": null,
-                "ABBREV": "Solnd.",
-                "POSTAL": "SL",
-                "FORMAL_EN": "Republic of Somaliland",
-                "FORMAL_FR": null,
-                "NAME_CIAWF": null,
-                "NOTE_ADM0": "Self admin.",
-                "NOTE_BRK": "Self admin.; Claimed by Somalia",
-                "NAME_SORT": "Somaliland",
-                "NAME_ALT": null,
-                "MAPCOLOR7": 3,
-                "MAPCOLOR8": 6,
-                "MAPCOLOR9": 5,
-                "MAPCOLOR13": 2,
-                "POP_EST": 3500000,
-                "POP_RANK": 12,
-                "GDP_MD_EST": 12250,
-                "POP_YEAR": 2013,
-                "LASTCENSUS": -99,
-                "GDP_YEAR": 2013,
-                "ECONOMY": "6. Developing region",
-                "INCOME_GRP": "4. Lower middle income",
-                "WIKIPEDIA": -99,
-                "FIPS_10_": "-99",
-                "ISO_A2": "-99",
-                "ISO_A3": "-99",
-                "ISO_A3_EH": "-99",
-                "ISO_N3": "-99",
-                "UN_A3": "-099",
-                "WB_A2": "-99",
-                "WB_A3": "-99",
-                "WOE_ID": -99,
-                "WOE_ID_EH": -99,
-                "WOE_NOTE": "Includes old states of 2347021, 2347020, 2347017 and portion of 2347016.",
-                "ADM0_A3_IS": "SOM",
-                "ADM0_A3_US": "SOM",
-                "ADM0_A3_UN": -99,
-                "ADM0_A3_WB": -99,
-                "CONTINENT": "Africa",
-                "REGION_UN": "Africa",
-                "SUBREGION": "Eastern Africa",
-                "REGION_WB": "Sub-Saharan Africa",
-                "NAME_LEN": 10,
-                "LONG_LEN": 10,
-                "ABBREV_LEN": 6,
-                "TINY": -99,
-                "HOMEPART": 1,
-                "MIN_ZOOM": 4,
-                "MIN_LABEL": 4.5,
-                "MAX_LABEL": 9
-            },
-            "bbox": [
-                42.55876,
-                7.99688,
-                48.948206,
-                11.46204
-            ],
-            "geometry": {
-                "type": "Polygon",
-                "coordinates": [
-                    [
-                        [
-                            42.776852,
-                            10.926879
-                        ],
-                        [
-                            43.145305,
-                            11.46204
-                        ],
-                        [
-                            43.47066,
-                            11.27771
-                        ],
-                        [
-                            43.666668,
-                            10.864169
-                        ],
-                        [
-                            44.117804,
-                            10.445538
-                        ],
-                        [
-                            44.614259,
-                            10.442205
-                        ],
-                        [
-                            45.556941,
-                            10.698029
-                        ],
-                        [
-                            46.645401,
-                            10.816549
-                        ],
-                        [
-                            47.525658,
-                            11.127228
-                        ],
-                        [
-                            48.021596,
-                            11.193064
-                        ],
-                        [
-                            48.378784,
-                            11.375482
-                        ],
-                        [
-                            48.948206,
-                            11.410622
-                        ],
-                        [
-                            48.948205,
-                            11.410617
-                        ],
-                        [
-                            48.948205,
-                            11.410617
-                        ],
-                        [
-                            48.942005,
-                            11.394266
-                        ],
-                        [
-                            48.938491,
-                            10.982327
-                        ],
-                        [
-                            48.938233,
-                            9.9735
-                        ],
-                        [
-                            48.93813,
-                            9.451749
-                        ],
-                        [
-                            48.486736,
-                            8.837626
-                        ],
-                        [
-                            47.78942,
-                            8.003
-                        ],
-                        [
-                            46.94834,
-                            7.99688
-                        ],
-                        [
-                            43.67875,
-                            9.18358
-                        ],
-                        [
-                            43.29699,
-                            9.54048
-                        ],
-                        [
-                            42.92812,
-                            10.02194
-                        ],
-                        [
-                            42.55876,
-                            10.57258
-                        ],
-                        [
-                            42.776852,
-                            10.926879
                         ]
                     ]
                 ]

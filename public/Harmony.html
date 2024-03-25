@@ -1273,9 +1273,9 @@
 
                 <!-- data-href 속성 추가 -->
                 <label for="home" class="home"><a>Home</a></label>
-                <label for="Quiz" class="Quiz" data-href="./quiz.html"><a href="./quiz.html">Quiz</a></label>
+                <label for="Quiz" class="Quiz" data-href="./quiz.html"><a href="../../../../../../../Users/wjdgh/OneDrive/바탕%20화면/Git/BioDiversity_Globe/public/quiz.html">Quiz</a></label>
                 <label for="Rank" class="Rank" onclick="rank()"><a>Rank</a></label> <!-- 03-12 17:48 수정 -->
-                <label for="about" class="about" data-href="./about.html"><a href="./about.html">About</a></label>
+                <label for="about" class="about" data-href="./about.html"><a href="../../../../../../../Users/wjdgh/OneDrive/바탕%20화면/Git/BioDiversity_Globe/public/about.html">About</a></label>
 
 
                 <div class="tab"></div>
@@ -1656,14 +1656,14 @@
         // 랭크 팝업창 열기 03-12 18:48 수정 
         function rank() {
             console.log('rank');
-            fetch('http://localhost:8080/api/v3/test')
+            fetch('http://10.10.11.14:8080/api/v3/test')
                 .then(response => response.json())
                 .then(data => {
                     console.log('받아오는', data);
                     // 데이터 처리 및 팝업 내용 채우기
                     const rankList = document.getElementById('rankList');
                     rankList.innerHTML = ''; // 이전 내용 초기화
-                    apiUrl = "http://localhost:8080/api/v3/species/list";
+                    apiUrl = "http://10.10.11.14:8080/api/v3/species/list";
                     // 받아온 데이터를 사용하여 리스트 아이템 생성
                     data.slice(0, 10).forEach((item, index) => {
                         console.log('이거 들어감:', item);
@@ -1717,7 +1717,7 @@
 
         async function displayRandomSpecies() {
             try {
-                const response = await fetch('http://localhost:8080/api/v3/species', {
+                const response = await fetch('http://10.10.11.14:8080/api/v3/species', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
@@ -1747,7 +1747,7 @@
                 }
 
                 const allData = await Promise.all(selected.map(async (item) => {
-                    const response = await fetch('http://localhost:8080/api/v3/species/list', {
+                    const response = await fetch('http://10.10.11.14:8080/api/v3/species/list', {
                         method: 'POST',
                         headers: {
                             'Content-Type': 'application/json',
@@ -1867,8 +1867,8 @@
         function searchCountryall(searchQuery, searchTypes) {
             // 백엔드 API 엔드포인트
             var apiUrl = '';
-            // 국가 이름으로 검색 http://localhost:8080/api/v2/country
-            apiUrl = 'http://localhost:8080/api/v3/country';
+            // 국가 이름으로 검색 http://10.10.11.14:8080/api/v2/country
+            apiUrl = 'http://10.10.11.14:8080/api/v3/country';
             // POST 요청 보내기
             fetchmethod(apiUrl, 'countryName', searchQuery, searchTypes);
         }
@@ -1877,8 +1877,8 @@
         function searchAnimalall(searchQuery, searchTypes) {
             // 백엔드 API 엔드포인트
             var apiUrl = '';
-            // 동물 이름으로 검색  http://localhost:8080/api/species/speciesnameall
-            apiUrl = 'http://localhost:8080/api/v3/species';
+            // 동물 이름으로 검색  http://10.10.11.14:8080/api/species/speciesnameall
+            apiUrl = 'http://10.10.11.14:8080/api/v3/species';
             // POST 요청 보내기
             fetchmethod(apiUrl, 'speciesName', searchQuery, searchTypes);
         }
@@ -2045,7 +2045,7 @@
             if (data[0].hasOwnProperty('country') && data[0].hasOwnProperty('flag_img')) {
                 // 백엔드 API 엔드포인트
                 console.log('searchCountry\n', data)
-                var apiUrl = 'http://localhost:8080/api/v3/country/list';
+                var apiUrl = 'http://10.10.11.14:8080/api/v3/country/list';
                 data.slice(startIndex, endIndex).forEach((item) => {
                     const countryElement = document.createElement('div');   // 블럭 요소로 추가
                     countryElement.classList.add('country-item');           // CSS 클래스 추가
@@ -2102,7 +2102,7 @@
                     });
                     countryElement.addEventListener('mouseleave', () => { imagePreviewContainer.style.display = 'none'; });
                     countryElement.onclick = () => {
-                        apiUrl = 'http://localhost:8080/api/v3/species/list';
+                        apiUrl = 'http://10.10.11.14:8080/api/v3/species/list';
                         console.log('sendPost\n'); sendPostRequest(apiUrl, 'speciesName', item.scientific_name, 'none'); closePopup_country();
                     };
                     itemList.appendChild(countryElement);
@@ -2112,8 +2112,8 @@
             // searchAnimal로 데이터를 출력할 때에
             else {
                 console.log('searchAnimal\n', data, searchTypes)
-                // 국가 이름으로 검색 http://localhost:8080/api/species/speciesname
-                apiUrl = 'http://localhost:8080/api/v3/species/list';
+                // 국가 이름으로 검색 http://10.10.11.14:8080/api/species/speciesname
+                apiUrl = 'http://10.10.11.14:8080/api/v3/species/list';
                 data.slice(startIndex, endIndex).forEach(item => {
                     const imageUrls = item.img_url.split(',').filter(url => url.trim() !== '');
                     const animalElement = document.createElement('div');
@@ -2322,7 +2322,7 @@
             // "나라 더보기..." 클릭 이벤트 추가
             let isExpanded = false; // 더보기 상태를 추적하는 변수 초기화
             moreCountries.addEventListener('click', function () {
-                var apiUrl = 'http://localhost:8080/api/v3/species/country';
+                var apiUrl = 'http://10.10.11.14:8080/api/v3/species/country';
                 // POST 요청 보내기
 
                 fetch(apiUrl, {
@@ -2509,7 +2509,7 @@
                                 .polygonCapColor(d => d === hoverD ? ' rgba(218, 165, 32, 0.7)' : polygonColor)
                         }
                     }).onPolygonClick(d => {
-                        const apiUrl = 'http://localhost:8080/api/v3/country';
+                        const apiUrl = 'http://10.10.11.14:8080/api/v3/country';
                         fetch(apiUrl, {
                             method: 'POST',
                             headers: {
@@ -2638,7 +2638,7 @@
             var popupText = document.getElementById('popupText');
             popupText.textContent = `Selected Country: ${countryName}`;
             // 팝업창을 표시 
-            apiUrl = 'http://localhost:8080/api/v3/country/list';
+            apiUrl = 'http://10.10.11.14:8080/api/v3/country/list';
             sendPostRequest(apiUrl, 'countryName', countryName, '전체'); closePopup_globe();
             //document.getElementById('species-by-country').style.display = 'block';
         }
