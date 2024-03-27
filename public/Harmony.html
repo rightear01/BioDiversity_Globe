@@ -1280,11 +1280,9 @@
 
                 <!-- data-href 속성 추가 -->
                 <label for="home" class="home"><a>Home</a></label>
-                <label for="Quiz" class="Quiz" data-href="./quiz.html"><a
-                        href="quiz.html">Quiz</a></label>
+                <label for="Quiz" class="Quiz" data-href="./quiz.html"><a href="quiz.html">Quiz</a></label>
                 <label for="Rank" class="Rank" onclick="rank()"><a>Rank</a></label> <!-- 03-12 17:48 수정 -->
-                <label for="about" class="about" data-href="./about.html"><a
-                        href="about.html">About</a></label>
+                <label for="about" class="about" data-href="./about.html"><a href="about.html">About</a></label>
                 <div class="tab"></div>
             </nav>
 
@@ -1345,7 +1343,7 @@
     </div>
 
     <!--동물 리스트 팝업창 구조 -->
-    <div id="popup" class="popup" style="display: none;">
+    <div id="popup" class="popup">
         <!-- 로딩 물결 효과 -->
         <div id="waveLoader" class="wrapper" style="display: none;">
             <div class="loading"></div>
@@ -2250,11 +2248,24 @@
 
         // 선택한 결과를 팝업으로 표시하는 함수
         function displayResult(itemData) {
-            console.log('displayRe:\n', itemData) // specieslist의 호출 결과가 넘어옴.
+            console.log('displayRe:\n', itemData); // specieslist의 호출 결과가 넘어옴.
             searchResultsDatas = itemData;
             searchResultsData = itemData.imageUrls;
             showImage(0); // 첫 번째 이미지와 정보 표시
         }
+
+        function resizePopup() {
+            if (!dragObj) return;
+            const targetPopup = document.querySelector('.drag-header');
+            const rect = dragObj.getBoundingClientRect();
+
+            // `top`이 아니라 `currentRect.top`을 사용해야 합니다.
+            console.log(rect.top);
+            if (rect.top < 400) {
+                dragObj.style.top = '250px'; // `style.top`을 수정합니다.
+            }
+        }
+
 
         let currentImageIndex = 0; // 현재 이미지 인덱스
         let searchResultsData = []; // 검색 결과 데이터 중 선택한 튜플 한 줄 데이터의 이미지 URL 목록
@@ -2298,6 +2309,12 @@
                 waveLoader.style.display = 'none'; // 이미지 로드 완료 시 로딩 효과 숨김
                 popupContent.style.display = 'block'; // 이미지와 정보 표시
                 imgElement.style.opacity = 1;      // 이미지를 표시
+
+                dragObj = document.querySelector('.popup');
+                if (dragObj.getBoundingClientRect().top < 5) {
+                    console.log('warning');
+                    dragObj.style.top = `50%`;
+                }
             };
             imgElement.src = imageUrl; // 이미지 URL 업데이트
 
@@ -2476,6 +2493,18 @@
             }, 10); // 페이드 아웃 효과 후에 이미지를 변경
         }
 
+        function resizePopup() {
+            const targetPopup = document.getElementById('popup');
+            if (!targetPopup) return;
+
+            const viewportHeight = window.innerHeight;
+            const currentRect = targetPopup.getBoundingClientRect();
+            const vh = viewportHeight / 100; // 1vh value!
+
+            if (targetPopup.top < 0) {
+                targetPopup.top = `${vh}px`;
+            }
+        }
 
         // 나라 목록 팝업창을 닫는 함수
         function closePopup_country() {
@@ -2689,7 +2718,7 @@
 
         // 움직이는 팝업창___________________________________________________________________________about-Move_popup
         document.querySelector('.drag-header').onmousedown = function (e) {
-            dragObj = this.closest('.popup');
+            dragObj = document.querySelector('.popup');
             const rect = dragObj.getBoundingClientRect();
             offsetX = rect.width / 2;
             offsetY = - rect.height / 2;
@@ -2711,6 +2740,10 @@
         }
 
         function onMouseUp() {
+            if (dragObj.getBoundingClientRect().top < 5) {
+                console.log('warning');
+                dragObj.style.top = `50%`;
+            }
             document.removeEventListener('mousemove', onMouseMove);
             document.removeEventListener('mouseup', onMouseUp);
             dragObj = null;
