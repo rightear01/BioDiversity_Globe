@@ -1376,7 +1376,7 @@
         <!-- 팝업 푸터 -->
         <div id="popupInfo" class="popup-footer">
             <!-- 정보 표시 요소들 미리 정의 -->
-            <div id="scientificName" style="margin-bottom: 7px;"></div>
+            <div id="scientificName" style="text-decoration: underline; margin-bottom: 7px;"></div>
             <div id="countryList"></div>
             <div id="moreCountries">나라 더보기...</div>
             <div class="info-content">
@@ -1405,8 +1405,8 @@
         function setBatteryLevel(category) {
             const batteryContainer = document.querySelector('.battery-container');
             const categoryDes = document.querySelector('.category-des');
-            batteryContainer.innerHTML = ' ';
-            categoryDes.innerHTML = ' ';
+            batteryContainer.innerHTML = '';
+            categoryDes.innerHTML = '';
 
             const batteryLevel = document.createElement('div');
             batteryLevel.classList.add('battery-level');
