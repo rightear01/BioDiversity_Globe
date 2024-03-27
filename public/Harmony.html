@@ -2249,18 +2249,13 @@
         function displayResultlistanimal(data) {
             // 데이터를 가공하여 필요한 정보를 추출하고 DOM에 추가
             console.log('result Animal:\n', data)
-            data.result.forEach((item, index) => {
-                if (index < 20) {
-                    const imageUrls = item.img_url.split(',').filter(url => url.trim() !== '');
-                    const itemData = {
-                        ...item,    // 나라이름 , 동물이름, 동물이름(한글), 설명, 멸종위기단계      
-                        imageUrls,   // 이미지 URL 목록
-                    };
-                    displayResult(itemData);
-                    closePopup_country();
-                }
-            });
-
+            const imageUrls = data.result[0].img_url.split(',').filter(url => url.trim() !== '');
+            const itemData = {
+                ...data.result[0],    // 나라이름 , 동물이름, 동물이름(한글), 설명, 멸종위기단계      
+                imageUrls,   // 이미지 URL 목록
+            };
+            displayResult(itemData);
+            closePopup_country();
         }
 
         // 선택한 결과를 팝업으로 표시하는 함수
