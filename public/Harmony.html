@@ -2254,19 +2254,6 @@
             showImage(0); // 첫 번째 이미지와 정보 표시
         }
 
-        function resizePopup() {
-            if (!dragObj) return;
-            const targetPopup = document.querySelector('.drag-header');
-            const rect = dragObj.getBoundingClientRect();
-
-            // `top`이 아니라 `currentRect.top`을 사용해야 합니다.
-            console.log(rect.top);
-            if (rect.top < 400) {
-                dragObj.style.top = '250px'; // `style.top`을 수정합니다.
-            }
-        }
-
-
         let currentImageIndex = 0; // 현재 이미지 인덱스
         let searchResultsData = []; // 검색 결과 데이터 중 선택한 튜플 한 줄 데이터의 이미지 URL 목록
         let searchResultsDatas = [];   // 검색 결과 데이터 중 선택한 튜플 한 줄 데이터
@@ -2285,6 +2272,7 @@
         // 3/26
         // 이벤트 리스너 중복문제 해결
         // 특정 인덱스의 이미지와 정보를 보여주는 함수
+        let dragObj = null;
         function showImage(index) {
             currentImageIndex = index;
             const imageUrl = searchResultsData[currentImageIndex]; // 현재 이미지 URL 선택
@@ -2309,11 +2297,11 @@
                 waveLoader.style.display = 'none'; // 이미지 로드 완료 시 로딩 효과 숨김
                 popupContent.style.display = 'block'; // 이미지와 정보 표시
                 imgElement.style.opacity = 1;      // 이미지를 표시
-
                 dragObj = document.querySelector('.popup');
                 if (dragObj.getBoundingClientRect().top < 5) {
-                    console.log('warning');
-                    dragObj.style.top = `50%`;
+                    console.log('warning',dragObj.getBoundingClientRect().top);
+                    dragObj.style.top = `${(window.innerHeight / 100) * 5}vh`;
+                    console.log(dragObj.getBoundingClientRect().top);
                 }
             };
             imgElement.src = imageUrl; // 이미지 URL 업데이트
@@ -2491,6 +2479,7 @@
             setTimeout(() => {
                 showImage(currentImageIndex); // 이미지 표시 업데이트
             }, 10); // 페이드 아웃 효과 후에 이미지를 변경
+
         }
 
         function resizePopup() {
@@ -2712,7 +2701,6 @@
 
 
         // Temp_____________________________________________________________________________________about-drag
-        let dragObj = null;
         let offsetX = 0, offsetY = 0;
         //__________________________________________________________________________________________
 
@@ -2741,8 +2729,9 @@
 
         function onMouseUp() {
             if (dragObj.getBoundingClientRect().top < 5) {
-                console.log('warning');
-                dragObj.style.top = `50%`;
+                console.log(window.innerHeight);
+                dragObj.style.top = `${(window.innerHeight / 100) * 5}vh`;
+                console.log(`${(window.innerHeight / 100)}`);
             }
             document.removeEventListener('mousemove', onMouseMove);
             document.removeEventListener('mouseup', onMouseUp);
