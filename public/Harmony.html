@@ -1441,7 +1441,6 @@
                         batteryContainer.appendChild(Text);
                     }, 2400)
                 }, 100)
-                return 'rgba(33, 130, 33, 0.7)';
             } else if (category === 'DD') {
                 batteryLevel.style.backgroundImage = "linear-gradient(to right, rgb(30, 160, 30),rgb(3, 255, 3), rgb(30, 160, 30))";
                 setTimeout(() => {
@@ -1462,7 +1461,6 @@
                         batteryContainer.appendChild(Text);
                     }, 2400)
                 }, 100)
-                return 'rgba(30, 160, 30, 0.7)';
             } else if (category === 'LC') {
                 batteryLevel.style.backgroundImage = "linear-gradient(to right, rgb(45, 176, 45),rgb(2, 255, 2), rgb(45, 176, 45))";
                 setTimeout(() => {
@@ -1482,7 +1480,6 @@
                         batteryContainer.appendChild(Text);
                     }, 2400)
                 }, 100)
-                return 'rgba(45, 176, 45, 0.7)';
             } else if (category === 'NT') {
                 batteryLevel.style.backgroundImage = "linear-gradient(to right, rgb(70, 170, 55),rgb(1, 255, 1), rgb(70, 170, 55))";
                 setTimeout(() => {
@@ -1502,7 +1499,6 @@
                         batteryContainer.appendChild(Text);
                     }, 2400)
                 }, 100)
-                return 'rgba(70, 170, 55, 0.7)';
             } else if (category === 'VU') {
                 batteryLevel.style.backgroundImage = "linear-gradient(to right, rgb(220, 190, 40),rgb(248, 255, 45), rgb(220, 190, 40))";
                 setTimeout(() => {
@@ -1522,7 +1518,6 @@
                         batteryContainer.appendChild(Text);
                     }, 2400)
                 }, 100)
-                return 'rgb(220, 190, 40)';
             } else if (category === 'EN') {
                 batteryLevel.style.backgroundImage = "linear-gradient(to right, rgb(180, 170, 50),rgb(255, 240, 29), rgb(180, 170, 50))";
                 setTimeout(() => {
@@ -1542,7 +1537,6 @@
                         batteryContainer.appendChild(Text);
                     }, 2400)
                 }, 100)
-                return 'rgba(180, 170, 50, 0.7)';
             } else if (category === 'CR') {
                 batteryLevel.style.backgroundImage = "linear-gradient(to right, rgb(183, 155, 45),rgb(255, 221, 53), rgb(183, 155, 45))";
                 setTimeout(() => {
@@ -1562,7 +1556,6 @@
                         batteryContainer.appendChild(Text);
                     }, 2400)
                 }, 100)
-                return 'rgba(183, 155, 45, 0.7)';
             } else if (category === 'EW') {
                 batteryLevel.style.backgroundImage = "linear-gradient(to right, rgb(170, 30, 30),rgb(255, 45, 45) ,rgb(170, 30, 30))";
                 setTimeout(() => {
@@ -1582,7 +1575,6 @@
                         batteryContainer.appendChild(Text);
                     }, 2400)
                 }, 100)
-                return 'rgba(170, 30, 30, 0.7)';
             } else if (category === 'EX') {
                 batteryLevel.style.backgroundImage = "linear-gradient(to right, rgb(186, 34, 34),rgb(255, 50, 50), rgb(186, 34, 34))";
                 setTimeout(() => {
@@ -1602,7 +1594,6 @@
                         batteryContainer.appendChild(Text);
                     }, 2400)
                 }, 100)
-                return 'rgba(186, 34, 34, 0.7)';
             } else {
                 batteryLevel.style.backgroundImage = "linear-gradient(to right, rgb(200, 31, 31), rgb(255, 60, 55), rgb(200, 31, 31))";
                 setTimeout(() => {
@@ -1623,16 +1614,7 @@
                     }, 2400)
                 }, 100)
             }
-            return 'rgba(200, 31, 31, 0.7)';
         }
-
-        // 스크롤 탑 버튼 03-15 추가
-        // 스크롤 버튼 요소를 선택
-        // 스크롤 버튼 클릭 이벤트
-        document.getElementById('scrollTopBtn').onclick = function () {
-            document.body.scrollTop = 0; // For Safari
-            document.documentElement.scrollTop = 0; // For Chrome, Firefox, IE, and Opera
-        };
 
         function returnBatteryColor(category) {
             if (category === 'NE') { return 'rgba(33, 130, 33, 0.8)'; } 
@@ -1647,6 +1629,13 @@
             else { return 'rgba(200, 31, 31, 0.8)'; }
         }
 
+        // 스크롤 탑 버튼 03-15 추가
+        // 스크롤 버튼 요소를 선택
+        // 스크롤 버튼 클릭 이벤트
+        document.getElementById('scrollTopBtn').onclick = function () {
+            document.body.scrollTop = 0; // For Safari
+            document.documentElement.scrollTop = 0; // For Chrome, Firefox, IE, and Opera
+        };
 
         // 페이지 로드 시 실행 03-12 17:48 수정 
         document.addEventListener('DOMContentLoaded', function () {
