@@ -1,5 +1,3 @@
-<!-- index.html -->
-
 <!DOCTYPE html>
 <html lang="en">
 
@@ -224,7 +222,7 @@
             position: absolute;
             border-radius: 5px;
             padding: 5px;
-            z-index: 1010;
+            z-index: 1100;
             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
         }
 
@@ -2272,7 +2270,10 @@
         // 3/26
         // 이벤트 리스너 중복문제 해결
         // 특정 인덱스의 이미지와 정보를 보여주는 함수
-        let dragObj = null;
+        
+        let isExpanded = false; // 더보기 상태를 추적하는 변수 초기화
+        let dragObj = null;     // 팝업창 이동 제어 변수
+
         function showImage(index) {
             currentImageIndex = index;
             const imageUrl = searchResultsData[currentImageIndex]; // 현재 이미지 URL 선택
@@ -2299,7 +2300,7 @@
                 imgElement.style.opacity = 1;      // 이미지를 표시
                 dragObj = document.querySelector('.popup');
                 if (dragObj.getBoundingClientRect().top < 5) {
-                    console.log('warning',dragObj.getBoundingClientRect().top);
+                    console.log('warning', dragObj.getBoundingClientRect().top);
                     dragObj.style.top = `${(window.innerHeight / 100) * 5}vh`;
                     console.log(dragObj.getBoundingClientRect().top);
                 }
@@ -2327,8 +2328,7 @@
             document.getElementById('definition').textContent = searchResultsDatas.definition;
             setBatteryLevel(searchResultsDatas.category);
 
-            // "나라 더보기..." 클릭 이벤트 추가
-            let isExpanded = false; // 더보기 상태를 추적하는 변수 초기화
+
             if (moreCountries.clickHandler) {
                 moreCountries.removeEventListener('click', moreCountries.clickHandler);
                 moreCountries.addEventListener('click', moreCountries.clickHandler);
@@ -2368,7 +2368,7 @@
                     } else {
                         console.log('else')
                         console.log('isExpanded:', isExpanded);
-
+                        // "나라 더보기..." 클릭 이벤트 추가
                         // 현재 확장 상태이므로 축소해야 함
                         moreCountries.textContent = '나라 더보기...'; // 버튼 텍스트 원래대로 업데이트
                         countryList.textContent = ''; // 국가 목록 축소
@@ -2407,6 +2407,22 @@
             }
 
             return closePopup;
+        }
+
+        function closePopupWithHover() {
+            if (moreCountries.clickHandler) {
+                moreCountries.removeEventListener('click', moreCountries.clickHandler);
+            }
+            document.getElementById('popup').style.display = 'none'; // 팝업창을 숨깁니다.
+            const countryList = document.getElementById('countryList');
+            moreCountries.textContent = '나라 더보기...'; // 버튼 텍스트 원래대로 업데이트
+            countryList.textContent = ''; // 국가 목록 축소
+            countryList.style.height = '0vh';
+            countryList.classList.remove('visible');
+            countryList.scrollTop = 0;
+
+            isExpanded = false; // 상태 업데이트
+            matchingCountries = null// 더보기 버튼 클릭 시 상시 hover기능 활성화를 위한 변수
         }
 
         // 3/26
@@ -2471,7 +2487,7 @@
                 changeImage(); // 이미지 표시 업데이트
             }
         }
-        
+
         function changeImage() {
             // 이미지 변경 전에 현재 이미지의 페이드 아웃 효과를 초기화하기 위해 짧은 지연을 추가
             const imgElement = document.getElementById('popupImg');
@@ -2577,9 +2593,11 @@
                         lastClickedCountry = d;
                         lastCountryCenter = countryCenter;
                         world.pointOfView({ lat: countryCenter[1], lng: countryCenter[0], altitude: 1 }, 2000);
+                        const isDisplay = document.getElementById('popup');
+                        if (isDisplay.style.display === 'block') { closePopupWithHover(); }
                         setTimeout(() => {
                             showPopup(d.properties.ISO_A2);
-                            console.log(d.properties.ISO_A2)
+                            console.log(d.properties.ISO_A2);
                         }, 2000);
                     })
                     .polygonsTransitionDuration(300)
