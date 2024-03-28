@@ -2247,6 +2247,7 @@
         // 선택한 결과를 팝업으로 표시하는 함수
         function displayResult(itemData) {
             console.log('displayRe:\n', itemData); // specieslist의 호출 결과가 넘어옴.
+            closePopupWithHover();                 // 랜덤 창 -> 상세정보(나라 더보기 누른 상태에서) 호출 시 적용.
             searchResultsDatas = itemData;
             searchResultsData = itemData.imageUrls;
             showImage(0); // 첫 번째 이미지와 정보 표시
@@ -2270,7 +2271,7 @@
         // 3/26
         // 이벤트 리스너 중복문제 해결
         // 특정 인덱스의 이미지와 정보를 보여주는 함수
-        
+
         let isExpanded = false; // 더보기 상태를 추적하는 변수 초기화
         let dragObj = null;     // 팝업창 이동 제어 변수
 
