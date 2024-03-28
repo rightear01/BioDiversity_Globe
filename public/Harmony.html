@@ -1441,6 +1441,7 @@
                         batteryContainer.appendChild(Text);
                     }, 2400)
                 }, 100)
+                return 'rgba(33, 130, 33, 0.7)';
             } else if (category === 'DD') {
                 batteryLevel.style.backgroundImage = "linear-gradient(to right, rgb(30, 160, 30),rgb(3, 255, 3), rgb(30, 160, 30))";
                 setTimeout(() => {
@@ -1461,6 +1462,7 @@
                         batteryContainer.appendChild(Text);
                     }, 2400)
                 }, 100)
+                return 'rgba(30, 160, 30, 0.7)';
             } else if (category === 'LC') {
                 batteryLevel.style.backgroundImage = "linear-gradient(to right, rgb(45, 176, 45),rgb(2, 255, 2), rgb(45, 176, 45))";
                 setTimeout(() => {
@@ -1480,6 +1482,7 @@
                         batteryContainer.appendChild(Text);
                     }, 2400)
                 }, 100)
+                return 'rgba(45, 176, 45, 0.7)';
             } else if (category === 'NT') {
                 batteryLevel.style.backgroundImage = "linear-gradient(to right, rgb(70, 170, 55),rgb(1, 255, 1), rgb(70, 170, 55))";
                 setTimeout(() => {
@@ -1499,6 +1502,7 @@
                         batteryContainer.appendChild(Text);
                     }, 2400)
                 }, 100)
+                return 'rgba(70, 170, 55, 0.7)';
             } else if (category === 'VU') {
                 batteryLevel.style.backgroundImage = "linear-gradient(to right, rgb(220, 190, 40),rgb(248, 255, 45), rgb(220, 190, 40))";
                 setTimeout(() => {
@@ -1518,6 +1522,7 @@
                         batteryContainer.appendChild(Text);
                     }, 2400)
                 }, 100)
+                return 'rgb(220, 190, 40)';
             } else if (category === 'EN') {
                 batteryLevel.style.backgroundImage = "linear-gradient(to right, rgb(180, 170, 50),rgb(255, 240, 29), rgb(180, 170, 50))";
                 setTimeout(() => {
@@ -1537,6 +1542,7 @@
                         batteryContainer.appendChild(Text);
                     }, 2400)
                 }, 100)
+                return 'rgba(180, 170, 50, 0.7)';
             } else if (category === 'CR') {
                 batteryLevel.style.backgroundImage = "linear-gradient(to right, rgb(183, 155, 45),rgb(255, 221, 53), rgb(183, 155, 45))";
                 setTimeout(() => {
@@ -1556,6 +1562,7 @@
                         batteryContainer.appendChild(Text);
                     }, 2400)
                 }, 100)
+                return 'rgba(183, 155, 45, 0.7)';
             } else if (category === 'EW') {
                 batteryLevel.style.backgroundImage = "linear-gradient(to right, rgb(170, 30, 30),rgb(255, 45, 45) ,rgb(170, 30, 30))";
                 setTimeout(() => {
@@ -1575,6 +1582,7 @@
                         batteryContainer.appendChild(Text);
                     }, 2400)
                 }, 100)
+                return 'rgba(170, 30, 30, 0.7)';
             } else if (category === 'EX') {
                 batteryLevel.style.backgroundImage = "linear-gradient(to right, rgb(186, 34, 34),rgb(255, 50, 50), rgb(186, 34, 34))";
                 setTimeout(() => {
@@ -1594,6 +1602,7 @@
                         batteryContainer.appendChild(Text);
                     }, 2400)
                 }, 100)
+                return 'rgba(186, 34, 34, 0.7)';
             } else {
                 batteryLevel.style.backgroundImage = "linear-gradient(to right, rgb(200, 31, 31), rgb(255, 60, 55), rgb(200, 31, 31))";
                 setTimeout(() => {
@@ -1614,6 +1623,7 @@
                     }, 2400)
                 }, 100)
             }
+            return 'rgba(200, 31, 31, 0.7)';
         }
 
         // 스크롤 탑 버튼 03-15 추가
@@ -1624,6 +1634,29 @@
             document.documentElement.scrollTop = 0; // For Chrome, Firefox, IE, and Opera
         };
 
+        function returnBatteryColor(category) {
+            if (category === 'NE') {
+                return 'rgba(33, 130, 33, 0.7)';
+            } else if (category === 'DD') {
+                return 'rgba(30, 160, 30, 0.7)';
+            } else if (category === 'LC') {
+                return 'rgba(45, 176, 45, 0.7)';
+            } else if (category === 'NT') {
+                return 'rgba(70, 170, 55, 0.7)';
+            } else if (category === 'VU') {
+                return 'rgb(220, 190, 40)';
+            } else if (category === 'EN') {
+                return 'rgba(180, 170, 50, 0.7)';
+            } else if (category === 'CR') {
+                return 'rgba(183, 155, 45, 0.7)';
+            } else if (category === 'EW') {
+                return 'rgba(170, 30, 30, 0.7)';
+            } else if (category === 'EX') {
+                return 'rgba(186, 34, 34, 0.7)';
+            } else {
+                return 'rgba(200, 31, 31, 0.7)';
+            }
+        }
 
 
         // 페이지 로드 시 실행 03-12 17:48 수정 
@@ -2566,7 +2599,7 @@
                         if (!matchingCountries) {
                             world
                                 .polygonAltitude(d => d === hoverD ? 0.12 : 0.06)
-                                .polygonCapColor(d => d === hoverD ? ' rgba(218, 165, 32, 0.7)' : polygonColor)
+                                .polygonCapColor(d => d === hoverD ? 'rgba(218, 165, 32, 0.7)' : polygonColor)
                         }
                     }).onPolygonClick(d => {
                         const apiUrl = 'http://localhost:8080/api/v3/country';
@@ -2595,7 +2628,9 @@
                         lastCountryCenter = countryCenter;
                         world.pointOfView({ lat: countryCenter[1], lng: countryCenter[0], altitude: 1 }, 2000);
                         const isDisplay = document.getElementById('popup');
+
                         if (isDisplay.style.display === 'block') { closePopupWithHover(); }
+
                         setTimeout(() => {
                             showPopup(d.properties.ISO_A2);
                             console.log(d.properties.ISO_A2);
@@ -2622,9 +2657,9 @@
                         setTimeout(() => {
                             matchingCountries = countries.features.filter(d => countryCodes.includes(d.properties.ADMIN_Ko));
                             console.log(matchingCountries);
+                            console.log(document.querySelector('.category-des').textContent.slice(2, 4));
                             world.polygonAltitude(d => matchingCountries.includes(d) ? 0.12 : 0.06);
-                            world.polygonCapColor(d => matchingCountries.includes(d) ? 'steelblue' : polygonColor);
-
+                            world.polygonCapColor(d => matchingCountries.includes(d) ? `${returnBatteryColor(document.querySelector('.category-des').textContent.slice(2, 4))}` : polygonColor);
                             const countryFeature = world.polygonsData().find(d => d.properties.ADMIN_Ko.toLowerCase() === matchingCountries[0].properties.ADMIN_Ko.toLowerCase());
                             const countryCenter = d3.geoCentroid(countryFeature);
                             world.pointOfView({ lat: countryCenter[1], lng: countryCenter[0], altitude: 2.0 }, 2000); // 지구본 카메라를 해당 나라 중심으로 이동
