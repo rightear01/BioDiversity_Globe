@@ -2471,6 +2471,7 @@
                 changeImage(); // 이미지 표시 업데이트
             }
         }
+        
         function changeImage() {
             // 이미지 변경 전에 현재 이미지의 페이드 아웃 효과를 초기화하기 위해 짧은 지연을 추가
             const imgElement = document.getElementById('popupImg');
@@ -2699,10 +2700,8 @@
             }
         }
 
-
         // Temp_____________________________________________________________________________________about-drag
         let offsetX = 0, offsetY = 0;
-        //__________________________________________________________________________________________
 
         // 움직이는 팝업창___________________________________________________________________________about-Move_popup
         document.querySelector('.drag-header').onmousedown = function (e) {
