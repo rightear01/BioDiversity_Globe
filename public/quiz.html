@@ -162,7 +162,7 @@
 
         .image-container img {
             width: 50vw;
-            height: 70vh;
+            height: 65vh;
             object-fit: fill;
             border-radius: 20px;
         }
@@ -184,10 +184,10 @@
             display: inline-block;
             text-align: center;
             font-family: sans-serif;
-            font-weight: 700;
+            font-weight: 800;
             color: #ddd;
             text-shadow: 5px 5px rgb(48, 47, 47);
-            font-size: 2rem;
+            font-size: 1.5rem;
             border: 1px solid #ddd;
             border-radius: 10px;
             background-color: #3a3b3f;
@@ -204,6 +204,7 @@
             grid-template-columns: repeat(2, 1fr);
             grid-template-rows: repeat(2, 1fr);
             width: 50vw;
+            height: 8vh;
         }
 
         #answer-radio label {
@@ -220,7 +221,6 @@
         #submit-button {
             text-align: center;
             font-family: "Noto Sans KR", sans-serif;
-            width: 5vw;
             font-weight: 800;
             cursor: pointer;
             color: #ddd;
@@ -266,10 +266,12 @@
 
     <script>
         const quizApp = (function () {
-            let clientScore = 0;             // 사용자의 정답 제출. 카운트 변수 
-            let currentQuestion = null;      // 최근 문제의 정답
-            let responseData = null;         // 페이지 로드 시에 단 한번 호출되는 전체 species Data
-            const selectedNames = new Set(); // 중복 문제를 없애주기 위한 Set
+            let clientScore = 0;              // 사용자의 정답 제출. 카운트 변수 
+            let currentQuestion = null;       // 최근 문제의 정답
+            let responseData = null;          // 페이지 로드 시에 단 한번 호출되는 전체 species Data
+            let currentQuestionNumbering = 0; // 현재 문제 번호
+            const totalQuestion = 40;         // 문제 수 총량
+            const selectedNames = new Set();  // 중복 문제를 없애주기 위한 Set
 
             function searchAnimalall() {
                 const apiUrl = 'http://localhost:8080/api/v3/species';
@@ -304,10 +306,11 @@
                 const unselectedQuestions = responseData.result.filter(question => !selectedNames.has(question.scientific_name_korean));
 
                 // 전체 문제를 맞추었을 경우.
-                if (unselectedQuestions.length === 0) {
+                if (currentQuestionNumbering == totalQuestion) {
                     document.getElementById('result-message').textContent = '모든 문제를 맞추셨습니다!';
-                    document.getElementById('submit-button').display = 'none';
-                    document.getElementById('answer-radio').display = 'none';
+                    document.getElementById('submit-button').style.display = 'none';
+                    document.getElementById('answer-radio').style.display = 'none';
+                    document.getElementById('clientScore').textContent = `Score : ${clientScore} ( ${currentQuestionNumbering++}/${totalQuestion} )`;
                     return;
                 }
 
@@ -324,7 +327,7 @@
                 const options = createOptions(unselectedQuestions);
                 options.forEach(option => answerRadio.appendChild(option));
 
-                document.getElementById('clientScore').textContent = `Score : ${clientScore}`;
+                document.getElementById('clientScore').textContent = `Score : ${clientScore} ( ${currentQuestionNumbering++}/${totalQuestion} )`;
             }
 
             function createOptions(unselectedQuestions) {
@@ -379,7 +382,7 @@
 
                 // 정답을 제출하지 않은 경우
                 if (!selectedAnswer) {
-                    resultMessageElement.innerHTML = '보기를 선택하세요.';
+                    resultMessageElement.innerHTML = `보기를 선택하세요.`;
                     return;
                 }
 
