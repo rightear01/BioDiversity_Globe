@@ -6,6 +6,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Quiz</title>
     <style>
+        @import url('https://fonts.googleapis.com/css2?family=Black+Han+Sans&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100..900&display=swap');
+
         /* 기본 글꼴과 배경 설정 */
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -135,21 +138,103 @@
             /* 왼쪽으로 50%만큼 떨어진 위치 */
         }
 
-
-
         .wrapper_nav nav input {
             display: none;
             /* 화면에 표시하지 않음 */
+        }
+
+        /*기존 라디오 버튼의 디자인 초기화*/
+        [type="radio"] {
+            vertical-align: middle;
+            appearance: none;
+        }
+
+        .quiz-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .image-container {
+            margin-top: 1vh;
+            margin-bottom: 1vh;
+        }
+
+        .image-container img {
+            width: 50vw;
+            height: 70vh;
+            object-fit: fill;
+            border-radius: 20px;
+        }
+
+        .answer-container {
+            display: table-column;
+            /* 테이블 열로 정렬 */
+            text-align: center;
+        }
+
+        #result-message {
+            text-align: center;
+            font-family: "Noto Sans KR", sans-serif;
+            font-size: 1.2em;
+            font-weight: 700;
+        }
+
+        .answer-container label {
+            display: inline-block;
+            text-align: center;
+            font-family: sans-serif;
+            font-weight: 700;
+            color: #ddd;
+            text-shadow: 5px 5px rgb(48, 47, 47);
+            font-size: 2rem;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            background-color: #3a3b3f;
+        }
+
+        .answer-container label:hover {
+            cursor: pointer;
+            background-color: #f45e00;
+            text-shadow: none;
+        }
+
+        #answer-radio {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            grid-template-rows: repeat(2, 1fr);
+            width: 50vw;
+        }
+
+        #answer-radio label {
+            grid-column: auto;
+            grid-row: auto;
+            width: 100%;
+        }
+
+        #clientScore {
+            font-size: 2em;
+            font-family: "Black Han Sans", sans-serif;
+        }
+
+        #submit-button {
+            text-align: center;
+            font-family: "Noto Sans KR", sans-serif;
+            width: 5vw;
+            font-weight: 800;
+            cursor: pointer;
+            color: #ddd;
+            font-size: 1.5em;
+            border-radius: 10px;
+            background-color: #3a3b3f;
         }
     </style>
 </head>
 
 <body>
-
     <div class="Page-Header">
         <h1 id="Page-Title">Quiz</h1>
         <div class="wrapper_nav">
-
             <nav>
                 <input type="radio" name="nav" id="home">
                 <input type="radio" name="nav" id="Quiz" checked>
@@ -158,37 +243,214 @@
 
                 <!-- data-href 속성 추가 -->
                 <label for="home" class="home" data-href="./Harmony.html"><a href="./Harmony.html">Home</a></label>
-                <label for="Quiz" class="Quiz" data-href="./quiz.html"><a href="./quiz.html">Quiz</a></label>
+                <label for="Quiz" class="Quiz">Quiz</a></label>
                 <label for="Rank" class="Rank"><a>Rank</a></label> <!-- 03-12 17:48 수정 -->
                 <label for="about" class="about" data-href="./about.html"><a href="./about.html">About</a></label>
-
-
                 <div class="tab"></div>
             </nav>
-
         </div>
     </div>
-    <script>
-        // 페이지 로드 시 실행 03-12 17:48 수정
-        document.addEventListener('DOMContentLoaded', function () {
-            var labels = document.querySelectorAll('.wrapper_nav nav label');
-            labels.forEach(function (label) {
-                label.addEventListener('click', function (e) {
 
-                    // a 태그 내부 클릭 시 페이지 이동 방지
-                    if (e.target.tagName.toLowerCase() === 'a') {
-                        e.preventDefault();
+    <div class="quiz-container">
+        <div class="image-container">
+            <img id="animal-image" src="" alt="동물 이미지">
+        </div>
+        <div class="answer-container">
+            <div id="answer-radio"></div>
+        </div>
+
+        <p id="result-message"></p>
+        <div id="clientScore"></div>
+
+    </div>
+
+    <script>
+        const quizApp = (function () {
+            let clientScore = 0;             // 사용자의 정답 제출. 카운트 변수 
+            let currentQuestion = null;      // 최근 문제의 정답
+            let responseData = null;         // 페이지 로드 시에 단 한번 호출되는 전체 species Data
+            const selectedNames = new Set(); // 중복 문제를 없애주기 위한 Set
+
+            function searchAnimalall() {
+                const apiUrl = 'http://localhost:8080/api/v3/species';
+                fetchmethod(apiUrl, 'speciesName');
+            }
+
+            // fetch 동작은 페이지 로드시에 단 한번 만 수행되도록 설정.
+            function fetchmethod(apiUrl, key1) {
+                fetch(apiUrl, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ [key1]: ' ', mode: "전체" }),
+                })
+                    .then(response => response.json())
+                    .then(data => {
+                        responseData = data;
+                        showqiuz();
+                    })
+                    .catch(error => {
+                        console.error('Error:', error);
+                    });
+            }
+
+            function randomPick(dataLenth) {
+                return Math.floor(Math.random() * dataLenth);
+            }
+
+            function showqiuz() {
+                // 전체 배열에서 기존에 맞춘 정답은 제외하고 문제를 형성하는 방식.
+                const unselectedQuestions = responseData.result.filter(question => !selectedNames.has(question.scientific_name_korean));
+
+                // 전체 문제를 맞추었을 경우.
+                if (unselectedQuestions.length === 0) {
+                    document.getElementById('result-message').textContent = '모든 문제를 맞추셨습니다!';
+                    document.getElementById('submit-button').display = 'none';
+                    document.getElementById('answer-radio').display = 'none';
+                    return;
+                }
+
+                let randomIndex = randomPick(unselectedQuestions.length);
+                currentQuestion = unselectedQuestions[randomIndex];
+                selectedNames.add(currentQuestion.scientific_name_korean);
+
+                const imgElement = document.getElementById('animal-image');
+                imgElement.src = currentQuestion.img_url.split(',')[0];
+                imgElement.alt = currentQuestion.scientific_name_korean;
+
+                const answerRadio = document.getElementById('answer-radio');
+                answerRadio.innerHTML = '';
+                const options = createOptions(unselectedQuestions);
+                options.forEach(option => answerRadio.appendChild(option));
+
+                document.getElementById('clientScore').textContent = `Score : ${clientScore}`;
+            }
+
+            function createOptions(unselectedQuestions) {
+                const submitBtn = document.getElementById('submit-button');
+                if (submitBtn.style.display = 'none') { submitBtn.style.display = 'inline-block'; }
+                const options = [];
+                while (options.length < 4) {
+                    const randomIndex = randomPick(unselectedQuestions.length);
+                    const question = unselectedQuestions[randomIndex];
+                    if (!options.includes(question) && question !== currentQuestion) {
+                        options.push(question);
                     }
-                    // data-href 속성 값으로 페이지 이동
-                    var href = label.getAttribute('data-href');
-                    if (href) {
-                        setTimeout(function () {
-                            window.location.href = href;
-                        }, 500); // 1초 후에 실행
-                    }
+                    // 일단 4개의 보기 문제를 집어 넣음.
+                }
+
+                if (!options.includes(currentQuestion)) {
+                    options[randomPick(4)] = currentQuestion;
+                    // 그 중에 하나의 문제에 정답 보기를 섞는 방식.
+                }
+
+                const optionsElements = options.map(question => {
+                    const option = document.createElement('label');
+                    const radioButton = document.createElement('input');
+                    radioButton.type = 'radio';
+                    radioButton.name = 'answer';
+                    radioButton.value = question.scientific_name_korean;
+                    option.appendChild(radioButton);
+                    option.appendChild(document.createTextNode(question.scientific_name_korean));
+                    return option;
                 });
-            });
-        });
+
+                function resetOptionsStyle(optionsElements) {
+                    optionsElements.forEach(option => {
+                        option.style.backgroundColor = '#3a3b3f'; // 배경색을 초기화
+                        option.style.textShadow = '5px 5px rgb(48, 47, 47)';
+                    });
+                }
+
+                optionsElements.forEach(option => {
+                    option.addEventListener('click', () => {
+                        resetOptionsStyle(optionsElements);
+                        option.style.backgroundColor = '#f45e00';
+                        option.style.textShadow = 'none';
+                    });
+                });
+                return optionsElements;
+            }
+
+            function checkAnswer(resultMessageElement) {
+                const submitBtn = document.getElementById('submit-button');
+                const selectedAnswer = document.querySelector('input[name="answer"]:checked');
+
+                // 정답을 제출하지 않은 경우
+                if (!selectedAnswer) {
+                    resultMessageElement.innerHTML = '보기를 선택하세요.';
+                    return;
+                }
+
+                // 제출된 결과가 정답인 경우
+                if (selectedAnswer.value === currentQuestion.scientific_name_korean) {
+                    resultMessageElement.innerHTML = '정답입니다!';
+                    clientScore++;
+                    showqiuz(); // 다음 퀴즈 생성!
+                }
+                // 제출된 결과가 오답인 경우
+                else {
+                    let countSeconds = 3;                       // 카운트 초깃값 3초.
+                    submitBtn.style.display = 'none';           // 틀렸을 경우에 제출 버튼 숨김.
+                    if (clientScore > 0) { clientScore--; }     // 틀렸을 경우 점수 감점.
+                    resultMessageElement.innerHTML = `틀렸습니다. 정답은 "${currentQuestion.scientific_name_korean}"입니다.<br>다음 문제는 <span id="countSeconds"></span>초 뒤에 나옵니다.`;
+
+                    const countSecondsElement = document.getElementById('countSeconds');
+                    countSecondsElement.innerHTML = countSeconds;
+
+                    // 텍스트를 동적으로 제어 3..2..1!
+                    const countDown = setInterval(() => {
+                        countSecondsElement.innerHTML = --countSeconds;
+                        if (countSeconds <= 0) {
+                            clearInterval(countDown);
+                            resultMessageElement.innerHTML = '';
+                            showqiuz();
+                        }
+                    }, 1000) // 1초마다 감소
+                }
+            }
+
+            function init() {
+                document.addEventListener('DOMContentLoaded', () => {
+                    var labels = document.querySelectorAll('.wrapper_nav nav label');
+                    labels.forEach(function (label) {
+                        label.addEventListener('click', function (e) {
+                            // a 태그 내부 클릭 시 페이지 이동 방지
+                            if (e.target.tagName.toLowerCase() === 'a') {
+                                e.preventDefault();
+                            }
+                            // data-href 속성 값으로 페이지 이동
+                            var href = label.getAttribute('data-href');
+                            if (href) {
+                                setTimeout(function () {
+                                    window.location.href = href;
+                                }, 500);
+                            }
+                        });
+                    });
+                    const submitButton = document.createElement('button');
+                    submitButton.textContent = '제출';
+                    submitButton.id = 'submit-button';      // 버튼에 ID 부여
+                    submitButton.style.marginTop = '0.3vh';
+
+                    // answer-container에 버튼 추가
+                    document.querySelector('.answer-container').appendChild(submitButton);
+
+                    // 이벤트 리스너는 한 번 등록
+                    submitButton.addEventListener('click', () => {
+                        checkAnswer(document.getElementById('result-message'));
+                    });
+
+                    // 첫 번째 퀴즈
+                    searchAnimalall();
+                });
+            }
+
+            return { init: init };
+        })();
+
+        quizApp.init();
     </script>
 
 </body>
