@@ -6,8 +6,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Quiz</title>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Black+Han+Sans&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Angkor&family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap');
         @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100..900&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Rammetto+One&family=Tourney:ital,wght@0,100..900;1,100..900&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Black+Han+Sans&display=swap');
 
         /* 기본 글꼴과 배경 설정 */
         body {
@@ -24,23 +27,38 @@
         /* 하이퍼링크 스타일링*/
         .Page-Header {
             display: flex;
+            /* 가로로 나열 */
             align-items: center;
+            /* 수직 가운데 정렬 */
             justify-content: space-between;
+            /* 양쪽 여백을 최대로 설정 */
             background-color: #1c1c1e;
+            /* 배경색 설정 */
             box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+            /* 그림자 효과 */
             border-bottom: 5px #ddd solid;
+            /* 하단 테두리 추가 */
         }
 
         #Page-Title {
             text-align: left;
+            /* 텍스트 왼쪽 정렬 */
             margin-right: 20px;
+            /* 오른쪽 여백 */
             padding-left: 15px;
+            /* 왼쪽 내부 여백 */
             padding-top: 5px;
+            /* 위쪽 여백 */
             padding-bottom: 0;
+            /* 아래쪽 여백 */
             margin: 0;
+            /* 바깥 여백 제거 */
             font-size: 50px;
+            /* 글자 크기 */
             font-weight: 800;
+            /* 글자 굵기 */
             font-family: 'Black Han Sans', sans-serif;
+            /* 글꼴 설정 */
         }
 
         .wrapper_nav {
@@ -48,12 +66,17 @@
             /* 가운데 정렬 */
             text-align: center;
             /* 텍스트 가운데 정렬 */
+            margin-top: auto;
             height: 60px;
-            width: 55vw;
-            line-height: 60px;
+            /* 높이 설정 */
+            width: 30vw;
+            /* 너비 설정 */
+            line-height: 50px;
+            /* 높이 설정 */
             background: rgba(51, 48, 48, 0);
+            /* 배경색 설정 */
             border-radius: 50px;
-            box-shadow: 0 5px 10 px rgba(0, 0, 0, 0.25);
+            /* 테두리 둥글게 */
         }
 
         .wrapper_nav nav {
@@ -69,6 +92,7 @@
             flex: 1;
             /* 1:1 비율로 설정 */
             width: 100%;
+            /* 너비를 100%로 설정 */
             position: relative;
             /* 상대위치 */
             cursor: pointer;
@@ -83,8 +107,8 @@
             /*-------------- 03-12 17:48 수정 -----------*/
             color: #fff;
             /* 글자색을 흰색으로 설정 */
-            font-family: roboto;
-            font-size: 1.2em;
+            font-family: "Rammetto One", Tahoma, sans-serif;
+            font-size: 1.4em;
             /* 글자 크기를 1.2em으로 설정 */
             font-weight: 500;
             /* 글자 두껍게 설정 */
@@ -99,9 +123,11 @@
         .wrapper_nav nav #Quiz:checked~label.Quiz a,
         .wrapper_nav nav #Rank:checked~label.Rank a,
         .wrapper_nav nav #about:checked~label.about a {
-
             color: #000000;
             /* 글자색을 검정색으로 설정 */
+            font-family: "Rammetto One", Tahoma, sans-serif;
+            font-size: 1.4rem;
+            text-shadow: 3px 1px rgb(179, 176, 176);
         }
 
         .wrapper_nav nav .tab {
@@ -228,6 +254,74 @@
             border-radius: 10px;
             background-color: #3a3b3f;
         }
+
+        /* -----------------------랭크 팝업창 스타일링  03-12 18:48 수정 ------------------------- */
+        .rank-popup-background {
+            display: none;
+            /* 기본적으로 숨김 */
+            position: fixed;
+            top: 0;
+            /* 상단 정렬 */
+            left: 0;
+            /* 왼쪽 정렬 */
+            width: 100%;
+            /* 너비를 100%로 설정 */
+            height: 100%;
+            /* 높이를 100%로 설정 */
+            background: rgba(0, 0, 0, 0.3);
+            /* 반투명 검은색 배경 */
+            align-items: center;
+            /* 가운데 정렬 */
+            justify-content: center;
+            /* 가운데 정렬 */
+            z-index: 1000;
+            /* 팝업창을 최상위로 표시 */
+        }
+
+        .rank-popup-content {
+            background: rgba(5, 0, 0, 0.7);
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+            max-width: 600px;
+            width: 90%;
+            overflow-y: auto;
+        }
+
+        .rank-popup-content h2 {
+            margin-top: 0;
+        }
+
+        .rank-popup-content ul {
+
+            list-style: none;
+            padding: 0;
+        }
+
+        .rank-popup-content ul li {
+            margin-bottom: 10px;
+            font-size: 24px;
+        }
+
+        .rank-popup-content ul li:hover {
+            background: linear-gradient(90deg, rgb(187, 248, 172), rgb(42, 235, 241));
+            /* 배경색 추가 */
+            -webkit-background-clip: text;
+            /* 웹킷 브라우저 대응 */
+            background-clip: text;
+            /* 배경을 글자에 적용 */
+            -webkit-text-fill-color: transparent;
+            /* 글자색을 투명하게 설정 */
+        }
+
+        .rank-close-popup {
+            float: right;
+            cursor: pointer;
+        }
+
+        .rank-close-popup:hover {
+            color: red;
+        }
     </style>
 </head>
 
@@ -243,11 +337,20 @@
 
                 <!-- data-href 속성 추가 -->
                 <label for="home" class="home" data-href="./Harmony.html"><a href="./Harmony.html">Home</a></label>
-                <label for="Quiz" class="Quiz">Quiz</a></label>
-                <label for="Rank" class="Rank"><a>Rank</a></label> <!-- 03-12 17:48 수정 -->
+                <label for="Quiz" class="Quiz"><a>Quiz</a></label>
+                <label for="Rank" class="Rank" onclick="rank()"><a>Rank</a></label> <!-- 03-12 17:48 수정 -->
                 <label for="about" class="about" data-href="./about.html"><a href="./about.html">About</a></label>
                 <div class="tab"></div>
             </nav>
+        </div>
+    </div>
+
+    <!-- 랭크 팝업창 구조  03-12 18:48 수정 -->
+    <div class="rank-popup-background">
+        <div class="rank-popup-content">
+            <span class="rank-close-popup">✖</span>
+            <h2>Ranking</h2>
+            <ul id="rankList"></ul>
         </div>
     </div>
 
@@ -265,6 +368,43 @@
     </div>
 
     <script>
+        // 랭크 팝업창 열기 03-12 18:48 수정 
+        function rank() {
+            console.log('rank');
+            fetch('http://localhost:8080/api/v3/test')
+                .then(response => response.json())
+                .then(data => {
+                    // 데이터 처리 및 팝업 내용 채우기
+                    const rankList = document.getElementById('rankList');
+                    rankList.innerHTML = ''; // 이전 내용 초기화
+                    apiUrl = "http://localhost:8080/api/v3/species/list";
+                    // 받아온 데이터를 사용하여 리스트 아이템 생성
+                    data.slice(0, 10).forEach((item, index) => {
+                        const [animalName, searchCount] = item.split(',');
+                        const listItem = document.createElement('li');
+                        listItem.textContent = `${index + 1}. ${animalName} - ${searchCount} times`;
+                        listItem.onclick = () => { console.log('sendPost\n'); sendPostRequest(apiUrl, 'speciesName', animalName, 'none'); closePopup_country(); };
+                        rankList.appendChild(listItem);
+                    });
+                    console.log('이거 들어감:', data);
+                    // 팝업 표시
+                    document.querySelector('.rank-popup-background').style.display = 'flex';
+                })
+                .catch((error) => console.error('Error:', error));
+
+            // 팝업 닫기 이벤트 리스너
+            document.querySelector('.rank-close-popup').addEventListener('click', () => {
+                document.querySelector('.rank-popup-background').style.display = 'none';
+                // "Home" 라디오 버튼을 자동으로 선택
+                document.getElementById('Quiz').checked = true;
+            });
+        }
+
+        // 초기 로드 시 rank 함수에 이벤트 리스너를 한 번만 추가하기 위한 코드
+        document.addEventListener('DOMContentLoaded', () => {
+            document.querySelector('.Rank').addEventListener('click', rank);
+        });
+
         const quizApp = (function () {
             let clientScore = 0;              // 사용자의 정답 제출. 카운트 변수 
             let currentQuestion = null;       // 최근 문제의 정답
